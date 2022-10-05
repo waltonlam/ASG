@@ -1,0 +1,94 @@
+body {
+	color: black;
+	font-family: arial;
+}
+
+.image-datatable-container {
+	width: 778px;
+	margin: 10px auto;
+}
+
+.image-datatable th {
+	border-bottom: #CCCCCC 1px solid;
+	background: #eaeaea;
+	padding: 10px;
+}
+
+.image-datatable td {
+	border-bottom: #CCCCCC 1px solid;
+	padding: 5px 10px;
+}
+
+.image-datatable td img {
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+.btn-link {
+	padding: 10px 40px;
+	background: #232323;
+	color: #F0F0F0;
+	border: #000000;
+	margin: 5px 10px 5px 0px;
+	display: inline-block;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+.btn-action {
+	color: #232323;
+	margin-right: 15px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.btn-action:hover {
+	color: #0000FF;
+}
+
+#message {
+	color: red;
+}
+
+.profile-photo {
+	border-radius: 50%;
+	border: 1px solid #0C0B0B;
+	width: 50px;
+	height: 50px;
+}
+
+.form-container {
+	background: #F0F0F0;
+	border: #e0dfdf 1px solid;
+	padding: 25px 25px 0px 25px;
+	border-radius: 3px;
+	width: 350px;
+	margin: 60px auto;
+}
+
+.input-row {
+	margin: 0px 0px 20px 0px;
+}
+
+.input-file {
+	border: #232323 1px solid;
+	border-radius: 3px;
+	padding: 10px;
+}
+
+.img-preview {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	border: 1px solid #0C0B0B;
+	margin-bottom: 5px;
+}
+
+.preview-container {
+	text-align: center;
+	border: #232323 1px dashed;
+	padding: 10px;
+	width: 200px;
+	border-radius: 3px;
+	margin-bottom: 15px;
+}
