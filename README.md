@@ -1,1 +1,1 @@
-# PHP project setup
+# PHP Image Processor
