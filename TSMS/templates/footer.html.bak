@@ -1,0 +1,10 @@
+		<!-- Script 8.3 - footer.html -->
+  <!-- END CHANGEABLE CONTENT. -->
+  </main>
+
+  <footer container class="siteFooter">
+    <p><a href="home.php">Home</a></p>
+  </footer>
+    
+</body>
+</html>

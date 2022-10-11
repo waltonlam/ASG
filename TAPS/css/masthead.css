@@ -1,0 +1,186 @@
+.btn {
+  /*border-radius: 4px;*/
+  /*transition: all .3s;*/
+}
+
+.siteHeader {
+  border-bottom: 1px solid #eee;
+  
+}
+
+.logo {	
+	color: #787878;
+	font-weight: bold;
+	font-family: Georgia;
+	font-size: small;
+	line-height: 0.1;
+}
+
+.greenlogo {
+	color: #5aaf06;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+  font-size: 5em;
+  line-height: 0.1;
+ 
+}
+
+.nav { text-align: right; }
+
+.nav li {
+  display: inline;
+  line-height: 4;
+  margin-left: 25px;
+}
+.nav li:first-of-type {
+  margin-left: 0;
+}
+
+.button--pill{
+	border-radius:25px;
+	height: 80px;
+	width: 250px;
+	font-size:20px;
+	border:3px #00CCCC solid;
+	background-color:white;
+	color:blue;
+	cursor: pointer;
+	}
+
+.button-head {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+	
+.button--general{
+	border-radius:25px;
+	height: 38px;
+	width: 100px;
+	font-size:16px;
+	border:3px #00CCCC solid;
+	background-color:white;
+	color:blue;
+	}
+
+
+	
+.bg { 
+    /* The image used */
+    background-image: url("taps_logo.jpg");
+
+    /* Full height */
+    height: 80px;
+
+    /* Center and scale the image nicely */
+	padding: 0px 180px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 1200px 100px;
+}
+
+
+.hd-login {	
+	color: white;
+	font-weight: bold;
+	font-family: Georgia;
+  font-size: 0.5cm;
+  padding-left: 2cm; 
+}
+
+.hd-date {	
+	color: rgb(1, 83, 116);
+	font-weight: bold;
+	font-family: Georgia;
+  font-size: 0.5cm;
+  text-align: left; 
+
+ /*padding-left: 20cm; */
+
+}
+
+
+.text--error{
+	color: red;
+  font-size: 0.5cm;
+	text-align: center; 
+	}
+
+.masthead {
+  background-color: #eee;
+  padding: 50px 0;
+}
+@media (min-width: 48em) {
+  .masthead {
+    padding: 100px 0;
+  }
+}
+
+.masthead-title {
+  margin-top: 0;
+}
+
+.siteContent {
+  padding: 0px 0px;
+}
+.siteFooter {
+  border-top: 1px solid #eee;
+  font-size: .875em;
+  padding-top: 15px;
+  	
+}
+
+
+
+
+/*-------------*/
+
+.nonnumber {
+	background-color: #00B386;
+	border: none;
+}
+
+.pr {
+	background-color: #00ADB3;
+	border: none;
+}
+
+.threecolourbin {
+	background-color: #EB6E80;
+	border: none;
+}
+
+.others {
+	background-color: #FFBF06;
+	border: none;
+}
+
+.time {
+	background-color: gold;
+	border: none;
+}
+
+.acticode {
+	background-color:#9F80FF;	
+	border:none;
+}
+
+.detail {
+	background-color:#66D9FF;	
+	border:none;
+}
+.number{
+	background-color: #FF4D4D;
+	border: none;
+}
+
+/* CSS Document */
+

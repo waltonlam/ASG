@@ -1,0 +1,76 @@
+﻿<?php // Script 8.8 - login.php
+/* This page lets people log into the site (in theory). */
+
+session_start();
+$_SESSION['vusername'] = "-";
+define('TITLE', 'Login');
+include('templates/header.html');
+include('templates/iconn.php');
+
+// Print some introductory text:
+//print '<h2 dir="ltr" style="margin-left: 465px; margin-right: 80px">用戶登入</h2>';
+print '<h2 align="center">用戶登入</h2>';
+
+	//<p>Users who are logged in can take advantage of certain features like this, that, and the other thing.</p>';
+
+// Check if the form has been submitted:
+
+//echo '<style>input[type="text"]{background-color:#6F3;	color:#FFF;}</style>';
+
+$comp="true";
+$invuser="false";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+	// Handle the form:
+	if ( (!empty($_POST['userid'])) && (!empty($_POST['pwd'])) ) {
+			$q = "select * from user_acc where userid = '".$_POST['userid']."' and pwd='".$_POST['pwd']."'";
+			$result=$dbc->query($q);
+			if ($result->num_rows)
+			{
+				$_SESSION['vuserid'] = $_POST['userid'];
+				$r=$result->fetch_object();
+				$_SESSION['vusername'] = $r->first_name." ".$r->last_name;
+				//$_SESSION['dbc'] = $dbc;
+				//echo "This is a valid user: ".$_SESSION['vusername'];
+				header("location:home.php");
+				exit();
+			}	else{
+				$invuser="true";
+			}				
+
+			
+			//$q = "select * from user_acc where userid = ? and pwd= ?";
+			//$stmt = $db->prepare($q);
+			//$stmt->bind_param('ss',$_POST['userid'], $_POST['pwd']);
+			//$stmt->execute();
+			//mysqli_query($dbc, $q);			
+
+
+
+	} else { 
+		$comp="false";
+		//print '<p class="text--error">Please make sure you enter both an email address and a password!<br>Go back and try again.</p>';
+
+	}
+
+} 
+
+//else { // Display the form.
+
+	print '<form action="login.php" method="post">
+	<p align="center" style="margin-right:18px"><font size="5">帳戶名稱:</font><input type="text" name="userid" size="20" dir="ltr" style="margin-left: 8px; margin-right: 3px"></p>
+	<p align="center"><font size="5"><label for="password">密碼:</label></font><input type="password" name="pwd" size="20" dir="ltr" style="margin-left: 38px; margin-right: 3px"></p>
+	<p align="center"><input type="submit" name="submit" value="提交" class="button--pill"></p>
+	</form>';
+	
+	if ($comp=="false"){
+			print '<p align="center" class="text--error">請確保"帳戶名稱"及"密碼"均已輸入!</p>';}
+
+	if ($invuser=="true"){
+				print '<p align="center" class="text--error">"請確保"帳戶名稱"及"密碼"輸入正確!</p>';}
+
+
+//}
+
+include('templates/footer.html'); // Need the footer.
+?>

@@ -1,0 +1,47 @@
+﻿<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="HandheldFriendly" content="True">
+  <title>綠在區區</title>
+<!-- <link rel="stylesheet" type="text/css" media="screen" href="css/concise.min.css" />   -->
+  <link rel="stylesheet" type="text/css" media="screen" href="css/masthead.css" />
+  
+  <style>
+		.cl {
+			color: white;
+		}
+	</style>
+</head>
+
+
+
+<header  class="siteHeader">
+  <div class=bg>
+  <span class=greenlogo>綠</span><span class="logo">在區區</span>
+					<?php 
+  					if (!empty($_SESSION['vuserid'])) {
+								echo "<span class=hd-login>已登入用戶: ".$_SESSION['vusername']."</span>";
+							} else {
+ 												echo "<span class=hd-login>已登入用戶: - </span>";
+											} ;
+													
+								?> 
+									
+      	<?php echo "<span class=hd-date>日期(日/月/年): ".date('d/m/Y')."</span>"; ?>
+      	
+      	
+  </div>
+</header>
+
+
+
+
+<body>
+<!--   <main container class="siteContent">
+  <main container> -->
+  <!-- BEGIN CHANGEABLE CONTENT. -->
+		<!-- Script 8.2 - header.html -->
+		

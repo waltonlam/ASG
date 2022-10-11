@@ -1,0 +1,253 @@
+﻿<?php // Script 8.8 - login.php
+/* This page lets people log into the site (in theory). */
+
+session_start();
+define('TITLE', 'Education Event');
+include('templates/header.html');
+include('templates/iconn.php');
+
+// Print some introductory text:
+
+//<p>Users who are logged in can take advantage of certain features like this, that, and the other thing.</p>';
+
+// Check if the form has been submitted:
+
+//echo '<style>input[type="text"]{background-color:#6F3;	color:#FFF;}</style>';
+
+//echo "This is a valid user: ".$_SESSION['vuserid'];
+$_SESSION['trans_type_curr']="OT";
+
+
+if (empty($_SESSION['vuserid'])) {
+		print '<p class="text--error">Please make sure you login to the system before using any functions<br>Go back and try again.</p>';		
+		exit();
+	} else{
+		
+		
+					$q = "select d.district_id did, d.name dname
+									from user_district ud, district d
+									where ud.district_id = d.district_id and ud.userid = '".$_SESSION['vuserid']."'";
+									
+					$q= "select	* from outlet";			
+					$result=$dbc->query($q);
+					if (!$result->num_rows){
+							print '<p class="text--error">Outlet Configuration Error!</p>';
+							exit();
+					}				
+
+						//$q = "select * from user_acc where userid = ? and pwd= ?";
+						//$stmt = $db->prepare($q);
+						//$stmt->bind_param('ss',$_POST['userid'], $_POST['pwd']);
+						//$stmt->execute();
+						//mysqli_query($dbc, $q);			
+
+}
+
+
+$comp="true";
+$invq="false";
+				
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
+	
+//	empty($_POST['act_no']) and !empty($_POST['frm_dt']) and !empty($_POST['to_dt']) and !empty($_POST['act_type']) and !empty($_POST['act_name']) and !empty($_POST['target_aud_type'])
+//			and !empty($_POST['org_name']) and !empty($_POST['total_party']) and !empty($_POST['loc']
+	
+	if (!empty($_POST['frm_date']) and !empty($_POST['to_date'])) 
+	{
+				$criteria = '回收商: '.$_POST['oid']. ';  由: '.$_POST['frm_date'].' 至: '.$_POST['to_date'];
+				//$criteria = 'CGS:   '.$_POST['did']. ';  由: '.$_POST['frm_date'].' 至: '.$_POST['to_date'];
+				if ($_POST['oid']=='ALL'){
+					$outlet="ud.userid='".$_SESSION['vuserid']."' and ";
+				}else{
+					$outlet="ud.userid='".$_SESSION['vuserid']."' and ot.outlet_id = '".$_POST['oid']."' and ";
+				}
+
+					$q = "select ot.trans_no ot_trans_no,ot.station_id ot_sid,s.name sname,ot.trans_date ot_trans_date,ot.prg_id ot_prg_id,pc.name pc_name,o.outlet_id oid,o.name o_name,ot.qty ot_qty, ot.unit_price ot_unit_price,ot.recp_no ot_recp_no "
+									."from out_trans ot left join station s on ot.station_id=s.station_id left join user_district ud on s.district_id=ud.district_id left join outlet o on ot.outlet_id=o.outlet_id "
+									."left join out_prg op on (ot.prg_id=op.prg_id and ot.outlet_id=op.outlet_id) left join prg_cat pc on op.prg_id=pc.prg_id "
+									."where ".$outlet."ot.trans_date between '".$_POST['frm_date']."' and '".$_POST['to_date']."' order by ot.trans_date desc,ot.trans_no desc ;";
+				
+					$result_ot=$dbc->query($q);
+					if ($result_ot->num_rows){						
+						$criteria = $criteria.'<span> =>Total no. of records found: '.$result_ot->num_rows;
+					}else{
+						
+						$criteria = $criteria.'<span class="text--error"> =>No Record has been found!</span>';
+					
+					}			
+						
+					$q="select ot.station_id ot_sid,s.name sname,ot.prg_id ot_prg_id,pc.name pc_name,o.outlet_id oid,o.name oname, sum(ot.qty) tot_qty from out_trans ot left join station s on ot.station_id=s.station_id left join user_district ud on s.district_id=ud.district_id "
+							."left join outlet o on ot.outlet_id=o.outlet_id left join out_prg op on (ot.prg_id=op.prg_id and ot.outlet_id=op.outlet_id) left join prg_cat pc on op.prg_id=pc.prg_id "
+							."where ".$outlet."ot.trans_date between '".$_POST['frm_date']."' and '".$_POST['to_date']."' group by ot_sid,sname,ot_prg_id,pc_name,oid,oname order by ot.trans_date desc,ot.trans_no desc;";
+						$result_tot=$dbc->query($q);
+						//$r_tot=$result_tot->fetch_object(); 					
+							
+		}else{
+				$criteria = "";
+				$comp="false";				
+		}
+
+} 
+	
+	
+print '
+    <table style="width:100%;margin-left:0%;">
+		<th style="background-color:#008F00;color:yellow;font-weight:bold;font-size:28px">下游回收商回收記錄</th>
+  <span style="padding-right:1cm"></span>
+  </table>
+<form action="out_trans.php" method="post">
+  <div column=2>
+  <span style="padding-right:1cm"></span>
+  <span style="align:right;color:blue;font-weight:bold;font-size:18px">回收商</span>
+  <select name="oid" style="font-size:18px">
+  <option value="ALL">---ALL---</option>';
+  
+ 	while ($r=$result->fetch_object()){
+    //printf("%s (%s)\n",$obj->Lastname,$obj->Age);
+    print '<option value="'.$r->outlet_id.'">'.'('.$r->outlet_id.') '.$r->name.'</option>';
+  }
+  // Free result set
+  	mysqli_free_result($result);
+
+
+/*	
+		  <option value="volvo">Volvo</option>
+		  <option value="saab">Saab</option>
+		  <option value="opel">Opel</option>
+		  <option value="audi">Audi</option>
+*/
+
+print '</select>';
+  print'<span style="align:right;color:blue;font-weight:bold;font-size:18px;padding-left:30px">由</span>
+  <input type="date" name="frm_date" style="size:5">
+  <span style="align:right;color:blue;font-weight:bold;font-size:18px;padding-left:15px">至</span>
+  <input type="date" name="to_date">
+  <input type="submit">
+</form>
+</div>
+<p>';
+
+
+if (!empty($criteria)){ 
+  print '<span style="color:blue;font-weight:bold">查詢條件: '.$criteria.'</span>'; 
+  
+    print '<hr>';
+    while ($r_tot=$result_tot->fetch_object()){
+    	if (!empty($r_tot->ot_sid)){
+	    	print '<button id="b1" style="border-radius:20px;height: 80px;width: 200px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">'.$r_tot->ot_sid.'<br>>'.$r_tot->oname.'<br>['.$r_tot->pc_name.']<br>'.$r_tot->tot_qty.'(噸)</button>';
+	    }    	
+    }
+	
+    
+/*    
+    '<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">玻璃樽(噸)<br>'.$r_tot->tot_glass_bottle_qty.'</br></button>'
+		 .'<button id="b1" style="border-radius:20px;height: 45px;width: 130px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">鋁罐(噸)<br>'.$r_tot->tot_ee_qty.'</br></button>'
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">電腦(噸)<br>'.$r_tot->tot_comp_qty.'</br></button>'
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">電器(噸)<br>'.$r_tot->tot_battery_qty.'</br></button>'
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">廢鐵(噸)<br>'.$r_tot->tot_light_qty.'</br></button>'
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">光管、慳電膽(噸)<br>'.$r_tot->tot_paper_qty.'</br></button>'			
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">紙類(噸)<br>'.$r_tot->tot_plastic_qty.'</br></button>'				
+			.'<button id="b1" style="border-radius:20px;height: 45px;width: 150px;font-size:14.5px;border:none;background-color:#4CAF50;color:white">塑膠(噸)<br>'.$r_tot->tot_metal_qty.'</br></button>'	;	
+*/
+}
+ 
+print '<hr>  
+  <p></p>  <p></p>  <p></p>
+';
+
+//欄位header
+    echo '<table style="width:100%;margin-left:0%;">
+			<tr style="text-align:center;color:#555555;">
+			<th style="background-color:#008F00;color:white">紀錄序號</th>
+			<th style="background-color:#008F00;color:white">CGS</th>
+			<th style="background-color:#008F00;color:white">日期</th>
+			<th style="background-color:#008F00;color:white">回收物的種類</th>
+			<th style="background-color: #008A8A;color:white">回收商名稱</th>
+			<th style="background-color: #008A8A;color:white">回收物數量(噸)</th>
+			<th style="background-color: #008A8A;color:white">單價</th>
+			<th style="background-color: #008A8A;color:white">收據編號</th>
+			<th style="background-color: #B87800;color:white">刪除</th>			
+			</tr>';
+			if (!empty($criteria)){ 
+					while ($r_ot=$result_ot->fetch_object()){
+						    //printf("%s (%s)\n",$obj->Lastname,$obj->Age);
+					    
+						    $param1=$r_ot->ot_trans_no.'|'.$r_ot->ot_sid.'|'.$r_ot->sname.'|'.$r_ot->ot_trans_date.'|'.$r_ot->oid.'|'.$r_ot->o_name.'|'.$r_ot->ot_prg_id
+	    					.'|'.$r_ot->pc_name.'|'.$r_ot->ot_qty.'|'.$r_ot->ot_unit_price.'|';
+ 
+ 								if (!empty($r_ot->ot_recp_no)){
+										$param1=$param1.$r_ot->ot_recp_no;} 
+										else{ 
+											$param1=$param1.'@';} 
+/*
+	    					print '<tr style="text-align:center;color:#555555;"><td style="background-color:#00B386;color:white">'.$r_ot->e_trans_no
+	    					//.'</td><td style="background-color:#00B386;color:white">'.$r_st->trans_date.'</td>'
+	    					.'<td style="background-color:#00B386;color:white">'.$r_ot->e_act_no
+	    					.'<td style="background-color:#00B386;color:white"><a href="update.php?cluster='.$r_ot->e_trans_no.'|'.$r_ot->e_act_no.'|'.$r_ot->e_trans_date.'|'.$r_ot->e_frm_dt.'|'.$r_ot->e_to_dt
+	    					.'|'.$r_ot->e_act_type.'|'.$r_ot->e_act_name.'|'.$r_ot->e_target_aud_type.'|'.$r_ot->e_org_name.'|'.$r_ot->e_total_party.'|';
+	    						    					
+								$timestamp1 = strtotime($r_ot->e_frm_dt);
+								$timestamp2 = strtotime($r_ot->e_to_dt);
+								$hour = abs($timestamp2 - $timestamp1)/(60*60);
+								 
+	    					print $hour.'|'.$r_ot->e_loc.'|'.$r_ot->e_spk.'|'.(($r_ot->e_to_dt - $r_ot->e_frm_dt)*$r_ot->e_total_party).'|'.$r_ot->e_rmk.'">'.$r_ot->e_trans_date.'</a></td>'
+*/
+
+
+								print '<tr style="text-align:center;color:#555555;"><td style="background-color:#00B386;color:white">'.$r_ot->ot_trans_no
+	    					//.'</td><td style="background-color:#00B386;color:white">'.$r_st->trans_date.'</td>'
+	    					.'<td style="background-color:#00B386;color:white">'.$r_ot->sname
+	    					.'<td style="background-color:#00B386;color:white"><a href="update_otrans.php?cluster='.$param1.'">'.$r_ot->ot_trans_date.'</a></td>'
+	    					
+	    					.'</td><td style="background-color:#00B386;color:white">'.$r_ot->pc_name
+	    					.'</td><td style="background-color:#00ADB3;color:white">'.$r_ot->o_name.'</td>'
+	    					.'<td style="background-color:#00ADB3;color:white">'.$r_ot->ot_qty.'</td><td style="background-color:#00ADB3;color:white">'.$r_ot->ot_unit_price.'</td><td style="background-color:#00ADB3;color:white">'.$r_ot->ot_recp_no.'</td>'    					
+								.'</td><td style="background-color:#B5B5B5"><a href="delete_out.php?cluster='.$param1;							
+								print '"><img src="img/del.png"  width="20" height="20" value='.$r_ot->ot_trans_no.'></a></td></tr>';
+	  					}
+  				mysqli_free_result($result_ot);
+  			}
+			echo '</table>';
+
+/*
+print '<table style="background-color:white;border-radius:8px;border:none;width:98%;margin-left:1%;">
+<tr>
+<td  style="border:none;text-align:center;">
+    <br>
+    <h3 style="display:block;margin-left:1%;padding-right:4px;color:#05CDB9;text-align:left;">&nbsp;刪除紀錄:</h3>
+    <hr style="border:0.2px solid grey;">
+    <form  method="post" action="">
+        刪除
+        <select name="category">
+            <option value="">-----</option>
+            <option value="SEQ_ID">紀錄序號</option>
+            <option value="DATE">日期</option>
+        </select>
+        等於
+        <input style="width:15%;"type="text" name="crit">的所有有關紀錄。
+        <button type="submit" class="btn btn-default">確定刪除</button>
+    </form>
+    <br>
+</td>
+</tr>
+</table>';
+*/
+print'
+  <br></br><span style="color:blue;font-weight:bold;padding-left:35px;padding-right:15px"><a href="home.php">Home</a></span>
+  <span style="color:blue;font-weight:bold;"><a href="addout.php">新增下游回收商記錄</a></span>
+';
+
+
+
+	if ($comp=="false"){
+			print '<p align="center" class="text--error">請確保查詢選項均已輸入!</p>';}
+
+	if ($invq=="true"){
+				print '<p align="center" class="text--error">找不到任何記錄</p>';}
+
+
+include('templates/footer.html'); // Need the footer.
+
+
+?>
