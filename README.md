@@ -1,1 +1,1 @@
-# PHP Image Processor
+# EPD ASG project
