@@ -109,6 +109,16 @@ error_reporting(0);
 				  </div>
 				  </div> 
 				  
+				  <div class="dropdown">
+				  <button class="dropbtn" onclick="myFunction7()">Site Photo
+					<i class="fa fa-caret-down"></i>
+				  </button>
+				  <div class="dropdown-content" id="myDropdown7">
+					<a href="showSitePhoto.php">Show All</a>
+					<a href="addSitePhoto.php">Add Site Photo</a>
+				  </div>
+				  </div> 
+
 					 <div class="dropdown">
 				  <button class="dropbtn" onclick="myFunction2()">Account
 					<i class="fa fa-caret-down"></i>
@@ -183,6 +193,9 @@ print '<script>
 	}
 	function myFunction6() {
 	  document.getElementById("myDropdown6").classList.toggle("show");
+	}
+	function myFunction7() {
+		document.getElementById("myDropdown7").classList.toggle("show");
 	}
 	function logout() {
 	
