@@ -36,10 +36,11 @@ error_reporting(0);
 			print '<p class="text--error">Please make sure you login to the system before using any functions<br>Go back and try again.</p><br><br><a href="login.php">Go Login</a>';		
 			exit();
 		} else{
-
 			print '<h1><a href="exportReport.php"> TAPS </a></h1>';	
-		
-			
+			print '<h3 align="right">Singed in as ';	
+			print $_SESSION['vuserid'];
+			print '</h3>';
+
 			if ($_SESSION['utp']==0){
 				print '
 				<div class="navbar">
@@ -114,7 +115,7 @@ error_reporting(0);
 					<i class="fa fa-caret-down"></i>
 				  </button>
 				  <div class="dropdown-content" id="myDropdown7">
-					<a href="showSitePhoto.php">Show All</a>
+					<a href="sitePhotoList.php">Show All</a>
 					<a href="addSitePhoto.php">Add Site Photo</a>
 				  </div>
 				  </div> 
