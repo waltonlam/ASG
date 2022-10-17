@@ -37,7 +37,7 @@ error_reporting(0);
 			exit();
 		} else{
 			print '<h1><a href="exportReport.php"> TAPS </a></h1>';	
-			print '<h3 align="right">Singed in as ';	
+			print '<h3 align="right">Signed in as ';	
 			print $_SESSION['vuserid'];
 			print '</h3>';
 
@@ -120,6 +120,15 @@ error_reporting(0);
 				  </div>
 				  </div> 
 
+				  <div class="dropdown">
+				  <button class="dropbtn" onclick="myFunction8()">Graph Generation
+					<i class="fa fa-caret-down"></i>
+				  </button>
+				  <div class="dropdown-content" id="myDropdown8">
+					<a href="genGraph.php">Generate Graph of Pollutants</a>
+				  </div>
+				  </div> 
+
 					 <div class="dropdown">
 				  <button class="dropbtn" onclick="myFunction2()">Account
 					<i class="fa fa-caret-down"></i>
@@ -197,6 +206,9 @@ print '<script>
 	}
 	function myFunction7() {
 		document.getElementById("myDropdown7").classList.toggle("show");
+	}
+	function myFunction8() {
+		document.getElementById("myDropdown8").classList.toggle("show");
 	}
 	function logout() {
 	

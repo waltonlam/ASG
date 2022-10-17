@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<!--link href="assets/style.css" rel="stylesheet" type="text/css" /-->
+		<link href="assets/style.css" rel="stylesheet" type="text/css" />
 		<style>   
 			/*table {  
 				border-collapse: collapse;  
@@ -81,7 +81,7 @@
 					?>     
 						<tr>     
 							<td>
-								<img src="<?php echo $row["image"]?>" class="profile-photo" alt="photo"><?php echo $row["name"]?>
+								<img src="<?php echo $row["image"]?>" class="img-preview" alt="photo"><?php echo $row["name"]?>
 							</td>
 							<td>
 								<a href="updateSitePhoto.php?id=<?php echo $row['id']; ?>" class="btn-action">Edit</a> 
