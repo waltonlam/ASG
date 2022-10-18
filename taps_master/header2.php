@@ -129,6 +129,16 @@ error_reporting(0);
 				  </div>
 				  </div> 
 
+				  <div class="dropdown">
+				  <button class="dropbtn" onclick="myFunction9()">File Conversion
+					<i class="fa fa-caret-down"></i>
+				  </button>
+				  <div class="dropdown-content" id="myDropdown9">
+					<a href="getMSWordContent.php">Convert MS Word to Text</a>
+					<a href="getImageContent.php">Convert Image to Text</a>
+				  </div>
+				  </div> 
+
 					 <div class="dropdown">
 				  <button class="dropbtn" onclick="myFunction2()">Account
 					<i class="fa fa-caret-down"></i>
@@ -208,6 +218,9 @@ print '<script>
 		document.getElementById("myDropdown7").classList.toggle("show");
 	}
 	function myFunction8() {
+		document.getElementById("myDropdown8").classList.toggle("show");
+	}
+	function myFunction9() {
 		document.getElementById("myDropdown8").classList.toggle("show");
 	}
 	function logout() {
