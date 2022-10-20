@@ -18,7 +18,17 @@
             $var = rand();
             exec('C:\\"Program Files"\\R\\R-4.2.0\\bin\\Rscript.exe C:\xampp\htdocs\rProject\Rscript.R '.$number);
             echo "<img src='temp.png?$var'> ";
+
+            exec('C:\\"Program Files"\\R\\R-4.2.0\\bin\\Rscript.exe C:\xampp\htdocs\rProject\Openair.R ');
+            echo "<img src='summaryPlot.png?$var'> ";
+
+            exec('C:\\"Program Files"\\R\\R-4.2.0\\bin\\Rscript.exe C:\xampp\htdocs\rProject\Openair.R ');
+            echo "<img src='summaryPlotFromCsv.png?$var'> ";
+
+            exec('C:\\"Program Files"\\R\\R-4.2.0\\bin\\Rscript.exe C:\xampp\htdocs\rProject\Openair.R ');
+            echo "<img src='scatterPlot.png?$var'> ";
         }
         ?>
+        
     </body>
 </html>
