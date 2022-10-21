@@ -33,16 +33,27 @@ class ImageModel
         return $output;
     }
 
-    public function insertImage($imageData)
+    public function insertImage($imageData, $site_code, $remark)
     {
-        print_r($imageData);
-        $query = "INSERT INTO site_photo(name,image) VALUES(?,?)";
-        $paramType = 'ss';
+        //$create_date = date('Y-m-d'); 
+        $create_by = $_SESSION['vuserid'];
+        //echo $create_date;
+
+        //print_r($imageData);
+        $query = "INSERT INTO site_photo(name,image,site_code,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
+        $paramType = 'ssssss';
 
         $paramValue = array(
             $imageData[0],
-            $imageData[1]
+            $imageData[1],
+            $site_code,
+            $remark,
+            //"'".$create_date."'",
+            //"'".$create_date."'",
+            $create_by,
+            $create_by
         );
+
         $id = $this->conn->insert($query, $paramType, $paramValue);
         return $id;
     }

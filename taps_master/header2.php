@@ -111,12 +111,12 @@ error_reporting(0);
 				  </div> 
 				  
 				  <div class="dropdown">
-				  <button class="dropbtn" onclick="myFunction7()">Site Photo
+				  <button class="dropbtn" onclick="myFunction7()">Incident Report
 					<i class="fa fa-caret-down"></i>
 				  </button>
 				  <div class="dropdown-content" id="myDropdown7">
 					<a href="sitePhotoList.php">Show All</a>
-					<a href="addSitePhoto.php">Add Site Photo</a>
+					<a href="addSitePhoto.php">Add Incident Report</a>
 				  </div>
 				  </div> 
 
@@ -221,7 +221,7 @@ print '<script>
 		document.getElementById("myDropdown8").classList.toggle("show");
 	}
 	function myFunction9() {
-		document.getElementById("myDropdown8").classList.toggle("show");
+		document.getElementById("myDropdown9").classList.toggle("show");
 	}
 	function logout() {
 	
