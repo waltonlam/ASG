@@ -120,8 +120,8 @@
 		<?php  
 			// Import the file where we defined the connection to Database.     
 			require_once "connection.php";   
-			require_once "iconn.php";
-			require_once "header2.php";
+			require_once 'iconn.php';
+			require_once 'header2.php';
 
 			$per_page_record = 10;  // Number of entries to show in a page.   
 			// Look for a GET variable page if not found default is 1.        

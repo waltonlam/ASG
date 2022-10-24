@@ -156,7 +156,9 @@
 								<?php echo $row["site_code"]?>
 							</td>    
 							<td>
-								<img src="<?php echo $row["image"]?>" class="img-preview" alt="photo"> 
+								<a href="<?php echo $row['image']; ?>" class="btn-action" target="_blank">
+									<img src="<?php echo $row["image"]?>" class="img-preview" alt="photo"> 
+								</a>
 								<?php echo $row["name"]?>
 							</td>
 							<td>
@@ -165,7 +167,7 @@
 							<td>
 								<a href="updateSitePhoto.php?id=<?php echo $row['id']; ?>" class="btn-action">Edit</a> 
 								<a onclick="confirmDelete(<?php echo $row['id']; ?>)" class="btn-action">Delete</a>
-								<a href="<?php echo $row['image']; ?>" class="btn-action" target="_blank">Download</a> 
+								<!--a href="<?php echo $row['image']; ?>" class="btn-action" target="_blank">Download</a--> 
 							</td>                                        
 						</tr>     
 					<?php     

@@ -7,6 +7,7 @@ $_SESSION['utp'] = "";
 define('TITLE', 'Login');
 include('templates/header.html');
 include('iconn.php');
+date_default_timezone_set('Asia/Hong_Kong');
 
 // Print some introductory text:
 //print '<h2 dir="ltr" style="margin-left: 465px; margin-right: 80px">用戶登入</h2>';
@@ -31,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$r=$result->fetch_object();
 				$_SESSION['vusername'] = $r->fname." ".$r->lname;
 				$_SESSION['utp']=$r->ronly;
+				$_SESSION['lastLoginTime'] = date('Y-m-d H:i:s');
 				//print $_SESSION['utp'];
 				//$_SESSION['dbc'] = $dbc;
 				//echo "This is a valid user: ".$_SESSION['vusername'];
