@@ -53,13 +53,14 @@ if(isset($_FILES['file'])){
         $sid_lst = substr($name,13); 
         //echo ' $sid_lst13 :    '.$sid_lst;
         $sid_cnt=substr_count($sid_lst," ");
-       // echo ' $sid_cnt:    '.$sid_cnt;
+        //echo ' $sid_cnt:    '.$sid_cnt;
 
         $sample_line_id=0;
         $sample_line_id=$SampleID_line_key+2;
         $line_cnt=0;
         $trans=array();
         $ln_offset=1;
+        //sid_cnt == column count == 2 [0,1,2]
         for ($e = 0; $e<=$sid_cnt; $e++)  {  
             for ($sample_line_id; $sample_line_id<=35; $sample_line_id++)  {    
                 //$sid_val_lst=$lines[$sample_line_id];
@@ -71,6 +72,9 @@ if(isset($_FILES['file'])){
                 $comp_name = substr($sid_val_lst,0,$spc); 
                 //echo 'compound_name:      '.$comp_name;
                 $val_list = substr($sid_val_lst,$spc+1);
+                $val_list = str_replace('< ', '<', $val_list);
+
+                //echo '$val_list:      '.$val_list;
                 $gp="";
                 $cid="";
                 $cp_sql="select name, code from compound where code='mPB' and name='".$comp_name."'";
@@ -87,30 +91,54 @@ if(isset($_FILES['file'])){
                     }
                 }
                 $pg_sample_hd_truc = $pg_sample_hd_lst;
+                //echo ' $pg_sample_hd_truc'.$pg_sample_hd_truc;
                 $final_val="";
                 for ($f = 0; $f<=$e; $f++)  {    
-                    //echo ' 4444444444444444444444444444444 ';
+                  //  echo ' $f: '.$f.' $e: '.$e;
+                    //spc == space position 
                     $spc = strpos($val_list," ");
+                    //echo ' $spc: '.$spc;
+
                     $pg_sample_hd_truc_spc = strpos($pg_sample_hd_truc," ");
+                  //  echo ' $pg_sample_hd_truc_spc: '.$pg_sample_hd_truc_spc;
                     if ($f<$e){ 
                         $val_list = substr($val_list,$spc+1);
+                        //echo '[line 100] $val_list: '.$val_list;
                         $pg_sample_hd_truc = substr($pg_sample_hd_truc,$pg_sample_hd_truc_spc+1);
+                        //echo '[line 102] $pg_sample_hd_truc: '.$pg_sample_hd_truc;
                         $spc = strpos($val_list," ");
+                        //echo ' [line 104] $spc: '.$spc;
                         $pg_sample_hd_truc_spc = strpos($pg_sample_hd_truc," ");
+                        //echo ' [line 106] $pg_sample_hd_truc_spc: '.$pg_sample_hd_truc_spc;
                         $val_list = substr($val_list,$spc+1);
+                       // echo ' [line 108] $val_list: '.$val_list;
                         $pg_sample_hd_truc = substr($pg_sample_hd_truc,$pg_sample_hd_truc_spc+1);
-                       // echo ' 5555555555555555555555555555555 ';
+                       // echo ' [line 110] $pg_sample_hd_truc: '.$pg_sample_hd_truc;
                     }
 
                     if ($f==$e){
                         If (substr($pg_sample_hd_truc,0,$pg_sample_hd_truc_spc) == "pg/sample"){
                             $final_val = substr($val_list,0,$spc);
-                        //    echo ' 6666666666666666666666666666666 ';
+                            //echo ' [line 116] $val_list: '.$val_list;
+                           // echo ' [line 117] $spc: '.$spc;
+                           // echo ' [line 118] $final_val: '.$final_val;
                         }
                     }
 
                 }
-                
+                //$str = "Apple is healthy.";
+                /*$delimiter = ' ';
+                $vals = explode($delimiter, $val_list);
+                foreach ($vals as $val) {
+                    echo $val;
+                    echo "/n";
+                }*/
+                /*echo $vals[0];
+                echo $vals[1];
+                echo $vals[2];
+                echo $vals[3];
+                echo $vals[4];
+                echo $vals[5];*/
 
                 $trans[$line_cnt][0] = substr($sid[$e],0,2);  
                 $trans[$line_cnt][1] = "20".substr($sid[$e],6,2)."/".substr($sid[$e],8,2)."/".substr($sid[$e],10,2); 
@@ -130,10 +158,10 @@ if(isset($_FILES['file'])){
         $hdr="SITE,STRTDATE,SAMPID,GROUP,COMPOUND CODE,CONC (ppbv)";
         $hdr = explode(',', $hdr);
         fputcsv($output, $hdr);
-            foreach ($trans as $row) {
-            //    echo ' 8888888888888888888888888888 ';
-                fputcsv($output, (array)$row, ",");
-            }
+        foreach ($trans as $row) {
+            //echo ' $row: '.implode($row);
+            fputcsv($output, (array)$row, ",");
+        }
 
         exit();
         for ($e = 1; $e <= count($lines); $e++) {
