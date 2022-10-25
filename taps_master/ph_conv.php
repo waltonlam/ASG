@@ -2,7 +2,6 @@
 session_start();
 require('iconn.php');
 
-
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     exit;
 }
@@ -34,7 +33,6 @@ if(isset($_FILES['file'])){
             }else{  
                 $sid[$e]=$sid_lst;
             }
-            
             $sid_lst = substr($sid_lst,$spc+1);
         };
         $sid_lst = substr($name,13); 
@@ -43,35 +41,46 @@ if(isset($_FILES['file'])){
         $sample_line_id=$SampleID_line_key+2;
         $line_cnt=0;
         $trans=array();
+        //echo ' $sid_cnt: '.$sid_cnt;
+
         for ($e = 0; $e<=$sid_cnt; $e++)  {
-            for ($sample_line_id; $sample_line_id<=22; $sample_line_id++)  {
+            for ($sample_line_id; $sample_line_id<=78; $sample_line_id++)  {
                 $sid_val_lst=$lines[$sample_line_id];
+                $sid_val_lst = str_replace(': ', '', $sid_val_lst);  
                 $spc = strpos($sid_val_lst," ");
                 $comp_name = substr($sid_val_lst,0,$spc); 
                 $val_list = substr($sid_val_lst,$spc+1);  
                 $gp="";
                 $cid="";
-                $cp_sql="select id, code from compound where name='".$comp_name."'";
+                $cp_sql="select name, code from compound where name='".$comp_name."'";
                 if (!$result = mysqli_query($dbc, $cp_sql)) {
                     exit(mysqli_error($dbc));
                 }else{
                     if ($result -> num_rows){
                         $r_rev = mysqli_fetch_assoc($result);
                         $gp=$r_rev['code'];
-                        $cid=$r_rev['id'];	              
+                        $cid=$r_rev['name'];	              
                     }else{
                         $cid=$comp_name;
                     }
                 }
                 for ($f = 0; $f<=$e; $f++)  {  
+                   // echo '$f: '.$f.' $e: '.$e;
+                  //  echo ' $val_list: '.$val_list;
                     $spc = strpos($val_list," ");
-                    
+                   // echo '$spc: '.$spc.' ';
                     if ($f<$e){
                         $val_list = substr($val_list,$spc+1);
+                       // echo '$val_list2: '.$val_list;
                     }
                     
                     if ($f==$e){ 
-                        $final_val = substr($val_list,0,$spc);
+                        if($spc == ''){
+                            $final_val = $val_list;
+                        }else{
+                            $final_val = substr($val_list,0,$spc);
+                        }
+                        //echo ' $final_val: '.$final_val;
                     }
                 }
 
@@ -90,10 +99,10 @@ if(isset($_FILES['file'])){
         $hdr="SITE,STRTDATE,SAMPID,GROUP,COMPOUND CODE,CONC (ppbv)";
         $hdr = explode(',', $hdr);
         fputcsv($output, $hdr);
-            foreach ($trans as $row) {
-                fputcsv($output, (array)$row, ",");
-            }
-              exit();
+        foreach ($trans as $row) {
+            fputcsv($output, (array)$row, ",");
+        }
+        exit();
         
         for ($e = 1; $e <= count($lines); $e++) {
             $J .= substr($name,6)."-";
@@ -102,11 +111,5 @@ if(isset($_FILES['file'])){
         echo $J;
         echo "</pre>";
     }
-
-
 }
-            
-    
-
 ?>
-
