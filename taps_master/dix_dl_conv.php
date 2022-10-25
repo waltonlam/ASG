@@ -15,7 +15,7 @@ if(isset($_FILES['file'])){
         $file_name = $_FILES['file']['name'];
         $file_tmp =$_FILES['file']['tmp_name'];
         move_uploaded_file($file_tmp,"img/".$file_name);
-        shell_exec('"C:\\Program Files\\Tesseract-OCR\\tesseract" "C:\\xampp_20210705\\htdocs\\taps\\img\\'.$file_name.'" out');       
+        shell_exec('"C:\\Program Files\\Tesseract-OCR\\tesseract" "C:\\xampp\\htdocs\\taps\\img\\'.$file_name.'" out');       
         $myfile = fopen("out.txt", "r") or die("Unable to open file!");
         fclose($myfile);
         $lines = file('out.txt');
@@ -39,26 +39,32 @@ if(isset($_FILES['file'])){
         print_r($sid_lst);
         $sid_lst = substr($name,13); 
         $sid_cnt=substr_count($sid_lst," ");
+        //echo '$sid_cnt: '.$sid_cnt;
         $sample_line_id=0;
-        $sample_line_id=$SampleID_line_key+3;
+        $sample_line_id=$SampleID_line_key+2;
+       // echo '$SampleID_line_key: '.$SampleID_line_key;
         $line_cnt=0;
         $trans=array();
         for ($e = 0; $e<=$sid_cnt; $e++)  {  
-            for ($sample_line_id; $sample_line_id<=21; $sample_line_id++)  {   
-                $sid_val_lst=$lines[$sample_line_id];
+            for ($sample_line_id; $sample_line_id<=63; $sample_line_id++)  {   
+                $sid_val_lst=$lines[$sample_line_id]; 
+                $sid_val_lst = str_replace('"| ', '', $sid_val_lst);               
                 $spc = strpos($sid_val_lst," ") + strpos(substr($sid_val_lst,4)," ")+1;  
+                //echo '$sid_val_lst: '.$sid_val_lst; 
                 $comp_name = substr($sid_val_lst,0,$spc); 
-                $val_list = substr($sid_val_lst,$spc+1);  
+                //echo '$comp_name: '.$comp_name; 
+                $val_list = substr($sid_val_lst,$spc+1); 
+                //echo '$val_list: '.$val_list; 
                 $gp="";
                 $cid="";
-                $cp_sql="select id, code from compound where name='".$comp_name."'";
+                $cp_sql="select name, code from compound where name='".$comp_name."'";
                 if (!$result = mysqli_query($dbc, $cp_sql)) {
                     exit(mysqli_error($dbc));
                 }else{
                     if ($result -> num_rows){
                         $r_rev = mysqli_fetch_assoc($result);
                         $gp=$r_rev['code'];
-                        $cid=$r_rev['id'];	
+                        $cid=$r_rev['name'];	
                     }else{
                         $cid=$comp_name;
                     }
@@ -82,7 +88,7 @@ if(isset($_FILES['file'])){
                 $trans[$line_cnt][5] = $final_val;  
                 $line_cnt++;
             }        
-            $sample_line_id=$SampleID_line_key+3;
+            $sample_line_id=$SampleID_line_key+2;
         };
         $hdr="";
          $hdr="SITE,STRTDATE,SAMPID,GROUP,COMPOUND CODE,CONC (ppbv)";
