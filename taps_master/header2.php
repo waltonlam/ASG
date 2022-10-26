@@ -143,6 +143,7 @@ print '<html>
 						<div class="dropdown-content" id="myDropdown4">
 							<a href="showGlabTemp.php">Show All</a>
 							<a href="impGlab.php">Import Glab</a>
+							<a href="impGlabCsv.php">Import Glab Csv</a>
 							<!--<a href="updateGlabTemp.php">Update Glab</a> 
 							<a href="delGlabTemp.php">Delete all record</a>
 							<a href="delSingleGlabTemp.php">Delete single record</a> -->

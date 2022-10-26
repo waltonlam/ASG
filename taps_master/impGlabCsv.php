@@ -138,10 +138,6 @@ if (isset($_POST["import"])) {
 					$analyseBy = $value;
 				}
 
-
-
-
-
 				/*if (strpos ($key,'CASNO1')!== false){
 					// echo "{$key} => {$value} ";
 					$casno1 = $value;
@@ -188,52 +184,30 @@ if (isset($_POST["import"])) {
 				}*/
 			}
 
-			if (!empty($sampleID)){
-				$sampleId = "";
-		$strtDate = "";
-		$strtTime = "";
-		$duration = "";
-		$siteId = "";
-		$cpdcat = "";
-		$sampType = "";
-		$location = "";
-		$casno1 = "";
-		$casno2 = "";
-		$casno3 = "";
-		$compound = "";
-		$mdl_ppbv = "";
-		$mdl_g_m3 = "";
-		$pql_ppbv = "";
-		$pql_g_m3 = "";
-		$conc_ppbv= "";
-		$conc_g_m3="";
-		$sampMthd = "";
-		$sampler = "" ;
-		$detector = "";
-		$remflg1 = "";
-		$remflg2 = "";
-		$remflg3 = "";
-		$sampleBy = "";
-		$analyseBy = "";
-
+			if (!empty($sampleId)){
 				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `strt_time`, `duration`, `site_id`, `cpdcat`, `samp_type`, `location`, `casno1`, 
-				`casno2`, `casno3`, `compund`, `mdl_ppbv`, `mdl_g_m3`, `pql_ppbv`, `pql_g_m3`, `conc_ppbv`, `conc_g_m3`, `samp_mthd`, `sampler`, `detector`, `remflg1`, `remflg2`, `remflg3`, `sample_by`, `analyse_by`)
-				 VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtdate."','%Y/%m/%d')".",'".$strtTime."',
+				`casno2`, `casno3`, `compound`, `mdl_ppbv`, `mdl_g_m3`, `pql_ppbv`, `pql_g_m3`, `conc_ppbv`, `conc_g_m3`, `samp_mthd`, `sampler`, `detector`, `remflg1`, `remflg2`, `remflg3`, `sample_by`, `analyse_by`)
+				 VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d')".",'".$strtTime."','".$duration."','".$siteId."','".$cpdcat."','".$sampType."','".$location."','".$casno1."',
+				 '".$casno2."','".$casno3."','".$compound."','".$mdl_ppbv."','".$mdl_g_m3."','".$pql_ppbv."','".$pql_g_m3."','".$conc_ppbv."','".$conc_g_m3."','".$sampMthd."',
+				 '".$sampler."','".$detector."','".$remflg1."','".$remflg2."','".$remflg3."','".$sampleBy."','".$analyseBy."');";
 
+				echo $in1;
 
-				$in1 = "INSERT INTO `glab_sample` (`compound_group`,`site`,`sample_id`, `start_date`, `casno1`, `compound_code`, `conc_ppbv_raw`, `conc_mcg_m3_raw`, `conc_ppbv`, `conc_mcg_m3`) 
+				/*$in1 = "INSERT INTO `glab_sample` (`compound_group`,`site`,`sample_id`, `start_date`, `casno1`, `compound_code`, `conc_ppbv_raw`, `conc_mcg_m3_raw`, `conc_ppbv`, `conc_mcg_m3`) 
 						VALUES ('".$compoundGpd."','".$site."','".$sampleID."', "."STR_TO_DATE('".$strtdate."','%Y/%m/%d')".",'".$casno1."', '".$compoundCode."', '".$conc_ppbv_raw."', '"
 								.$conc_mcg_m3_raw."', $conc_ppbv,$conc_mcg_m3 );";
 
 				$in2 = "INSERT INTO `glab_curr` (`compound_group`,`site`,`sample_id`, `start_date`, `casno1`, `compound_code`, `conc_ppbv_raw`, `conc_mcg_m3_raw`, `conc_ppbv`, `conc_mcg_m3`) 
 				VALUES ('".$compoundGpd."','".$site."','".$sampleID."', "."STR_TO_DATE('".$strtdate."','%Y/%m/%d')".",'".$casno1."', '".$compoundCode."', '".$conc_ppbv_raw."', '"
 						.$conc_mcg_m3_raw."', $conc_ppbv,$conc_mcg_m3 );";
+				*/
+
 
 				$res=mysqli_query($dbc, $in1); /* or trigger_error("Query Failed! SQL: $in1 - Error: ".mysqli_error($dbc), E_USER_ERROR);*/
 //				print "in1 = ".$in1;
 							
 				if (! empty($res)) {
-					//$r_in++;
+					$r_in++;
 					$type = "success";
 					$message = "*No. of records have been imported : ".$r_in;
 				} else {
@@ -241,19 +215,6 @@ if (isset($_POST["import"])) {
 					//$message = "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
 					print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
 
-					//$message = "Problem in loading CSV Data -> ".$loc_id." | ".$sample_date." | ".$m_time." | ".$ele_id." | ".$sample_v."</p>";
-					exit();
-				}
-
-				$res=mysqli_query($dbc, $in2); /* or trigger_error("Query Failed! SQL: $in2 - Error: ".mysqli_error($dbc), E_USER_ERROR); */	
-				if (! empty($res)) {
-					$r_in++;
-					$type = "success";
-					$message = "*No. of records have been imported : ".$r_in;
-				} else {
-					$type = "error";
-					//$message = "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in2."</p>";
-					print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in2."</p>";
 					//$message = "Problem in loading CSV Data -> ".$loc_id." | ".$sample_date." | ".$m_time." | ".$ele_id." | ".$sample_v."</p>";
 					exit();
 				}
