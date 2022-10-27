@@ -26,6 +26,7 @@ print '<html>
 		</head>'; 
 
 		error_reporting(0);
+		
 		if(!isset($_SESSION)){
 			session_start();
 		}
@@ -45,9 +46,9 @@ print '<html>
 				print '
 				<!--div id="menu">
 					<ul id="nav">						
-						<li><a href="#" target="_self" >System Maintanance</a>
+						<li><a href="#" target="_self" >System Maintanance <i class="fa fa-caret-down"></i></a>
 							<ul>
-								<li><a href="#" target="_self" >Maintain Site</a>
+								<li><a href="#" target="_self" >Maintain Site <i class="fa fa-caret-right"></i></a>
 									<ul>
 										<li><a href="showSite.php" target="_self" >Show All</a>
 										<li><a href="updateSite.php" target="_self" >Update Site</a>
@@ -55,7 +56,7 @@ print '<html>
 										<li><a href="addSite.php" target="_self" >Add New Site</a>
 									</ul>
 								</li>
-								<li><a href="#" target="_self" >Maintain Compound</a>
+								<li><a href="#" target="_self" >Maintain Compound <i class="fa fa-caret-right"></i></a>
 									<ul>
 										<li><a href="showCompound.php" target="_self" >Show All</a>
 										<li><a href="updateCompound.php" target="_self" >Update Compound</a>
@@ -63,41 +64,77 @@ print '<html>
 										<li><a href="addCompound.php" target="_self" >Add Compound</a>
 									</ul>
 								</li>
-								<li><a href="#" target="_self" >Maintain Category</a>
+								<li><a href="#" target="_self" >Maintain Category <i class="fa fa-caret-right"></i></a>
 									<ul>
 										<li><a href="showCategory.php">Show All</a>
 										<li><a href="updateCategory.php" target="_self" >Update Category</a>
 										<li><a href="delCategory.php" target="_self" >Delete Category</a>
 										<li><a href="addCategory.php" target="_self" >Add Category</a>
 									</ul>
-								</li>							
+								</li>
+								<li><a href="#" target="_self" >Maintain User Account <i class="fa fa-caret-right"></i></a>
+									<ul>
+										<li><a href="showAccount.php">Show All</a>
+										<li><a href="updateAccount.php">Update Account</a>
+										<li><a href="delAccount.php">Delete Account</a>
+										<li><a href="addAccount.php">Add Account</a>
+									</ul>
+								</li>	
 							</ul>
 						</li>
-						<li><a href="#" target="_self" >Upload CSV Template</a>
+						<li><a href="#" target="_self" >CSV Template <i class="fa fa-caret-down"></i></a>
 							<ul>
-								<li><a href="#" target="_self" >Glab Template</a>
+								<li><a href="#" target="_self" >Glab Template <i class="fa fa-caret-right"></i></a>
 									<ul>
-										<li><a href="showGlabTemp.php">Show All</a>
-										<li><a href="impGlab.php">Import Glab</a>
-										<li><a href="updateGlabTemp.php">Update Glab</a> 
-										<li><a href="delGlabTemp.php">Delete all record</a>
-										<li><a href="delSingleGlabTemp.php">Delete single record</a>
+										<li><a href="showGlabSample.php">Show All</a>
+										<li><a href="impGlabCsv.php">Import Glab</a>
 										<li><a href="exportReport.php">Export Report</a>
 									</ul>
 								</li>
-								<li><a href="#" target="_self" >Contractor Template</a>
+								<li><a href="#" target="_self" >Contractor Template <i class="fa fa-caret-right"></i></a>
 									<ul>
 										<li><a href="showContractor.php">Show All</a>
 										<li><a href="impContractor.php">Import Template</a>
-										<<li><a href="updateContractorTemp.php">Update Template</a>
+										<li><a href="updateContractorTemp.php">Update Template</a>
 										<li><a href="delContractor.php">Delete all record</a>
 										<li><a href="delSingleContractor.php">Delete single record</a>
 									</ul>
 								</li>							
 							</ul>		
 						</li>
+						<li><a href="#" target="_self" >Incident Report <i class="fa fa-caret-down"></i></a>
+							<ul>
+								<li>
+									<a href="sitePhotoList.php">Show All</a>
+									<a href="addSitePhoto.php">Add Incident Report</a>
+								</li>						
+							</ul>		
+						</li>
+						<li><a href="#" target="_self" >Graph Generation <i class="fa fa-caret-down"></i></a>
+							<ul>
+								<li>
+									<a href="genGraph.php">Generate Graph of Pollutants</a>
+									<a href="genSummaryPlot.php"> Generate Summary Plot</a>
+								</li>						
+							</ul>		
+						</li>
+						<li><a href="#" target="_self" >File Conversion <i class="fa fa-caret-down"></i></a>
+							<ul>
+								<li>
+									<a href="getMSWordContent.php">Convert MS Word to Text</a>
+									<a href="upphconv.php">PH</a>
+									<a href="updixdfconv.php">DF</a>
+									<a href="updixdlconv.php">DL-PB</a>
+									<a href="uppbconv.php">mPB</a>	
+								</li>						
+							</ul>		
+						</li>
+
+						<li><a onclick="logout()">Logout</a></li>
 					</ul>
 				</div-->
+				
+				
 
 				<div class="navbar">
 					<div class="dropdown">
@@ -141,12 +178,13 @@ print '<html>
 							<i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-content" id="myDropdown4">
-							<a href="showGlabTemp.php">Show All</a>
-							<a href="impGlab.php">Import Glab</a>
+							<!--a href="showGlabTemp.php">Show All</a>
+							<a href="impGlab.php">Import Glab</a-->
+							<a href="showGlabSample.php">Show All</a>
 							<a href="impGlabCsv.php">Import Glab Csv</a>
-							<!--<a href="updateGlabTemp.php">Update Glab</a> 
+							<!--a href="updateGlabTemp.php">Update Glab</a> 
 							<a href="delGlabTemp.php">Delete all record</a>
-							<a href="delSingleGlabTemp.php">Delete single record</a> -->
+							<a href="delSingleGlabTemp.php">Delete single record</a-->
 							<a href="exportReport.php">Export Report</a>
 						</div>
 				  	</div> 
@@ -158,9 +196,9 @@ print '<html>
 						<div class="dropdown-content" id="myDropdown6">
 							<a href="showContractor.php">Show All</a>
 							<a href="impContractor.php">Import Template</a>
-							<!--<a href="updateContractorTemp.php">Update Template</a>
+							<a href="updateContractorTemp.php">Update Template</a>
 							<a href="delContractor.php">Delete all record</a>
-							<a href="delSingleContractor.php">Delete single record</a>-->
+							<a href="delSingleContractor.php">Delete single record</a>
 						</div>
 					</div> 
 				  

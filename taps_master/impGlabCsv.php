@@ -191,17 +191,7 @@ if (isset($_POST["import"])) {
 				 '".$casno2."','".$casno3."','".$compound."','".$mdl_ppbv."','".$mdl_g_m3."','".$pql_ppbv."','".$pql_g_m3."','".$conc_ppbv."','".$conc_g_m3."','".$sampMthd."',
 				 '".$sampler."','".$detector."','".$remflg1."','".$remflg2."','".$remflg3."','".$sampleBy."','".$analyseBy."');";
 
-				echo $in1;
-
-				/*$in1 = "INSERT INTO `glab_sample` (`compound_group`,`site`,`sample_id`, `start_date`, `casno1`, `compound_code`, `conc_ppbv_raw`, `conc_mcg_m3_raw`, `conc_ppbv`, `conc_mcg_m3`) 
-						VALUES ('".$compoundGpd."','".$site."','".$sampleID."', "."STR_TO_DATE('".$strtdate."','%Y/%m/%d')".",'".$casno1."', '".$compoundCode."', '".$conc_ppbv_raw."', '"
-								.$conc_mcg_m3_raw."', $conc_ppbv,$conc_mcg_m3 );";
-
-				$in2 = "INSERT INTO `glab_curr` (`compound_group`,`site`,`sample_id`, `start_date`, `casno1`, `compound_code`, `conc_ppbv_raw`, `conc_mcg_m3_raw`, `conc_ppbv`, `conc_mcg_m3`) 
-				VALUES ('".$compoundGpd."','".$site."','".$sampleID."', "."STR_TO_DATE('".$strtdate."','%Y/%m/%d')".",'".$casno1."', '".$compoundCode."', '".$conc_ppbv_raw."', '"
-						.$conc_mcg_m3_raw."', $conc_ppbv,$conc_mcg_m3 );";
-				*/
-
+				//echo $in1;
 
 				$res=mysqli_query($dbc, $in1); /* or trigger_error("Query Failed! SQL: $in1 - Error: ".mysqli_error($dbc), E_USER_ERROR);*/
 //				print "in1 = ".$in1;
@@ -293,14 +283,12 @@ if (isset($_POST["import"])) {
 			border: none;
 			border-radius: 4px;
 			cursor: pointer;
-			width:100%;
+			width:200;
 			}
-
-			</style>
-			<script type="text/javascript">
+		</style>
+		<script type="text/javascript">
 			$(document).ready(function() {
 				$("#frmCSVImport").on("submit", function () {
-
 					$("#response").attr("class", "");
 					$("#response").html("");
 					var fileType = ".csv";
@@ -335,7 +323,6 @@ if (isset($_POST["import"])) {
 					<div class="input-row">
 						<input type="file" name="file" id="file" accept=".csv">
 						<br/>
-
 					</div>
 					<button type="submit" id="submit" name="import" class="btn-submit">Import</button>
 					<div></div>			
