@@ -61,14 +61,14 @@
 			//mark that the user has been on this page 
 			$_SESSION['previous'] = basename($_SERVER['PHP_SELF']);
 
-			if (isset($_SESSION['prev_incid'])) {
-				if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
+			//if (isset($_SESSION['prev_incid'])) {
+			//	if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
 					 //session_destroy();
-					 unset($_SESSION['ttl_incident_page']);
+			//		 unset($_SESSION['ttl_incident_page']);
 					 ### or alternatively, you can use this for specific variables:
 					 ### unset($_SESSION['varname']);
-				}
-			}
+			//	}
+			//}
 
 			$l = "select code from site order by code ASC;";
 			$result_loc=$dbc->query($l);
@@ -94,18 +94,27 @@
 			//$result = $imageModel->getAllImages($start_from, $per_page_record);
 			//echo '$total_pages:  '.$_SESSION['ttl_page'];
 
-			if($_SERVER['REQUEST_METHOD'] == 'POST' or $_SESSION['ttl_page'] > 1){
-				$query = "SELECT * FROM glab_sample "; 
-				if(!empty($_POST['site_id'])){
-					$query .= " where site_id = '".$_POST['site_id']."' ";
+			//if($_SERVER['REQUEST_METHOD'] == 'POST' or $_SESSION['ttl_page'] > 1){
+			//if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+				if(!isset($_SESSION["site_id"]) or $_SERVER['REQUEST_METHOD'] == 'POST'){
+					$_SESSION['site_id'] = $_POST['site_id'];
+					$_SESSION['dateFrom'] = $_POST['dateFrom'];
+					$_SESSION['dateTo'] = $_POST['dateTo'];
 				}
-				if(!empty($_POST['dateFrom']) and !empty($_POST['dateTo'])){
-					$query .= " and strt_date between '".$_POST['dateFrom']."' and '".$_POST['dateTo']."' ";
+
+				$query = "SELECT * FROM glab_sample "; 
+				if(!empty($_SESSION['site_id'])){
+					$query .= " where site_id = '".$_SESSION['site_id']."' ";
+				}
+
+				if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+					$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 				}
 				
-				$query .= " LIMIT $start_from, $per_page_record";     
+				$query .= " order by sample_id LIMIT $start_from, $per_page_record";     
 				$rs_result = mysqli_query ($conn, $query);  
-			}
+			//}
 		?>
 
 		<div class="container">
@@ -137,7 +146,7 @@
 								<label>Date from: </label>
 							</td>
 							<td>							
-								<input type="date" name="dateFrom"/>							 
+								<input type="date" name="dateFrom" />							 
 								<label> to </label>							
 								<input type="date" name="dateTo"/>
 							</td>
@@ -241,7 +250,14 @@
 
 				<div class="pagination">    
 					<?php  
-						$query = "SELECT COUNT(*) FROM glab_sample";     
+						$query = "SELECT COUNT(*) FROM glab_sample ";
+						if(!empty($_SESSION['site_id'])){
+							$query .= " where site_id = '".$_SESSION['site_id']."' ";
+						}
+						if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+							$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+						}						
+
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
 						$total_records = $row[0];     
@@ -249,7 +265,7 @@
 						echo "</br>";     
 						// Number of pages required.   
 						$total_pages = ceil($total_records / $per_page_record);     
-						$_SESSION['ttl_page'] = $total_pages;
+						//$_SESSION['ttl_page'] = $total_pages;
 						$pagLink = "";       
 					
 						if($page>=2){   
@@ -257,14 +273,14 @@
 						}       
 								
 						for ($i=1; $i<=$total_pages; $i++) {   
-						if ($i == $page) {   
-							$pagLink .= "<a class = 'active' href='showGlabSample.php?page="  
-																.$i."'>".$i." </a>";   
-						}               
-						else  {   
-							$pagLink .= "<a href='showGlabSample.php?page=".$i."'>   
-																".$i." </a>";     
-						}   
+							if ($i == $page) {   
+								$pagLink .= "<a class = 'active' href='showGlabSample.php?page="  
+																	.$i."'>".$i." </a>";   
+							}               
+							else  {   
+								$pagLink .= "<a href='showGlabSample.php?page=".$i."'>   
+																	".$i." </a>";     
+							}   
 						};     
 						echo $pagLink;   
 				
