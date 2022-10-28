@@ -4,6 +4,29 @@
 	include ('iconn.php');
 	include 'header2.php';
 	require_once 'sqlHelper.php';
+
+	if (isset($_SESSION['previous'])) {
+		if (basename($_SERVER['PHP_SELF']) != $_SESSION['previous']) {
+			 //session_destroy();
+			 unset($_SESSION['site_id']);
+			 unset($_SESSION['dateFrom']);
+			 unset($_SESSION['dateTo']);
+			 ### or alternatively, you can use this for specific variables:
+			 ### unset($_SESSION['varname']);
+		}
+	}
+
+	if (isset($_SESSION['prev_incid'])) {
+		if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
+			 //session_destroy();
+			 unset($_SESSION['site_code_inc']);
+			 unset($_SESSION['dateFrom_inc']);
+			 unset($_SESSION['dateTo_inc']);
+			 ### or alternatively, you can use this for specific variables:
+			 ### unset($_SESSION['varname']);
+		}
+	}
+	
     $con = new MyDB();
 
 	$glabArray = $con -> selectFrom("glab_template", $columns =null, $where = null, $like = false, $orderby = "sample_id", $direction = "ASC", $limit = null, $offset = null);

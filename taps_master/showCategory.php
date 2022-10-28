@@ -123,6 +123,28 @@
 			require_once 'iconn.php';
 			require_once 'header2.php';
 
+			if (isset($_SESSION['previous'])) {
+				if (basename($_SERVER['PHP_SELF']) != $_SESSION['previous']) {
+					 //session_destroy();
+					 unset($_SESSION['site_id']);
+					 unset($_SESSION['dateFrom']);
+					 unset($_SESSION['dateTo']);
+					 ### or alternatively, you can use this for specific variables:
+					 ### unset($_SESSION['varname']);
+				}
+			}
+		
+			if (isset($_SESSION['prev_incid'])) {
+				if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
+					 //session_destroy();
+					 unset($_SESSION['site_code_inc']);
+					 unset($_SESSION['dateFrom_inc']);
+					 unset($_SESSION['dateTo_inc']);
+					 ### or alternatively, you can use this for specific variables:
+					 ### unset($_SESSION['varname']);
+				}
+			}
+			
 			$per_page_record = 10;  // Number of entries to show in a page.   
 			// Look for a GET variable page if not found default is 1.        
 			if (isset($_GET["page"])) {    

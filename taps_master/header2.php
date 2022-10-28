@@ -217,12 +217,12 @@ print '<html>
 							<i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-content" id="myDropdown8">
-							<a href="genGraph.php">Generate Graph of Pollutants</a>
+							<!--a href="genGraph.php">Generate Graph of Pollutants</a-->
 							<a href="genSummaryPlot.php"> Generate Summary Plot</a>
 						</div>
 				  	</div> 
 
-					<div class="dropdown">
+					<!--div class="dropdown">
 						<button class="dropbtn" onclick="myFunction9()">File Conversion
 							<i class="fa fa-caret-down"></i>
 						</button>
@@ -233,7 +233,7 @@ print '<html>
 							<a href="updixdlconv.php">DL-PB</a>
 							<a href="uppbconv.php">mPB</a>	
 						</div>
-				  	</div> 
+				  	</div--> 
 
 					<div class="dropdown">
 						<button class="dropbtn" onclick="myFunction2()">Account

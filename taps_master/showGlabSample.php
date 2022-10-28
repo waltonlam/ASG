@@ -61,14 +61,16 @@
 			//mark that the user has been on this page 
 			$_SESSION['previous'] = basename($_SERVER['PHP_SELF']);
 
-			//if (isset($_SESSION['prev_incid'])) {
-			//	if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
+			if (isset($_SESSION['prev_incid'])) {
+				if (basename($_SERVER['PHP_SELF']) != $_SESSION['prev_incid']) {
 					 //session_destroy();
-			//		 unset($_SESSION['ttl_incident_page']);
+					 unset($_SESSION['site_code_inc']);
+					 unset($_SESSION['dateFrom_inc']);
+					 unset($_SESSION['dateTo_inc']);
 					 ### or alternatively, you can use this for specific variables:
 					 ### unset($_SESSION['varname']);
-			//	}
-			//}
+				}
+			}
 
 			$l = "select code from site order by code ASC;";
 			$result_loc=$dbc->query($l);
