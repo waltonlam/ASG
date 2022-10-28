@@ -57,12 +57,14 @@
 			//require_once __DIR__ . '/lib/ImageModel.php';
 			//$imageModel = new ImageModel();
 			
-			//$_SESSION['prev_incid'] = basename($_SERVER['PHP_SELF']);
+			$_SESSION['prev_incid'] = basename($_SERVER['PHP_SELF']);
 
 			if (isset($_SESSION['previous'])) {
 				if (basename($_SERVER['PHP_SELF']) != $_SESSION['previous']) {
 					 //session_destroy();
-					 unset($_SESSION['ttl_page']);
+					 unset($_SESSION['site_id']);
+					 unset($_SESSION['dateFrom']);
+					 unset($_SESSION['dateTo']);
 					 ### or alternatively, you can use this for specific variables:
 					 ### unset($_SESSION['varname']);
 				}
@@ -87,18 +89,24 @@
 
 			//$result = $imageModel->getAllImages($start_from, $per_page_record);
 			
-			if($_SERVER['REQUEST_METHOD'] == 'POST' or $_SESSION['ttl_incident_page'] > 1){
-				$query = "SELECT * FROM site_photo "; 
-				if(!empty($_POST['site_code'])){
-					$query .= " where site_code = '".$_POST['site_code']."' ";
+			//if($_SERVER['REQUEST_METHOD'] == 'POST' or $_SESSION['ttl_incident_page'] > 1){
+				if(!isset($_SESSION["site_code_inc"]) or $_SERVER['REQUEST_METHOD'] == 'POST'){
+					$_SESSION['site_code_inc'] = $_POST['site_code'];
+					$_SESSION['dateFrom_inc'] = $_POST['dateFrom'];
+					$_SESSION['dateTo_inc'] = $_POST['dateTo'];
 				}
-				if(!empty($_POST['dateFrom']) and !empty($_POST['dateTo'])){
-					$query .= " and create_date between '".$_POST['dateFrom']."' and '".$_POST['dateTo']."' ";
+
+				$query = "SELECT * FROM site_photo "; 
+				if(!empty($_SESSION['site_code_inc'])){
+					$query .= " where site_code = '".$_SESSION['site_code_inc']."' ";
+				}
+				if(!empty($_SESSION['dateFrom_inc']) and !empty($_SESSION['dateTo_inc'])){
+					$query .= " and create_date between '".$_SESSION['dateFrom_inc']."' and '".$_SESSION['dateTo_inc']."' ";
 				}
 				
-				$query .= " LIMIT $start_from, $per_page_record";     
+				$query .= " order by id LIMIT $start_from, $per_page_record";     
 				$rs_result = mysqli_query ($conn, $query);  
-			}
+			//}
 		?>
 
 
@@ -190,7 +198,14 @@
 
 				<div class="pagination">    
 					<?php  
-						$query = "SELECT COUNT(*) FROM site_photo";     
+						$query = "SELECT COUNT(*) FROM site_photo";   
+						if(!empty($_SESSION['site_code_inc'])){
+							$query .= " where site_code = '".$_SESSION['site_code_inc']."' ";
+						}
+						if(!empty($_SESSION['dateFrom_inc']) and !empty($_SESSION['dateTo_inc'])){
+							$query .= " and create_date between '".$_SESSION['dateFrom_inc']."' and '".$_SESSION['dateTo_inc']."' ";
+						}
+						  
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
 						$total_records = $row[0];     
@@ -198,7 +213,7 @@
 						echo "</br>";     
 						// Number of pages required.   
 						$total_pages = ceil($total_records / $per_page_record);
-						$_SESSION['ttl_incident_page'] = $total_pages;
+						//$_SESSION['ttl_incident_page'] = $total_pages;
 						$pagLink = "";       
 					
 						if($page>=2){   
