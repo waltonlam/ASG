@@ -1,7 +1,7 @@
 
 <?php  
 	include ('iconn.php');
-	include 'header2.html';
+	include 'header2.php';
 	
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
@@ -10,14 +10,6 @@
 			 getFactorData();
 		 //}
 		 
-		
-		 
-		
-		 
-		 
-		 
-		 
-
 		function getFactorData(){
 			
 			if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
@@ -50,7 +42,7 @@
 				 
 				 echo "<tr>";
 					echo "<td>" . $row["compound"]."</td>";
-					echo "<td>" . $row["who_tef"]."</td>";
+					echo "<td>" . $row["who_tef_2005"]."</td>";
 					echo "</tr>";
 				 
 			 }

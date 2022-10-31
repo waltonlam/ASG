@@ -1,7 +1,7 @@
 
 <?php  
 	include ('iconn.php');
-	include 'header2.html';
+	include 'header2.php';
 	
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			

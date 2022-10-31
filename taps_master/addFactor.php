@@ -39,7 +39,7 @@ input[type=submit] {
 	{
 		if (!empty($_POST['compound']) and !empty($_POST['who_tef']) ){
 			//if (isset($_POST['userid']) and isset($_POST['fname']) and isset($_POST['lname']) and isset($_POST['pwd']))	
-			$sql = "INSERT INTO factor(compound,who_tef) VALUES ('".$_POST['compound']."','".$_POST['who_tef']."')";
+			$sql = "INSERT INTO factor(compound,who_tef_2005) VALUES ('".$_POST['compound']."','".$_POST['who_tef']."')";
 			
 			if ($dbc->query($sql) === FALSE) {
 				echo "Error: " . $dbc->error;

@@ -171,7 +171,19 @@ print '<html>
 							<a href="delCategory.php">Delete Category</a>
 							<a href="addCategory.php">Add Category</a>
 				 		 </div>
-					</div> 		  
+					</div> 		
+					
+					<div class="dropdown">
+				  		<button class="dropbtn" onclick="myFunction12()">Factor
+							<i class="fa fa-caret-down"></i>
+						</button>
+				 		 <div class="dropdown-content" id="myDropdown12">
+							<a href="showFactor.php">Show All</a>
+							<a href="updateFactor.php">Update Factor</a>
+							<a href="delFactor.php">Delete Factor</a>
+							<a href="addFactor.php">Add Factor</a>
+				 		 </div>
+					</div> 	
 
 					<div class="dropdown">
 						<button class="dropbtn" onclick="myFunction4()">Glab Template
@@ -312,6 +324,10 @@ print '<script>
 	
 	function myFunction11() {
 		document.getElementById("myDropdown11").classList.toggle("show");
+	}
+
+	function myFunction12() {
+		document.getElementById("myDropdown12").classList.toggle("show");
 	}
 
 	function logout() {
