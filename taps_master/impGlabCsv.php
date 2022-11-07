@@ -118,31 +118,63 @@ if (isset($_POST["import"])) {
 					$compound = $value;
 				}
 				if (strpos ($key,'MDL (ppbv)') !== false){
-					$mdl_ppbv = $value;
+				        if(empty($value)){
+						$mdl_ppbv = '0.00';
+					}else{
+						$mdl_ppbv = str_replace('<', '', $value);
+					}
 				}
-				if (strpos ($key,'MDL (?g/m3)') !== false){
-					$mdl_g_m3 = $value;
+				if (strpos ($key,'MDL (?g/m3)') !== false){					
+					if(empty($value)){
+						$mdl_g_m3 = '0.00';
+					}else{
+						$mdl_g_m3 = str_replace('<', '', $value);
+					}
 				}
 				if (strpos ($key,'PQL (ppbv)') !== false){
-					$pql_ppbv = $value;
+					if(empty($value)){
+						$pql_ppbv = '0.00';
+					}else{
+						$pql_ppbv = str_replace('<', '', $value);
+					}
 				}
 				if (strpos ($key,'PQL (?g/m3)') !== false){
-					$pql_g_m3 = $value;
+					if(empty($value)){
+						$pql_g_m3 = '0.00';
+					}else{
+						$pql_g_m3 = str_replace('<', '', $value);
+					}
 				}
 				if (strpos ($key,'CONC (ppbv)') !== false){
-					$conc_ppbv = $value;
+					if(empty($value)){
+						$conc_ppbv = '0.00';
+					}else{
+						$conc_ppbv = str_replace('<', '', $value);
+					}
 				}
 				if (strpos ($key,'CONC (?g/m3)') !== false){
-					$conc_g_m3 = $value;
+					if(empty($value)){
+						$conc_g_m3 = '0.00';
+					}else{
+						$conc_g_m3 = str_replace('<', '', $value);
+					}
 				}
 				if (strpos ($key,'SAMPMTHD') !== false){
 					$sampMthd = $value;
 				}
 				if (strpos ($key,'SAMPLER') !== false){
-					$sampler = $value;
+					if(empty($value)){
+						$sampler = '0';
+					}else{
+						$sampler = $value;
+					}
 				}
 				if (strpos ($key,'DETECTOR') !== false){
-					$detector = $value;
+					if(empty($value)){
+						$detector = '0';
+					}else{
+						$detector = $value;
+					}
 				}
 				if (strpos ($key,'REMFLG1') !== false){
 					$remflg1 = $value;
@@ -216,7 +248,7 @@ if (isset($_POST["import"])) {
 				//echo $in1;
 
 				$res=mysqli_query($dbc, $in1); /* or trigger_error("Query Failed! SQL: $in1 - Error: ".mysqli_error($dbc), E_USER_ERROR);*/
-//				print "in1 = ".$in1;
+				//print "in1 = ".$in1;
 							
 				if (! empty($res)) {
 					$r_in++;
