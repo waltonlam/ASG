@@ -3,10 +3,10 @@
 For git push, please use below git token.
 git token: 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
 
-===============================================================================================================================
+============================================
 Restart XAMPP Server 
 /opt/lampp/lampp restart
-===============================================================================================================================
+============================================
 Allow Connecting to phpmyadmin not using Localhost
 
 If you see below error message, when try into phpyAdmin:
@@ -34,7 +34,7 @@ First - comment pl module, second - change config for node Directory. After it, 
 Now you can access http://[server_ip]/phpmyadmin/
 
 
-===============================================================================================================================
+============================================
 To reset Ubuntu pc password
 > Restart pc 
 > press esc 
@@ -48,7 +48,7 @@ To reset Ubuntu pc password
 > Retype new password:
 > exit
 > resume Resume normal boot
-===============================================================================================================================
+============================================
 
 To Establish Network Connection on Ubuntu Desktop, please follow the below instruction
 
@@ -102,7 +102,7 @@ For NetworkManager.conf, if wired unmanaged appeared
 4. Add except:type:ethernet to this line: unmanaged-devices=*,except:type:wifi,except:type:wwan
 5. Restart network manager: sudo service network-manager restart
 
-===============================================================================================================================
+============================================
 To allow public connection 
 
 Modify below config file for Windows
