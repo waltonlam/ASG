@@ -52,6 +52,7 @@ if (isset($_POST["import"])) {
 		$strtDate = "";
 		$siteId = "";
 		$compound = "";
+		$compound_grp = "PH";
 		$conc_ppbv= "";
 		$testCount = 0;
 
@@ -78,7 +79,7 @@ if (isset($_POST["import"])) {
 			}
 
 			if (!empty($sampleId)){
-				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `conc_ppbv`) VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$conc_ppbv."');";
+				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`) VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."');";
 
 				//echo $in1;
 
