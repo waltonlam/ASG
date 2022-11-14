@@ -193,6 +193,7 @@ print '<html>
 							<!--a href="showGlabTemp.php">Show All</a>
 							<a href="impGlab.php">Import Glab</a-->
 							<a href="showGlabSample.php">Show All</a>
+							<a href="dlGlabTemplate.php">Download Glab Data Template</a>
 							<a href="impGlabCsv.php">Import Voc Csv</a>
 							<a href="impPahCsv.php">Import Pah Csv</a>
 							<!--a href="updateGlabTemp.php">Update Glab</a> 
@@ -220,8 +221,8 @@ print '<html>
 							<i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-content" id="myDropdown7">
-							<a href="sitePhotoList.php">Show All</a>
-							<a href="addSitePhoto.php">Add Incident Report</a>
+							<a href="incidentReportList.php">Show All</a>
+							<a href="addIncidentReport.php">Add Incident Report</a>
 						</div>
 					</div> 
 
@@ -247,7 +248,7 @@ print '<html>
 							<a href="uppbconv.php">mPB</a>	
 						</div>
 				  	</div--> 
-
+					
 					<div class="dropdown">
 						<button class="dropbtn" onclick="myFunction2()">Account
 							<i class="fa fa-caret-down"></i>
