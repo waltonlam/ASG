@@ -107,9 +107,8 @@
 		?>
 
 		<div class="container">
-			<br> 
 			<h2>Search Glab Sample</h2>
-			<br> 
+			<hr>
 			<div>
 				<form class="post-form" action="showGlabSample.php" method="post">
 					<table>

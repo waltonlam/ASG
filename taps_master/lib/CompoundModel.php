@@ -57,11 +57,13 @@ class CompoundModel
         return $result;
     }
 	
-	public function calAvgFieldBlank($compoundGrp, $year){
-        $sql = "SELECT avg(`conc_ppbv`) as avg_ppbv FROM `glab_sample` WHERE `compound_grp` = ? and `field_blank` = 'Y' and `strt_date` BETWEEN ? and ?";
-        $paramType = 'sss';
+	public function calAvgFieldBlank($compound, $compoundGrp, $year){
+        $sql = "SELECT avg(`conc_ppbv`) as avg_ppbv FROM `glab_sample` WHERE `compound` = ? and `compound_grp` = ? and `field_blank` = 'Y' and `strt_date` BETWEEN ? and ? ";
+		
+		$paramType = 'ssss';
         $paramValue = array(
-            $compoundGrp,
+            $compound,
+			$compoundGrp,
 			"20".$year."-01-01",
 			"20".$year."-12-31"
         );
