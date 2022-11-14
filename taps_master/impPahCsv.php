@@ -54,6 +54,7 @@ if (isset($_POST["import"])) {
 		$compound = "";
 		$compound_grp = "PH";
 		$conc_ppbv= "";
+		$fieldBlank = "N";
 		$testCount = 0;
 
 		foreach($data as $key => $result) {		
@@ -61,6 +62,9 @@ if (isset($_POST["import"])) {
 			foreach($result  as $key => $value){
 				if (strpos ($key,'Sample I.D.') !== false){
 					$sampleId = $value;
+					if(substr($sampleId,5,1) == 'F'){
+						$fieldBlank = "Y";
+					}
 					$siteId = substr($sampleId, 0, 3);						
 					$strtDate = "20".substr($sampleId,6, -4)."/".substr($sampleId,8, -2)."/".substr($sampleId,10);
 				}
@@ -79,7 +83,7 @@ if (isset($_POST["import"])) {
 			}
 
 			if (!empty($sampleId)){
-				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`) VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."');";
+				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `field_blank`) VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$fieldBlank."');";
 
 				//echo $in1;
 
