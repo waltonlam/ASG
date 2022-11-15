@@ -13,10 +13,11 @@ $compoundModel = new CompoundModel();
 
 $result = $compoundModel->selectCompoundById($_GET["id"]);
 $yearFieldBlankAvg = 0;
+$yearFieldBlankAvgSameLoc = 0;
 
 if(substr($result[0]["sample_id"],5,1) == 'F'){
 	$yearFieldBlankAvg = $compoundModel->calAvgFieldBlank($result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
-	//echo $yearFieldBlankAvg[0]["avg_ppbv"];
+	$yearFieldBlankAvgSameLoc = $compoundModel->calAvgFieldBlankSameLoc($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
 }
 
 ?>
@@ -45,22 +46,34 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 				<br>
 				<table>
 					<tr>	
-						<td style="width: 270px; vertical-align: top;">Compound: </td>
+						<td style="width: 330px; vertical-align: top;">Compound: </td>
 						<td>
 							<input type="text" name="compound" value ="<?php echo $result[0]["compound"]?>" />
 						</td>
 					</tr>
 					<tr>	
-						<td style="width: 270px; vertical-align: top;">Compound Group: </td>
+						<td style="vertical-align: top;">Compound Group: </td>
 						<td>
 							<input type="text" name="compound_grp" value="<?php echo $result[0]["compound_grp"]?>" />
+						</td>
+					</tr>
+					<tr>	
+						<td style="vertical-align: top;">Site: </td>
+						<td>
+							<input type="text" name="site_id" value="<?php echo $result[0]["site_id"]?>" />
 						</td>
 					</tr>	
 					<?php if(substr($result[0]["sample_id"],5,1) == 'F'){ ?>
 					<tr>	
-						<td style="width: 270px; vertical-align: top;">Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
+						<td style="vertical-align: top;">[<?php echo $result[0]["site_id"]?>] Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
 						<td>
-							<input type="text" name="compound_grp" value="<?php echo number_format((float)$yearFieldBlankAvg[0]["avg_ppbv"], 2, '.', '')?>" disabled/>
+							<input type="text" name="avg_ppbv_sameLoc" value="<?php echo number_format((float)$yearFieldBlankAvgSameLoc[0]["avg_ppbv"], 2, '.', '')?>" disabled/>
+						</td>
+					</tr>
+					<tr>	
+						<td style="vertical-align: top;">Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
+						<td>
+							<input type="text" name="avg_ppbv" value="<?php echo number_format((float)$yearFieldBlankAvg[0]["avg_ppbv"], 2, '.', '')?>" disabled/>
 						</td>
 					</tr>
 					<?php } ?>

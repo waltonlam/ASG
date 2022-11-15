@@ -71,6 +71,36 @@ class CompoundModel
         return $result;
     }
 	
+    public function calAvgFieldBlankSameLoc($siteId, $compound, $compoundGrp, $year){
+        $sql = "SELECT avg(`conc_ppbv`) as avg_ppbv FROM `glab_sample` WHERE `site_id` = ? and `compound` = ? and `compound_grp` = ? and `field_blank` = 'Y' and `strt_date` BETWEEN ? and ? ";
+		
+		$paramType = 'sssss';
+        $paramValue = array(
+            $siteId,
+            $compound,
+			$compoundGrp,
+			"20".$year."-01-01",
+			"20".$year."-12-31"
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+
+    public function calPercentile($compound, $compoundGrp, $year){
+        $sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_ppbv ORDER BY conc_ppbv SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
+        WHERE `compound` = ? and `compound_grp` = ? and `strt_date` BETWEEN ? and ? ";
+		
+		$paramType = 'ssss';
+        $paramValue = array(
+            $compound,
+			$compoundGrp,
+			"20".$year."-01-01",
+			"20".$year."-12-31"
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+	
 
     public function updateCompound($imageData, $id, $site_code, $remark)
     {
