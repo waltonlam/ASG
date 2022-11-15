@@ -194,8 +194,8 @@ print '<html>
 							<a href="impGlab.php">Import Glab</a-->
 							<a href="showGlabSample.php">Show All</a>
 							<a href="dlGlabTemplate.php">Download Glab Data Template</a>
-							<a href="impGlabCsv.php">Import Voc Csv</a>
-							<a href="impPahCsv.php">Import Pah Csv</a>
+							<a href="impGlabCsv.php">Import VOC Csv</a>
+							<a href="impPahCsv.php">Import PAH Csv</a>
 							<!--a href="updateGlabTemp.php">Update Glab</a> 
 							<a href="delGlabTemp.php">Delete all record</a>
 							<a href="delSingleGlabTemp.php">Delete single record</a-->

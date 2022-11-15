@@ -1,4 +1,3 @@
-
 <?php  
 	include ('iconn.php');
 	include 'header2.php';
@@ -6,7 +5,7 @@
 	//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 	//getMediaData();
 	//} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
-		getMediaData();
+		getFactorData();
 	//}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -39,12 +38,11 @@
 			print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
 			$criteria = "";
 			$comp="false";				
-
 		}
 		exit();				
 	} 
 
-	function getMediaData(){
+	function getFactorData(){
 		if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
 		{
 			print '<p style="color:red;">Could not connect to the database:<br>'.mysqli_connect_error().'.</p>';
@@ -59,6 +57,20 @@
 			exit();
 		}		
 
+		print '<h2>Update Factor</h2><hr>';
+		print '	
+		<style>
+			input[type=submit] {
+				background-color: #87ceeb;
+				color: white;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+				width:100
+			}
+		</style>';
+		
 		print '<form action="updateFactor.php" method="post">';
 		
 		echo '<br><table>';
@@ -70,8 +82,8 @@
 				//	<th>Action</th>
 				//</tr>';
 					
-		print '<tr style="color:#555555;">
-				<td style="width:48%">	
+		print '<tr>
+				<td>	
 					Factor Code: 				
 				<td>
 				<select style="margin-left:10px" name="compound">';
@@ -83,24 +95,24 @@
 				};				
 				
 		print '</td></tr>			
-				<tr style="color:#555555;">
-					<td style="width:48%">
+				<tr>
+					<td>
 						WHO-TEF-1998: 
 					</td>				  				
 					<td>  
 						<input style="margin-left:10px" type="text" name="who_tef_1998" id="who_tef_1998"></input>
 					</td>				  				
 				</tr>
-				<tr style="color:#555555;">
-					<td style="width:48%">
+				<tr>
+					<td>
 						WHO-TEF-2005: 
 					</td>				  				
 					<td>  
 						<input style="margin-left:10px" type="text" name="who_tef_2005" id="who_tef_2005"></input>
 					</td>				  				
 				</tr>
-				<tr style="color:#555555;">
-					<td style="width:48%">
+				<tr>
+					<td>
 						I-TEF: 
 					</td>				  				
 					<td>  
@@ -108,13 +120,7 @@
 					</td>				  				
 				</tr>';			
 		
-		print	'<tr style="color:#555555;">
-						<td style="width:48%">
-						</td>				
-						<td>
-							<input class=button--general style="margin-left:10px" type="submit" value="Update">
-						</td>  
-					</tr></table>';
+		print	'</table><br><hr><input type="submit" value="Update">';
 		
 		//while ($row =$result_loc->fetch_assoc()){	 
 		//echo "<tr>";

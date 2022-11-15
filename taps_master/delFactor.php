@@ -1,21 +1,30 @@
-
 <?php  
 	include ('iconn.php');
 	include 'header2.php';
 	
+	print'<h2>Delete Factor</h2><hr>';
 	print '	
+		<style>
+			input[type=submit] {
+				background-color: #87ceeb;
+				color: white;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+				width:100
+			}
+		</style>
+		
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		<script  type="text/javascript">		
-			function editClick(){
-				
-				
+			function editClick(){			
 				location.replace("updatelocationform.php")
 			}
 		
 			function delClick(){
 				alert("delete click");
 			}
-		
 		
 			function showSuccessAlert(){
 				alert("Success");
@@ -26,7 +35,7 @@
 	//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 	//getMediaData();
 	//} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
-		getMediaData();
+	getFactorData();
 	//}	 
 		
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -35,7 +44,7 @@
 			$u= "delete from factor where compound='{$scompound}';";						
 			if ($dbc->query($u) === TRUE) {
 				// $updated=TRUE;							
-					echo '<script>alert("Delete Success");
+				echo '<script>alert("Delete Success");
 				window.location.href = "delFactor.php"; </script>';
 			}else{
 				echo "Error: " . $dbc->error;
@@ -49,8 +58,7 @@
 		exit();
 	} 
 
-	function getMediaData(){
-		
+	function getFactorData(){		
 		if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
 		{
 			print '<p style="color:red;">Could not connect to the database:<br>'.mysqli_connect_error().'.</p>';
@@ -65,20 +73,13 @@
 			exit();
 		}		
 		
-		print '<form action="delFactor.php" method="post">';
-		
-		echo '<br>';
-		
-		//echo '<table class="table" cellspacing="0" width="100%">
-				//<tr>
-				//	<th>Code</th>
-				//	<th>Location</th>
-				//	<th>Action</th>
-				//</tr>';
-
-		print '<tr style="color:#555555;">
-			<td style="width:48%;text-align:right">	
-				<label for="lid">Media Name</label>	  				
+		print '<form action="delFactor.php" method="post">';		
+		print '<br>';		
+		print '<table>';
+		print '<tr>
+				<td>	
+					<label for="lid">Factor: </label>	  				
+				</td>
 				<td>
 				<select style="margin-left:10px" name="compound">';
 					while ($r_l=$result_loc->fetch_object()){
@@ -86,32 +87,21 @@
 							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') '.$r_l->who_tef.'</option>';}
 						else{
 							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.$r_l->who_tef.'</option>';}
-				};				
-		
-		print	'<tr style="color:#555555;">
-						<td style="width:48%;text-align:right">
-						</td>				
-						<td>
-							<input class=button--general style="margin-left:10px" type="submit" value="delete">
-						</td>  
-					</tr></table>';
+					};				
+		print '</select></td></tr></table><br><hr><input type="submit" value="delete">';
 
 			//while ($row =$result_loc->fetch_assoc()){
-				
 			//echo "<tr>";
 			//echo "<td id='code'>" . $row["code"]."</td>";
 			//echo "<td id='location'>" . $row["location"]."</td>";
-			//echo "<td>";
-			
+			//echo "<td>";			
 			//echo "<input id='btn-edit'  type='submit' value='Update'>";
-			
 			//echo "<a class='btn btn-edit btn-sm' href='updateLocation.php?code=". $row["code"]."& location=". $row["location"]."'  >EDIT</a> ";
 			//echo "<a class='btn btn-delete btn-sm'    href='location.php?del_Item=". $row["code"]."'>Delete</a> ";
 			//echo "</td>";
 			//echo "</tr>";	 
-				
 			//}
-		echo '</table>';
+		print '</form>';
 	}
 	include 'footer.html';
 ?>

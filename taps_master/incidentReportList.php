@@ -3,28 +3,21 @@
 		<link href="assets/style.css" rel="stylesheet" type="text/css" />
 		<style> 
 			input[type=button], input[type=submit], input[type=reset] {
-				background-color: #4D9BF3;
-				border: none;
+				background-color: #87ceeb;
 				color: white;
-				padding: 16px 32px;
-				text-decoration: none;
-				margin: 4px 2px;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
 				cursor: pointer;
+				width:100
 			}
 			
-			/*table {  
-				border-collapse: collapse;  
-			} */ 
 			.inline{   
 				display: inline-block;   
 				float: right;   
 				margin: 20px 0px;   
 			}   
 			
-			/*input, button{   
-				height: 34px;   
-			}*/
-		
 			.pagination {   
 				display: inline-block;   
 			}   
@@ -48,14 +41,9 @@
 
 	<body>
 		<?php
-			//namespace Phppot;
-
-			//use Phppot\DataSource;
 			require_once "connection.php";  
 			require_once "iconn.php";
 			require_once "header2.php";
-			//require_once __DIR__ . '/lib/ImageModel.php';
-			//$imageModel = new ImageModel();
 			
 			$_SESSION['prev_incid'] = basename($_SERVER['PHP_SELF']);
 
@@ -110,12 +98,11 @@
 		?>
 
 
-		<div class="container">
-			<br> 
+		<div class="container"> 
 			<h2>All Incident Report</h2>
-			<br> 
+			<hr> 
 			<div>
-				<form class="post-form" action="sitePhotoList.php" method="post">
+				<form class="post-form" action="incidentReportList.php" method="post">
 					<table>
 						<td style="width:25%">
 							<label>Site Code:</label>
@@ -195,7 +182,8 @@
 					</tbody>
 				</table>
 				<!--a href="insert.php" class="btn-link">Add Image</a-->
-
+				<br>
+				<hr>
 				<div class="pagination">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM site_photo";   
@@ -217,23 +205,23 @@
 						$pagLink = "";       
 					
 						if($page>=2){   
-							echo "<a href='sitePhotoList.php?page=".($page-1)."'>  Prev </a>";   
+							echo "<a href='incidentReportList.php?page=".($page-1)."'>  Prev </a>";   
 						}       
 								
 						for ($i=1; $i<=$total_pages; $i++) {   
 						if ($i == $page) {   
-							$pagLink .= "<a class = 'active' href='sitePhotoList.php?page="  
+							$pagLink .= "<a class = 'active' href='incidentReportList.php?page="  
 																.$i."'>".$i." </a>";   
 						}               
 						else  {   
-							$pagLink .= "<a href='sitePhotoList.php?page=".$i."'>   
+							$pagLink .= "<a href='incidentReportList.php?page=".$i."'>   
 																".$i." </a>";     
 						}   
 						};     
 						echo $pagLink;   
 				
 						if($page<$total_pages){   
-							echo "<a href='sitePhotoList.php?page=".($page+1)."'>  Next </a>";   
+							echo "<a href='incidentReportList.php?page=".($page+1)."'>  Next </a>";   
 						}
 					?>    
 				</div> 
@@ -274,7 +262,7 @@
 			function go2Page(){   
 				var page = document.getElementById("page").value;   
 				page = ((page><?php echo $total_pages; ?>)?<?php echo $total_pages; ?>:((page<1)?1:page));   
-				window.location.href = 'sitePhotoList.php?page='+page;   
+				window.location.href = 'incidentReportList.php?page='+page;   
 			}  
 		</script>  
 	</body>

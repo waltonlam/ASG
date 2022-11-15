@@ -24,6 +24,7 @@
 			exit();
 		}		
 		
+		echo '<h2>Show All Factor</h2><hr>';
 		echo '<br>';		
 		echo '<input type="text" id="myInput" onkeyup="search()" placeholder="Search for compound.." title="Type in a compound" placeholder="Search..">';
 		echo '<br>';
@@ -42,7 +43,7 @@
 			echo "<td>" . $row["i_tef"]."</td>";
 			echo "</tr>";				
 		}					
-		echo '</table>';
+		echo '</table><br><hr>';
 	}
 	include 'footer.html';
 ?>

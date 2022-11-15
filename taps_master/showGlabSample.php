@@ -3,13 +3,13 @@
 		<link href="assets/style.css" rel="stylesheet" type="text/css" />
 		<style> 
 			input[type=button], input[type=submit], input[type=reset] {
-				background-color: #4D9BF3;
-				border: none;
+				background-color: #87ceeb;
 				color: white;
-				padding: 16px 32px;
-				text-decoration: none;
-				margin: 4px 2px;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
 				cursor: pointer;
+				width:100
 			}
 			
 			.inline{   
@@ -238,7 +238,7 @@
 					?>     
 					</tbody>
 				</table>
-
+				<br><hr>
 				<div class="pagination">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM glab_sample ";

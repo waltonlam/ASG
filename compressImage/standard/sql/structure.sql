@@ -1,35 +1,3 @@
---
--- Database: `image_upload`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_image`
---
-
-CREATE TABLE `tbl_image` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `tbl_image`
---
-ALTER TABLE `tbl_image`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `tbl_image`
---
-ALTER TABLE `tbl_image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+version https://git-lfs.github.com/spec/v1
+oid sha256:2946b18cf6933b9cdecdadab6312b6bfe852862e8340d2df46ce80f35f7fa5a4
+size 587

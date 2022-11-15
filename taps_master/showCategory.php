@@ -160,8 +160,8 @@
 		?>    
 	
 		<div class="container">   
-			<br> 
 			<h2>All Compound Categories</h2>  
+			<hr>
 			<div>
 				<input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search..">
 				<table id="mediaTb" class="table table-striped table-condensed table-bordered">   
@@ -185,7 +185,7 @@
 						?>     
 					</tbody>   
 				</table>   
-	
+				<br><hr>
 				<div class="pagination">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM category";     

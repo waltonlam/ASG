@@ -49,8 +49,9 @@ $result = $imageModel->selectImageById($_GET["id"]);
 			}
 		?>
 		<div>
-			<h1>Edit Incident Report</h1>
+			<h2>Edit Incident Report</h2>
 			<span id="message" style="color:red"></span>
+			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()">
 				<table>
 					<tr>	
@@ -85,14 +86,10 @@ $result = $imageModel->selectImageById($_GET["id"]);
 							</div>
 						</td>
 					</tr>
-					<tr>
-						<td></td>
-						<td>
-							<input type="submit" name="submit" value="Submit"> 
-							<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>
-						</td>	
-					</tr>
-				</table>	
+				</table>				
+				<hr>
+				<input type="submit" name="submit" value="Submit"> 
+				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
 			</form>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
