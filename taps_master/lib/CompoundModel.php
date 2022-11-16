@@ -86,21 +86,35 @@ class CompoundModel
         return $result;
     }
 
-    public function calPercentile($compound, $compoundGrp, $year){
-        $sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_ppbv ORDER BY conc_ppbv SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
-        WHERE `compound` = ? and `compound_grp` = ? and `strt_date` BETWEEN ? and ? ";
+    public function calPercentile($siteId, $compound, $compoundGrp, $strtDate){
+        $sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
+        WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 		
 		$paramType = 'ssss';
         $paramValue = array(
+            $siteId,
             $compound,
 			$compoundGrp,
-			"20".$year."-01-01",
-			"20".$year."-12-31"
+			$strtDate
         );
         $result = $this->conn->select($sql, $paramType, $paramValue);
         return $result;
     }
 	
+    public function calAvgFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate){
+        $sql = "SELECT avg(conc_g_m3) as avg_conc_g_m3 FROM glab_sample 
+        WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+		
+		$paramType = 'ssss';
+        $paramValue = array(
+            $siteId,
+            $compound,
+			$compoundGrp,
+			$strtDate
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
 
     public function updateCompound($imageData, $id, $site_code, $remark)
     {

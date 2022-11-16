@@ -45,8 +45,14 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
 				<br>
 				<table>
+				<tr>	
+						<td style="width: 330px; vertical-align: top;">Sample ID: </td>
+						<td>
+							<input type="text" name="sampleId" value ="<?php echo $result[0]["sample_id"]?>" />
+						</td>
+					</tr>
 					<tr>	
-						<td style="width: 330px; vertical-align: top;">Compound: </td>
+						<td style="vertical-align: top;">Compound: </td>
 						<td>
 							<input type="text" name="compound" value ="<?php echo $result[0]["compound"]?>" />
 						</td>

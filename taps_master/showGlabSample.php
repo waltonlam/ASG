@@ -1,3 +1,8 @@
+<?php
+	namespace Phppot;
+	use Phppot\DataSource;
+?>
+
 <html>
 	<head>
 		<link href="assets/style.css" rel="stylesheet" type="text/css" />
@@ -44,6 +49,8 @@
 			require_once "connection.php";  
 			require_once "iconn.php";
 			require_once "header2.php";
+			require_once __DIR__ . '/lib/CompoundModel.php';
+			$compoundModel = new CompoundModel();
 
 			//mark that the user has been on this page 
 			$_SESSION['previous'] = basename($_SERVER['PHP_SELF']);
@@ -206,16 +213,33 @@
 							<td>
 								<?php echo $row["compound_grp"]?>
 							</td>
-							<?php
-								if($row["conc_g_m3"] > 5){
+							<?php								
+								$avgFrmThreeYrs = 0;
+								$percentile = 0;
+								$percentile = $compoundModel->calPercentile($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								if(!empty($row["conc_g_m3"])){
+									if($row["conc_g_m3"] > $percentile or $row["conc_g_m3"] > $avgFrmThreeYrs){
 							?>
-								<td bgcolor= "yellow">
-							<?php }else{ ?>
-								<td>								
-							<?php }?>
-							
-								<?php echo $row["conc_g_m3"]?>
-							</td>
+										<td bgcolor= "yellow">
+											<?php echo $row["conc_g_m3"]?>
+										</td>
+							<?php 
+									}else{
+							?>		
+									<td>
+										<?php echo $row["conc_g_m3"]?>
+									</td>	
+							<?php 	
+									}	
+								}else{
+							?>
+								<td>
+									<?php echo $row["conc_g_m3"]?>
+								</td>
+							<?php
+								}
+							?>								
 
 							<td>
 								<?php echo $row["samp_mthd"]?>

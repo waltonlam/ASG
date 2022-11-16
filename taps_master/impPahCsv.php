@@ -66,7 +66,8 @@ if (isset($_POST["import"])) {
 						$fieldBlank = "Y";
 					}
 					$siteId = substr($sampleId, 0, 3);						
-					$strtDate = "20".substr($sampleId,6, -4)."/".substr($sampleId,8, -2)."/".substr($sampleId,10);
+					//$strtDate = "20".substr($sampleId,6, -4)."/".substr($sampleId,8, -2)."/".substr($sampleId,10);
+					$strtDate = "20".substr($sampleId,6, 2)."/".substr($sampleId,10, 2)."/".substr($sampleId,8,2);
 				}
 				
 				if (strpos ($key,'Compounds') !== false){
