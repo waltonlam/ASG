@@ -216,20 +216,33 @@
 							<?php								
 								$avgFrmThreeYrs = 0;
 								$percentile = 0;
-								$percentile = $compoundModel->calPercentile($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
-								$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								
+								//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								//print_r($last3YrsConcList);
+								//$percentile = $compoundModel->calPercentile($last3YrsConcList, 99);
+								//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								
+								//echo $percentile[0]["99th_Per"];
+								//echo $avgFrmThreeYrs[0]["avg_conc_g_m3"]; 
 								if(!empty($row["conc_g_m3"])){
-									if($row["conc_g_m3"] > $percentile or $row["conc_g_m3"] > $avgFrmThreeYrs){
+									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									//print_r($last3YrsConcList);
+									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+									//echo "Percentile: ".$percentile;
+									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								
+									if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+										or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
 							?>
-										<td bgcolor= "yellow">
+										<td bgcolor= "red">
 											<?php echo $row["conc_g_m3"]?>
 										</td>
 							<?php 
 									}else{
 							?>		
-									<td>
-										<?php echo $row["conc_g_m3"]?>
-									</td>	
+										<td>
+											<?php echo $row["conc_g_m3"]?>
+										</td>	
 							<?php 	
 									}	
 								}else{

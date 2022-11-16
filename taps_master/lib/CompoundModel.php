@@ -86,10 +86,37 @@ class CompoundModel
         return $result;
     }
 
-    public function calPercentile($siteId, $compound, $compoundGrp, $strtDate){
-        $sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
-        WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+    public function calPercentile($data, $percentile){
+        if( 0 < $percentile && $percentile < 1 ) {
+            $p = $percentile;
+        }else if( 1 < $percentile && $percentile <= 100 ) {
+            $p = $percentile * .01;
+        }else {
+            return "";
+        }
+        $count = count($data);
+        $allindex = ($count-1)*$p;
+        $intvalindex = intval($allindex);
+        $floatval = $allindex - $intvalindex;
+        sort($data);
+        if(!is_float($floatval)){
+            $result = $data[$intvalindex]["conc_g_m3"];
+        }else {
+            if($count > $intvalindex+1){
+                $result = $floatval*($data[$intvalindex+1]["conc_g_m3"] - $data[$intvalindex]["conc_g_m3"]) + $data[$intvalindex]["conc_g_m3"];
+            }else{
+                $result = $data[$intvalindex]["conc_g_m3"];
+            }
+        }
+        return $result;
+    }
+
+    public function getConcFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate){
+        //$sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
+        //WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 		
+        $sql = "SELECT conc_g_m3 FROM glab_sample WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+
 		$paramType = 'ssss';
         $paramValue = array(
             $siteId,
