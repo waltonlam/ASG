@@ -115,7 +115,7 @@ class CompoundModel
         //$sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
         //WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 		
-        $sql = "SELECT conc_g_m3 FROM glab_sample WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+        $sql = "SELECT conc_g_m3 FROM glab_sample WHERE conc_g_m3 is not null and site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 
 		$paramType = 'ssss';
         $paramValue = array(
