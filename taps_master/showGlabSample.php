@@ -224,7 +224,7 @@
 								
 								//echo $percentile[0]["99th_Per"];
 								//echo $avgFrmThreeYrs[0]["avg_conc_g_m3"]; 
-								if(!empty($row["conc_g_m3"])){
+								if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
 									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 									//print_r($last3YrsConcList);
 									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);

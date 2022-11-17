@@ -58,7 +58,7 @@ class CompoundModel
     }
 	
 	public function calAvgFieldBlank($compound, $compoundGrp, $year){
-        $sql = "SELECT avg(`conc_ppbv`) as avg_ppbv FROM `glab_sample` WHERE `compound` = ? and `compound_grp` = ? and `field_blank` = 'Y' and `strt_date` BETWEEN ? and ? ";
+        $sql = "SELECT avg(conc_g_m3) as avg_conc_g_m3 FROM glab_sample WHERE conc_g_m3 is not null and compound = ? and compound_grp = ? and field_blank = 'Y' and strt_date BETWEEN ? and ? ";
 		
 		$paramType = 'ssss';
         $paramValue = array(
@@ -72,7 +72,7 @@ class CompoundModel
     }
 	
     public function calAvgFieldBlankSameLoc($siteId, $compound, $compoundGrp, $year){
-        $sql = "SELECT avg(`conc_ppbv`) as avg_ppbv FROM `glab_sample` WHERE `site_id` = ? and `compound` = ? and `compound_grp` = ? and `field_blank` = 'Y' and `strt_date` BETWEEN ? and ? ";
+        $sql = "SELECT avg(conc_g_m3) as avg_conc_g_m3 FROM glab_sample WHERE conc_g_m3 is not null and site_id = ? and compound = ? and compound_grp = ? and field_blank = 'Y' and strt_date BETWEEN ? and ? ";
 		
 		$paramType = 'sssss';
         $paramValue = array(
@@ -115,7 +115,7 @@ class CompoundModel
         //$sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
         //WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 		
-        $sql = "SELECT conc_g_m3 FROM glab_sample WHERE conc_g_m3 is not null and site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+        $sql = "SELECT conc_g_m3 FROM glab_sample WHERE conc_g_m3 is not null and field_blank = 'N' and site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
 
 		$paramType = 'ssss';
         $paramValue = array(
@@ -130,7 +130,7 @@ class CompoundModel
 	
     public function calAvgFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate){
         $sql = "SELECT avg(conc_g_m3) as avg_conc_g_m3 FROM glab_sample 
-        WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
+        WHERE conc_g_m3 is not null and site_id = ? and compound = ? and compound_grp = ? and field_blank = 'N' and YEAR(strt_date) >= YEAR(?) - 3 ";
 		
 		$paramType = 'ssss';
         $paramValue = array(

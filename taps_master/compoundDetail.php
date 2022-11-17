@@ -73,13 +73,13 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 					<tr>	
 						<td style="vertical-align: top;">[<?php echo $result[0]["site_id"]?>] Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
 						<td>
-							<input type="text" name="avg_ppbv_sameLoc" value="<?php echo number_format((float)$yearFieldBlankAvgSameLoc[0]["avg_ppbv"], 2, '.', '')?>" disabled/>
+							<input type="text" name="avg_conc_g_m3_sameLoc" value="<?php echo number_format((float)$yearFieldBlankAvgSameLoc[0]["avg_conc_g_m3"], 2, '.', '')?>" disabled/>
 						</td>
 					</tr>
 					<tr>	
 						<td style="vertical-align: top;">Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
 						<td>
-							<input type="text" name="avg_ppbv" value="<?php echo number_format((float)$yearFieldBlankAvg[0]["avg_ppbv"], 2, '.', '')?>" disabled/>
+							<input type="text" name="avg_conc_g_m3" value="<?php echo number_format((float)$yearFieldBlankAvg[0]["avg_conc_g_m3"], 2, '.', '')?>" disabled/>
 						</td>
 					</tr>
 					<?php } ?>
