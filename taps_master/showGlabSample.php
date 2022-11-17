@@ -41,7 +41,13 @@
 			.pagination a:hover:not(.active) {   
 				background-color: #848282;   
 			}   
-		</style>   
+		</style>  
+
+		<script type="text/javascript">
+			function hideTr() {
+				console.log('testing123');
+			}
+		</script>
 	</head>
 
 	<body>
@@ -52,7 +58,7 @@
 			require_once __DIR__ . '/lib/CompoundModel.php';
 			$compoundModel = new CompoundModel();
 
-			echo "User role: ".$_SESSION['vuserid']."      ".$_SESSION['utp'];
+			//echo "User role: ".$_SESSION['vuserid']."      ".$_SESSION['utp'];
 
 			//mark that the user has been on this page 
 			$_SESSION['previous'] = basename($_SERVER['PHP_SELF']);
@@ -181,11 +187,29 @@
 						</tr>
 					</thead> 
 					<tbody>   
-					<?php     
-						while ($row = mysqli_fetch_array($rs_result)) {    
+					<?php  
+						while ($row = mysqli_fetch_array($rs_result)) {   
+							$hide='';
+							$avgFrmThreeYrs = 0;
+							$percentile = 0;
+
+							if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
+								$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								//print_r($last3YrsConcList);
+								$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+								//echo "Percentile: ".$percentile;
+								$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								if($_SESSION['utp'] == 1){
+									if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+										or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
+											$hide = ' style="display: none;"';
+									} 
+								}
+							}
+
 							// Display each field of the records.    
 					?>     
-						<tr> 
+						<tr <?php echo $hide;?>> 
 							<td>
 								<a href="compoundDetail.php?id=<?php echo $row['id']; ?>" class="btn-action">
 									<?php echo $row["sample_id"]?>
@@ -216,15 +240,12 @@
 								<?php echo $row["compound_grp"]?>
 							</td>
 							<?php								
-								$avgFrmThreeYrs = 0;
-								$percentile = 0;
-								
 								if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
-									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 									//print_r($last3YrsConcList);
-									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+									//$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
 									//echo "Percentile: ".$percentile;
-									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 									
 									if($_SESSION['utp'] == 0){
 										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
@@ -249,7 +270,7 @@
 											<?php echo " "?>
 										</td>
 							<?php
-										}else{
+									}else{
 							?>				
 										<td>
 											<?php echo $row["conc_g_m3"]?>

@@ -266,6 +266,43 @@ print '<html>
 			}else{
 				print '
 				<div class="navbar">
+
+					<div class="dropdown">
+						<button class="dropbtn" onclick="myFunction()">Site
+							<i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-content" id="myDropdown">														
+							<a href="showSite.php">Show All</a>
+						</div>
+					</div> 
+			
+					<div class="dropdown">
+						<button class="dropbtn" onclick="myFunction1()">Compound
+							<i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-content" id="myDropdown1">
+							<a href="showCompound.php">Show All</a>
+						</div>
+					</div> 				 
+				
+					<div class="dropdown">
+						<button class="dropbtn" onclick="myFunction5()">Category
+							<i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-content" id="myDropdown5">
+							<a href="showCategory.php">Show All</a>
+						</div>
+					</div> 		
+					
+					<div class="dropdown">
+						<button class="dropbtn" onclick="myFunction12()">Factor
+							<i class="fa fa-caret-down"></i>
+						</button>
+						<div class="dropdown-content" id="myDropdown12">
+							<a href="showFactor.php">Show All</a>
+						</div>
+					</div> 
+
 					<div class="dropdown">
 						<button class="dropbtn" onclick="myFunction4()">Glab Template
 							<i class="fa fa-caret-down"></i>
