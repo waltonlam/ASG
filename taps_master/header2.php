@@ -271,6 +271,7 @@ print '<html>
 							<i class="fa fa-caret-down"></i>
 						</button>
 						<div class="dropdown-content" id="myDropdown4">
+							<a href="showGlabSample.php">Show All</a>
 							<a href="exportReport.php">Export Report</a>
 						</div>
 					</div> 			  

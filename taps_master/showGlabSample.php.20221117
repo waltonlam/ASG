@@ -52,8 +52,6 @@
 			require_once __DIR__ . '/lib/CompoundModel.php';
 			$compoundModel = new CompoundModel();
 
-			echo "User role: ".$_SESSION['vuserid']."      ".$_SESSION['utp'];
-
 			//mark that the user has been on this page 
 			$_SESSION['previous'] = basename($_SERVER['PHP_SELF']);
 
@@ -95,23 +93,23 @@
 			//if($_SERVER['REQUEST_METHOD'] == 'POST' or $_SESSION['ttl_page'] > 1){
 			//if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
-			if(!isset($_SESSION["site_id"]) or $_SERVER['REQUEST_METHOD'] == 'POST'){
-				$_SESSION['site_id'] = $_POST['site_id'];
-				$_SESSION['dateFrom'] = $_POST['dateFrom'];
-				$_SESSION['dateTo'] = $_POST['dateTo'];
-			}
+				if(!isset($_SESSION["site_id"]) or $_SERVER['REQUEST_METHOD'] == 'POST'){
+					$_SESSION['site_id'] = $_POST['site_id'];
+					$_SESSION['dateFrom'] = $_POST['dateFrom'];
+					$_SESSION['dateTo'] = $_POST['dateTo'];
+				}
 
-			$query = "SELECT * FROM glab_sample "; 
-			if(!empty($_SESSION['site_id'])){
-				$query .= " where site_id = '".$_SESSION['site_id']."' ";
-			}
+				$query = "SELECT * FROM glab_sample "; 
+				if(!empty($_SESSION['site_id'])){
+					$query .= " where site_id = '".$_SESSION['site_id']."' ";
+				}
 
-			if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-				$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
-			}
-			
-			$query .= " order by sample_id LIMIT $start_from, $per_page_record";     
-			$rs_result = mysqli_query ($conn, $query);  
+				if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+					$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+				}
+				
+				$query .= " order by sample_id LIMIT $start_from, $per_page_record";     
+				$rs_result = mysqli_query ($conn, $query);  
 			//}
 		?>
 
@@ -219,49 +217,39 @@
 								$avgFrmThreeYrs = 0;
 								$percentile = 0;
 								
+								//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								//print_r($last3YrsConcList);
+								//$percentile = $compoundModel->calPercentile($last3YrsConcList, 99);
+								//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+								
+								//echo $percentile[0]["99th_Per"];
+								//echo $avgFrmThreeYrs[0]["avg_conc_g_m3"]; 
 								if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
 									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 									//print_r($last3YrsConcList);
 									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
 									//echo "Percentile: ".$percentile;
 									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
-									
-									if($_SESSION['utp'] == 0){
-										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
-											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
+								
+									if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+										or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
 							?>
-											<td bgcolor= "red">
-												<?php echo $row["conc_g_m3"]?>
-											</td>
+										<td bgcolor= "red">
+											<?php echo $row["conc_g_m3"]?>
+										</td>
 							<?php 
-										}else{
+									}else{
 							?>		
 										<td>
 											<?php echo $row["conc_g_m3"]?>
 										</td>	
 							<?php 	
-										}	
-									}else{
-										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
-											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
-							?>
-										<td>
-											<?php echo " "?>
-										</td>
-							<?php
-										}else{
-							?>				
-										<td>
-											<?php echo $row["conc_g_m3"]?>
-										</td>
-							<?php
-										}
-									}
+									}	
 								}else{
-							?>	
-									<td>
-										<?php echo $row["conc_g_m3"]?>
-									</td>
+							?>
+								<td>
+									<?php echo $row["conc_g_m3"]?>
+								</td>
 							<?php
 								}
 							?>								
