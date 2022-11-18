@@ -14,10 +14,27 @@ $compoundModel = new CompoundModel();
 $result = $compoundModel->selectCompoundById($_GET["id"]);
 $yearFieldBlankAvg = 0;
 $yearFieldBlankAvgSameLoc = 0;
+$percentile = 0;
+$last3YrsConcList;
+$avgFrmThreeYrs = 0;
+$coLocateSample;
+$percentageDiff = 0;
 
 if(substr($result[0]["sample_id"],5,1) == 'F'){
 	$yearFieldBlankAvg = $compoundModel->calAvgFieldBlank($result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
 	$yearFieldBlankAvgSameLoc = $compoundModel->calAvgFieldBlankSameLoc($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
+	
+}else if(substr($result[0]["sample_id"],5,1) == 'S'){
+	if(substr($result[0]["sample_id"],-2) != 'A2'){
+		$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"]);
+		$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+		$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"]);
+	}
+
+	if(strlen($result[0]["sample_id"]) > 12){
+		$coLocateSample = $compoundModel->getCoLocatedSample($result[0]["sample_id"], $result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"]);
+		$percentageDiff = $compoundModel->calPercentageDiff($result[0]["conc_g_m3"], $coLocateSample[0]["conc_g_m3"]);
+	}
 }
 
 ?>
@@ -41,16 +58,22 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 			<h2>Compound Detail</h2>
 			<hr>
 			<!--span id="message" style="color:red"></span-->
-			<!--form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()"-->
+			<!--form action="?id=<?php //echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()"-->
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
 				<br>
 				<table>
-				<tr>	
+					<tr>	
 						<td style="width: 330px; vertical-align: top;">Sample ID: </td>
 						<td>
 							<input type="text" name="sampleId" value ="<?php echo $result[0]["sample_id"]?>" />
 						</td>
 					</tr>
+					<tr>	
+						<td style="vertical-align: top;">Site: </td>
+						<td>
+							<input type="text" name="site_id" value="<?php echo $result[0]["site_id"]?>" />
+						</td>
+					</tr>	
 					<tr>	
 						<td style="vertical-align: top;">Compound: </td>
 						<td>
@@ -64,11 +87,49 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 						</td>
 					</tr>
 					<tr>	
-						<td style="vertical-align: top;">Site: </td>
+						<td style="vertical-align: top;">CONC (µg/m3): </td>
 						<td>
-							<input type="text" name="site_id" value="<?php echo $result[0]["site_id"]?>" />
+							<input type="text" name="conc_g_m3" value="<?php echo $result[0]["conc_g_m3"]?>" />
 						</td>
 					</tr>	
+
+					<?php if(substr($result[0]["sample_id"],5,1) == 'S' and substr($result[0]["sample_id"],-2) != 'A2'){ ?>
+					<tr>	
+						<td style="vertical-align: top;"> 99th Percentile of Last 3 Years: </td>
+						<td>
+							<input type="text" name="percentile" value="<?php echo number_format((float)$percentile, 2, '.', '')?>" readonly/>
+						</td>
+					</tr>
+					<tr>	
+						<td style="vertical-align: top;">CONC (µg/m3) Average of Last 3 Years: </td>
+						<td>
+							<input type="text" name="avg_conc_g_m3" value="<?php echo number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '')?>" readonly/>
+						</td>
+					</tr>
+					<?php } ?>
+
+					<?php if(strlen($result[0]["sample_id"]) > 12){ ?>
+					<tr>	
+						<td style="vertical-align: top;">Co-located Sample ID: </td>
+						<td>
+							<input type="text" name="coLocatedSampleId" value="<?php echo $coLocateSample[0]["sample_id"]?>" readonly/>
+						</td>
+					</tr>
+					<tr>	
+						<td style="vertical-align: top;">CONC (µg/m3)  of Co-located Sample: </td>
+						<td>
+							<input type="text" name="concCoLocated" value="<?php echo number_format((float)$coLocateSample[0]["conc_g_m3"], 2, '.', '')?>" readonly/>
+						</td>
+					</tr>
+
+					<tr>	
+						<td style="vertical-align: top;"> Percentage Difference of Co-located Sample: </td>
+						<td>
+							<input type="text" name="percentageDiff" value="<?php echo number_format((float)$percentageDiff, 2, '.', '').'%'?>" readonly/>
+						</td>
+					</tr>
+					<?php } ?>
+
 					<?php if(substr($result[0]["sample_id"],5,1) == 'F'){ ?>
 					<tr>	
 						<td style="vertical-align: top;">[<?php echo $result[0]["site_id"]?>] Yearly Field Blank Average of 20<?php echo substr($result[0]["sample_id"],6,2) ?>: </td>
@@ -83,16 +144,10 @@ if(substr($result[0]["sample_id"],5,1) == 'F'){
 						</td>
 					</tr>
 					<?php } ?>
-					<!--tr>
-						<td></td>
-						<td>
-							<input type="submit" name="submit" value="Submit"> 
-							<input type="button" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>
-						</td>	
-					</tr-->
 				</table>
 				<br>
 				<hr>
+				<!--input type="submit" name="submit" value="Submit"--> 
 				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>	
 			</form>
 		</div>
