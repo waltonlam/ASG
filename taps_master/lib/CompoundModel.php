@@ -16,26 +16,12 @@ class CompoundModel {
         return $result;
     }
 
-    public function insertCompound($imageData, $site_code, $remark) {
-        //$create_date = date('Y-m-d'); 
-        $create_by = $_SESSION['vuserid'];
-        //echo $create_date;
-
-        //print_r($imageData);
-        $query = "INSERT INTO site_photo(name,image,site_code,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
-        $paramType = 'ssssss';
-
+    public function insertGlabSample($site_id) {
+        $query = "INSERT INTO glab_sample(site_code,create_date,last_upd_date) VALUES(?,CURDATE(),CURDATE())";
+        $paramType = 's';
         $paramValue = array(
-            $imageData[0],
-            $imageData[1],
-            $site_code,
-            $remark,
-            //"'".$create_date."'",
-            //"'".$create_date."'",
-            $create_by,
-            $create_by
+            $site_id
         );
-
         $id = $this->conn->insert($query, $paramType, $paramValue);
         return $id;
     }
@@ -186,15 +172,39 @@ class CompoundModel {
         return $result;
     }
 
-    public function updateCompound($imageData, $id, $site_code, $remark) {
-        $query = "UPDATE glab_sample SET name=?, image=?, site_code=?, remark=? WHERE id=?";
-        $paramType = 'ssssi';
+    public function calTEF($tefRatio, $sampleId, $siteId) {
+        if($tefRatio == "I-TEF"){
+            $tefRatio = "i_tef";
+        }else if($tefRatio == "WHO-TEF-1998"){
+            $tefRatio = "who_tef_1998";
+        }else if($tefRatio == "WHO-TEF-2005"){
+            $tefRatio = "who_tef_2005";
+        }
+
+        $sql = "SELECT COALESCE (SUM(g.conc_ppbv * f.".$tefRatio."),0) AS total_tef FROM glab_sample g 
+                    LEFT JOIN factor f ON g.compound = f.compound COLLATE utf8mb4_unicode_ci 
+                    WHERE g.site_id = ? 
+                    AND g.sample_id LIKE ? 
+                    AND g.compound NOT LIKE 'Total%' 
+                    AND g.compound_grp IN ('DF', 'DI_PB') 
+                    AND g.field_blank = 'N' ";
+		
+		$paramType = 'ss';
         $paramValue = array(
-            $imageData[0],
-            $imageData[1],
-            $site_code, 
-            $remark,
-            $_GET["id"]
+            $siteId,
+            $sampleId."%"
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+
+    public function updateSiteIdSampleId($id, $sample_id, $site_id) {
+        $query = "UPDATE glab_sample SET sample_id = ?, site_id = ? WHERE id=?";
+        $paramType = 'sss';
+        $paramValue = array(
+            $sample_id,
+            $site_id,
+            $id
         );
         $id = $this->conn->execute($query, $paramType, $paramValue);
         return $id;
