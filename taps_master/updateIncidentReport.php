@@ -1,41 +1,46 @@
 <?php
-namespace Phppot;
-use Phppot\DataSource;
-require_once "iconn.php";
-require_once "header2.php";
-require_once __DIR__ . '/lib/ImageModel.php';
-$imageModel = new ImageModel();
-if (isset($_POST["submit"])) {
-    $result = $imageModel->uploadImage();
-    $id = $imageModel->updateImage($result, $_GET["id"], $_POST['site_code'], $_POST['remark']);
-	/*if (empty($id)) {
-		echo '<script type="text/javascript"> 
-				document.getElementById("message").innerHTML += "The Incident Report is updated."; 
-			  </script>';
-		//print '<span id="message" style="color:red">The Incident Report is updated.</span>';
-		//$_SESSION['message'] = "The Incident Report is updated.";
-	} else {
-		echo "<script> 
-       			document.getElementById('message').innerHTML += 'Failed to update Incident Report.'; 
-			  </script>";
-		//print '<span id="message" style="color:red">Failed to update Incident Report.</span>';
-		//$_SESSION['message'] = "Failed to update Incident Report.";
+	namespace Phppot;
+	use Phppot\DataSource;
+	require_once "iconn.php";
+	require_once "header2.php";
+	require_once __DIR__ . '/lib/ImageModel.php';
+	$imageModel = new ImageModel();
+
+	/*if (isset($_POST["submit"])) {
+		$result = $imageModel->uploadImage();
+		$id = $imageModel->updateImage($result, $_GET["id"], $_POST['site_code'], $_POST['remark']);
 	}*/
-}
-$result = $imageModel->selectImageById($_GET["id"]);
+
+	if(isset($_POST['delete'])){
+		$all_id = $_POST['site_photo_delete_id'];
+		$extract_id = implode(',' , $all_id);
+		// echo $extract_id;
+
+		$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
+		//$query_run = mysqli_query($con, $query);
+		$deleteQeury = $dbc->query($query);
+		if($deleteQeury){
+			$msg = "Site Photos Deleted Successfully";
+		}else{
+			$msg = "Site Photos Not Deleted";
+		}
+	}
+
+	$result = $imageModel->getIncidentReportById($_GET["id"]);
 ?>
+
 <html>
 	<head>
 		<link href="assets/style.css" rel="stylesheet" type="text/css" />
 		<style>
 			input[type=button], input[type=submit], input[type=reset] {
-				background-color: #4D9BF3;
-				border: none;
+				background-color: #87ceeb;
 				color: white;
-				padding: 16px 32px;
-				text-decoration: none;
-				margin: 4px 2px;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
 				cursor: pointer;
+				width:100
 			}
 		</style>
 	</head>
@@ -49,8 +54,8 @@ $result = $imageModel->selectImageById($_GET["id"]);
 			}
 		?>
 		<div>
-			<h2>Edit Incident Report</h2>
-			<span id="message" style="color:red"></span>
+			<h2>View Incident Report</h2>
+			<span id="message" style="color:red"><?php echo $msg ?></span>
 			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()">
 				<table>
@@ -60,7 +65,7 @@ $result = $imageModel->selectImageById($_GET["id"]);
 							<select name=site_code id="site_code">
 								<?php
 									while ($r_l=$result_loc->fetch_object()){
-										if ($r_l->code==$result[0]["site_code"]){
+										if ($r_l->code==$result[0]["site_id"]){
 											print '<option value="'.$r_l->code.'" selected>'.$r_l->code.$r_l->location.'</option>';
 										}else{
 											print '<option value="'.$r_l->code.'">'.$r_l->code.$r_l->location.'</option>';
@@ -77,18 +82,36 @@ $result = $imageModel->selectImageById($_GET["id"]);
 					<tr>
 						<td style="width: 160px; vertical-align: top;">Site Photo: </td>
 						<td>
-							<div class="preview-container">
-								<img src="<?php echo $result[0]["image"]?>" class="img-preview"	alt="photo">
-								<div>Name: <?php echo $result[0]["name"]?></div>
+							<div >
+							<?php
+								$sitePhotoResultList = $imageModel->getSitePhotoById($_GET["id"]);	
+								for($x = 0; $x < count($sitePhotoResultList); $x++) {
+									if(isset($sitePhotoResultList[$x])) {
+										$filename = $sitePhotoResultList[$x]["file_name"];
+										$sitePhotoId = $sitePhotoResultList[$x]["id"];
+										$path= $sitePhotoResultList[$x]["path"];
+							?>			
+										<input style="vertical-align: top;" type="checkbox" name="site_photo_delete_id[]" value="<?= $sitePhotoId ?>">
+										<a href="<?php echo $path ?>" class="btn-action" target="_blank">
+											<img src="<?php echo $path?>" class="img-preview" alt="photo"> 
+										</a>
+							<?php		
+									} else {
+										echo "No Site Photo Found";
+									}
+								}	
+							?>
 							</div>
-							<div Class="input-row">
-								<input type="file" name="image" id="input-file" class="input-file"	accept=".jpg,.jpeg,.png" value="">
-							</div>
+							
+							<!--div Class="input-row">
+								<input type="file" name="image" id="input-file" class="input-file" accept=".jpg,.jpeg,.png">
+							</div-->
 						</td>
 					</tr>
 				</table>				
 				<hr>
-				<input type="submit" name="submit" value="Submit"> 
+				<!--input type="submit" name="submit" value="Submit"--> 
+				<input type="submit" name="delete" value="Delete"> 
 				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
 			</form>
 		</div>

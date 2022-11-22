@@ -33,20 +33,16 @@ class ImageModel
         return $output;
     }
 
-    public function insertImage($imageData, $site_code, $remark)
-    {
+    public function insertIncidentReport($site_id, $remark) {
         //$create_date = date('Y-m-d'); 
         $create_by = $_SESSION['vuserid'];
         //echo $create_date;
 
-        //print_r($imageData);
-        $query = "INSERT INTO site_photo(name,image,site_code,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
-        $paramType = 'ssssss';
+        $query = "INSERT INTO incident_report(site_id,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,CURDATE(),CURDATE(),?,?)";
+        $paramType = 'ssss';
 
         $paramValue = array(
-            $imageData[0],
-            $imageData[1],
-            $site_code,
+            $site_id,
             $remark,
             //"'".$create_date."'",
             //"'".$create_date."'",
@@ -58,9 +54,32 @@ class ImageModel
         return $id;
     }
 
-    public function selectImageById($id)
-    {
-        $sql = "select * from site_photo where id=? ";
+    public function insertImage($incidentId, $imageData, $site_code) {
+        //$create_date = date('Y-m-d'); 
+        $create_by = $_SESSION['vuserid'];
+        //echo $create_date;
+
+        //print_r($imageData);
+        $query = "INSERT INTO site_photo(name,image,incident_id,site_code,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
+        $paramType = 'ssssss';
+
+        $paramValue = array(
+            $imageData[0],
+            $imageData[1],
+            $incidentId,
+            $site_code,
+            //"'".$create_date."'",
+            //"'".$create_date."'",
+            $create_by,
+            $create_by
+        );
+
+        $id = $this->conn->insert($query, $paramType, $paramValue);
+        return $id;
+    }
+
+    public function getIncidentReportById($id) {
+        $sql = "select * from incident_report where id=? ";
         $paramType = 'i';
         $paramValue = array(
             $id
@@ -69,8 +88,17 @@ class ImageModel
         return $result;
     }
 
-    public function updateImage($imageData, $id, $site_code, $remark)
-    {
+    public function getSitePhotoById($id) {
+        $sql = "select * from site_photo where incident_id=? ";
+        $paramType = 'i';
+        $paramValue = array(
+            $id
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+
+    public function updateImage($imageData, $id, $site_code, $remark) {
         $query = "UPDATE site_photo SET name=?, image=?, site_code=?, remark=? WHERE id=?";
         $paramType = 'ssssi';
         $paramValue = array(
@@ -95,8 +123,7 @@ class ImageModel
      * $id->execute();
      * }
      */
-    function deleteImageById($id)
-    {
+    function deleteImageById($id) {
         $query = "DELETE FROM site_photo WHERE id=$id";
         $result = $this->conn->select($query);
         return $result;

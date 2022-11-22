@@ -65,7 +65,7 @@
 				exit();
 			}
 
-			$per_page_record = 5;  // Number of entries to show in a page.   
+			$per_page_record = 50;  // Number of entries to show in a page.   
 			// Look for a GET variable page if not found default is 1.        
 			if (isset($_GET["page"])) {    
 				$page  = $_GET["page"];    
@@ -84,9 +84,9 @@
 					$_SESSION['dateTo_inc'] = $_POST['dateTo'];
 				}
 
-				$query = "SELECT * FROM site_photo "; 
+				$query = "SELECT * FROM incident_report "; 
 				if(!empty($_SESSION['site_code_inc'])){
-					$query .= " where site_code = '".$_SESSION['site_code_inc']."' ";
+					$query .= " where site_id = '".$_SESSION['site_code_inc']."' ";
 				}
 				if(!empty($_SESSION['dateFrom_inc']) and !empty($_SESSION['dateTo_inc'])){
 					$query .= " and create_date between '".$_SESSION['dateFrom_inc']."' and '".$_SESSION['dateTo_inc']."' ";
@@ -134,7 +134,7 @@
 						<tr>
 							<td></td>
 							<td>    
-								<input type="submit" value="Search"/>
+								<input type="submit" name="search" value="Search"/>
 							</td>
 						</tr>
 					</table>
@@ -147,9 +147,10 @@
 					<thead>  
 						<tr>
 							<th width="10%">Site</th>
-							<th width="40%">Site Photo</th>
+							<!--th width="40%">Site Photo</th-->
 							<th width="30%">Remark</th>
-							<th width="20%">Action</th>
+							<th width="30%">Detail</th>
+							<th width="30%">Creation Date</th>
 						</tr>
 					</thead> 
 					<tbody>   
@@ -159,22 +160,25 @@
 					?>     
 						<tr> 
 							<td>
-								<?php echo $row["site_code"]?>
+								<?php echo $row["site_id"]?>
 							</td>    
-							<td>
+							<!--td>
 								<a href="<?php echo $row['image']; ?>" class="btn-action" target="_blank">
 									<img src="<?php echo $row["image"]?>" class="img-preview" alt="photo"> 
 								</a>
-								<?php echo $row["name"]?>
-							</td>
+								<?php //echo $row["name"]?>
+							</td-->
 							<td>
 								<?php echo $row["remark"]?>
 							</td>
 							<td>
-								<a href="updateIncidentReport.php?id=<?php echo $row['id']; ?>" class="btn-action">Edit</a> 
-								<a onclick="confirmDelete(<?php echo $row['id']; ?>)" class="btn-action">Delete</a>
-								<!--a href="<?php echo $row['image']; ?>" class="btn-action" target="_blank">Download</a--> 
-							</td>                                        
+								<a href="updateIncidentReport.php?id=<?php echo $row['id']; ?>" class="btn-action">View Details</a> 
+								<!--a onclick="confirmDelete(<?php //echo $row['id']; ?>)" class="btn-action">Delete</a-->
+								<!--a href="<?php //echo $row['image']; ?>" class="btn-action" target="_blank">Download</a--> 
+							</td>    
+							<td>
+								<?php echo $row["create_date"]?>
+							</td>                                    
 						</tr>     
 					<?php     
 						};    
@@ -186,9 +190,9 @@
 				<hr>
 				<div class="pagination">    
 					<?php  
-						$query = "SELECT COUNT(*) FROM site_photo";   
+						$query = "SELECT COUNT(*) FROM incident_report";   
 						if(!empty($_SESSION['site_code_inc'])){
-							$query .= " where site_code = '".$_SESSION['site_code_inc']."' ";
+							$query .= " where site_id = '".$_SESSION['site_code_inc']."' ";
 						}
 						if(!empty($_SESSION['dateFrom_inc']) and !empty($_SESSION['dateTo_inc'])){
 							$query .= " and create_date between '".$_SESSION['dateFrom_inc']."' and '".$_SESSION['dateTo_inc']."' ";

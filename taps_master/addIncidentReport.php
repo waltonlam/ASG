@@ -6,35 +6,72 @@
 	require_once __DIR__ . '/lib/ImageModel.php';
 	$imageModel = new ImageModel();
 
-	if (isset($_POST['send'])) {
-		if (file_exists('../uploads/' . $_FILES['image']['name'])) {
-			$fileName = $_FILES['image']['name'];
-			$_SESSION['message'] = $fileName . " file already exists.";
-		} else {
-			$result = $imageModel->uploadImage();
-			//echo '<script>console.log("'.$_POST['site_code'].'"); </script>';
-			$id = $imageModel->insertImage($result, $_POST['site_code'], $_POST['remark']);
-			if (! empty($id)) {
-				$_SESSION['message'] = "Image added to the server and database.";
-			} else {
-				$_SESSION['message'] = "Image upload incomplete.";
-			}
-		}
+	if(isset($_POST['submit'])){ 
+		$create_by = $_SESSION['vuserid'];
+
+		// File upload configuration 
+		$targetDir = "/opt/lampp/htdocs/taps/uploads/"; 
+		$allowTypes = array('jpg','png','jpeg','gif'); 
+		 
+		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
+		$fileNames = array_filter($_FILES['files']['name']); 
+		if(!empty($fileNames)){ 
+			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark']);
+
+			foreach($_FILES['files']['name'] as $key=>$val){ 
+				// File upload path 
+				$fileName = basename($_FILES['files']['name'][$key]); 
+				$targetFilePath = $targetDir . $fileName; 
+				
+				// Check whether file type is valid 
+				$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION); 
+				if(in_array($fileType, $allowTypes)){ 
+					// Upload file to server 
+					if(move_uploaded_file($_FILES["files"]["tmp_name"][$key], $targetFilePath)){ 
+						// Image db insert sql 
+						$insertValuesSQL .= "('".$fileName."', '/taps/uploads/".$fileName."', '".$_POST['site_code']."', '".$incidentId."', NOW(), NOW(), '".$create_by."', '".$create_by."'),"; 
+					}else{ 
+						$errorUpload .= $_FILES['files']['name'][$key].' | '; 
+					} 
+				}else{ 
+					$errorUploadType .= $_FILES['files']['name'][$key].' | '; 
+				} 
+			} 
+			// Error message 
+			$errorUpload = !empty($errorUpload)?'Upload Error: '.trim($errorUpload, ' | '):''; 
+			$errorUploadType = !empty($errorUploadType)?'File Type Error: '.trim($errorUploadType, ' | '):''; 
+			$errorMsg = !empty($errorUpload)?'<br/>'.$errorUpload.'<br/>'.$errorUploadType:'<br/>'.$errorUploadType; 
+			
+			if(!empty($insertValuesSQL)){ 
+				$insertValuesSQL = trim($insertValuesSQL, ','); 
+				// Insert image file name into database 
+				$insert = $dbc->query("INSERT INTO site_photo (file_name, path, site_code, incident_id, create_date, last_upd_date, create_by, last_upd_by) VALUES $insertValuesSQL"); 
+				if($insert){ 
+					$statusMsg = "Files are uploaded successfully.".$errorMsg; 
+				}else{ 
+					$statusMsg = "There was an error uploading your file."; 
+				} 
+			}else{ 
+				$statusMsg = "Upload failed! ".$errorMsg; 
+			} 
+		}else{ 
+			$statusMsg = 'Please select a file to upload.'; 
+		} 
 		header('Location: addSitePhoto.php');
-	}
+	} 
 ?>
 
 <html>
 	<head>
 		<style>
 			input[type=button], input[type=submit], input[type=reset] {
-				background-color: #4D9BF3;
-				border: none;
+				background-color: #87ceeb;
 				color: white;
-				padding: 16px 32px;
-				text-decoration: none;
-				margin: 4px 2px;
+				padding: 12px 20px;
+				border: none;
+				border-radius: 4px;
 				cursor: pointer;
+				width:100
 			}
 		</style>
 	</head>
@@ -49,7 +86,7 @@
 		?>
 		<div class="form-container">
 			<h2>Add Incident Report</h2>
-			<span id="message" style="color:red"></span>
+			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>				
 			<form action="" method="post" name="frm-add" enctype="multipart/form-data" onsubmit="return imageValidation()">
 				<br>
@@ -77,15 +114,15 @@
 					<tr>
 						<td style="width: 160px; vertical-align: top;">Upload Site Photo: </td>
 						<td>
-							<div Class="input-row">
-								<input type="file" name="image" id="input-file" class="input-file" accept=".jpg,.jpeg,.png">
+							<div>
+								<input type="file" name="files[]" multiple>
 							</div>
 						</td>
 					</tr>
 				</table>
 				<br>				
 				<hr>
-				<input type="submit" name="send" value="Submit"> 
+				<input type="submit" name="submit" value="Submit"> 
 				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>		
 			</form>
 		</div>
