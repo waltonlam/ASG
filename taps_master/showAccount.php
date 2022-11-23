@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print '<h2>All User Accounts</h2>';
+	print '<h2>All User Accounts</h2><hr>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();
@@ -89,7 +89,7 @@
 			 
 			 
 			 
-			echo '</table>';
+			echo '</table><br><hr>';
 
 		}
 		

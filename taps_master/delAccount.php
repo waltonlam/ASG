@@ -25,9 +25,19 @@
 		}
 	}
 	
-	print'<h2>Delete Account</h2>';
+	print'<h2>Delete Account</h2><hr>';
 	print '
 	<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
 	/* Popup container - can be anything you want */
 	.popup {
 	  position: relative;
@@ -196,12 +206,9 @@
 			print '<p class="text--error">There is no information for deletion<br>Go back and try again.</p>';		
 			$criteria = "";
 			$comp="false";				
-
-		}
-				
+		}		
 	} 
-		 
-		 
+	 
 /*
 		function getLoginData(){
 			
@@ -218,12 +225,10 @@
 		print '<p class="text--error">'.'Account Configuration Error!</p>';
 		exit();
 	}		
+
+	print '<body><div><form action="delAccount.php" method="POST">';
 	
-	
-	
-	print '<body><div id="main-content"><form action="delAccount.php" method="POST">';
-	
-	echo '<br><table><br>';
+	echo '<table><br>';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
 					//<tr>
@@ -233,9 +238,8 @@
 					//</tr>';
 					
 					
-			print '<tr style="color:#555555;">
-				<td>	
-					<label for="lid">Account</label></td>	  				
+			print '<tr>
+					<td>Account: </td>	  				
 					<td>
 					<select  style="margin-left:10px" name="uid" id="uidSelector">';
 					   while ($r_l=$result_loc->fetch_object()){
@@ -246,10 +250,8 @@
 					};				
 			
 			print	'
-							<td>
-							  <input class=button--general style="margin-left:10px" type="submit" value="Delete" >
-							</td>  </tr><tr><td><br><br></td></tr>
-						</table></form></div>						';
+							 </tr><tr><td><br></td></tr>
+						</table><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete" ></form></div>						';
 
 				if ($suid<>''){ 
 					print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$suid.' has been deleted successfully</span></div>';
