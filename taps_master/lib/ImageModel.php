@@ -98,15 +98,13 @@ class ImageModel
         return $result;
     }
 
-    public function updateImage($imageData, $id, $site_code, $remark) {
-        $query = "UPDATE site_photo SET name=?, image=?, site_code=?, remark=? WHERE id=?";
-        $paramType = 'ssssi';
+    public function updateIncidentReport($incidentReportId, $site_code, $remark) {
+        $query = "UPDATE incident_report SET site_id=?, remark=? WHERE id=?";
+        $paramType = 'ssi';
         $paramValue = array(
-            $imageData[0],
-            $imageData[1],
             $site_code, 
             $remark,
-            $_GET["id"]
+            $incidentReportId
         );
         $id = $this->conn->execute($query, $paramType, $paramValue);
         return $id;

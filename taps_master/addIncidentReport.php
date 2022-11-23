@@ -88,7 +88,7 @@
 			<h2>Add Incident Report</h2>
 			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>				
-			<form action="" method="post" name="frm-add" enctype="multipart/form-data" onsubmit="return imageValidation()">
+			<form action="" method="post" name="frm-add" enctype="multipart/form-data">
 				<br>
 				<table>
 					<tr>	
