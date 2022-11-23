@@ -71,6 +71,19 @@
 	if(isset($_POST['delete'])){
 		$all_id = $_POST['site_photo_delete_id'];
 		$extract_id = implode(',' , $all_id);
+
+		//Delete files in SFTP
+		$tobeDeleteItemList = $imageModel->getTobeDeleteItemsById($extract_id);
+		for($x = 0; $x < count($tobeDeleteItemList); $x++) {
+			if(isset($tobeDeleteItemList[$x])) {
+				$path= $tobeDeleteItemList[$x]["path"];
+				unlink("/opt/lampp/htdocs".$path);
+			} else {
+				echo "No Delete Items Found";
+			}
+		}	
+
+		//Delete files in db
 		$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
 		$deleteQeury = $dbc->query($query);
 		if($deleteQeury){
@@ -103,7 +116,7 @@
 			$l = "select code from site order by code ASC;";
 			$result_loc=$dbc->query($l);
 			if (!$result_loc->num_rows){
-				print '<p class="text--error">'.'Site Configuration Error!</p>';
+				print '<p class="text--error">'.'Site Configuration Error.</p>';
 				exit();
 			}
 		?>
@@ -137,24 +150,30 @@
 					<tr>
 						<td style="width: 160px; vertical-align: top;">Site Photo: </td>
 						<td>
-							<div >
+							<div>
 							<?php
 								$sitePhotoResultList = $imageModel->getSitePhotoById($_GET["id"]);	
-								for($x = 0; $x < count($sitePhotoResultList); $x++) {
-									if(isset($sitePhotoResultList[$x])) {
-										$filename = $sitePhotoResultList[$x]["file_name"];
-										$sitePhotoId = $sitePhotoResultList[$x]["id"];
-										$path= $sitePhotoResultList[$x]["path"];
+								if(!empty($sitePhotoResultList)) {
+									for($x = 0; $x < count($sitePhotoResultList); $x++) {
+										if(isset($sitePhotoResultList[$x])) {
+											$filename = $sitePhotoResultList[$x]["file_name"];
+											$sitePhotoId = $sitePhotoResultList[$x]["id"];
+											$path= $sitePhotoResultList[$x]["path"];
 							?>			
-										<input style="vertical-align: top;" type="checkbox" name="site_photo_delete_id[]" value="<?= $sitePhotoId ?>">
-										<a href="<?php echo $path ?>" class="btn-action" target="_blank">
-											<img src="<?php echo $path?>" class="img-preview" alt="photo"> 
-										</a>
+											<input style="vertical-align: top;" type="checkbox" name="site_photo_delete_id[]" value="<?= $sitePhotoId ?>">
+											<a href="<?php echo $path ?>" class="btn-action" target="_blank">
+												<img src="<?php echo $path?>" class="img-preview" alt="photo"> 
+											</a>
 							<?php		
-									} else {
-										echo "No Site Photo Found";
-									}
-								}	
+										} else {
+											echo "No Site Photo Found";
+										}
+									}	
+								}else{
+							?>		
+								No Site Photo Found. Please upload...
+							<?php
+								}
 							?>
 							</div>
 						</td>
@@ -171,7 +190,7 @@
 				<br>		
 				<hr>
 				<input type="submit" name="submit" value="Save"> 
-				<input type="submit" name="delete" value="Delete"> 
+				<input type="submit" name="delete" value="Delete" <?php if (empty($sitePhotoResultList)) { ?> style="display: none" <?php } ?> > 
 				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
 			</form>
 		</div>

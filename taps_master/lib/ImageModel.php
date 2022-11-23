@@ -79,7 +79,7 @@ class ImageModel
     }
 
     public function getIncidentReportById($id) {
-        $sql = "select * from incident_report where id=? ";
+        $sql = "SELECT * FROM incident_report WHERE id=? ";
         $paramType = 'i';
         $paramValue = array(
             $id
@@ -89,7 +89,7 @@ class ImageModel
     }
 
     public function getSitePhotoById($id) {
-        $sql = "select * from site_photo where incident_id=? ";
+        $sql = "SELECT * FROM site_photo WHERE incident_id=? ";
         $paramType = 'i';
         $paramValue = array(
             $id
@@ -97,6 +97,13 @@ class ImageModel
         $result = $this->conn->select($sql, $paramType, $paramValue);
         return $result;
     }
+
+    public function getTobeDeleteItemsById($id) {
+        $sql = "SELECT path FROM site_photo WHERE id IN (".$id.") ";
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+
 
     public function updateIncidentReport($incidentReportId, $site_code, $remark) {
         $query = "UPDATE incident_report SET site_id=?, remark=? WHERE id=?";
