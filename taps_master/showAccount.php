@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print '<h2>All User Accounts</h2><hr>';
+	print '<h2>All User Accounts</h2><hr><br>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();

@@ -39,6 +39,16 @@ print '
   user-select: none;
 }
 
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* The actual popup */
 .popup .popuptext {
   visibility: hidden;
@@ -146,7 +156,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 
-
 	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 	*/
 	if (window.addEventListener) // W3C standard
@@ -253,7 +262,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	
 	</script>';
-	print'<body onload="Showparam()"><h2>Update Category</h2>';
+	print'<body onload="Showparam()"><h2>Update Category</h2><hr>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();
@@ -323,33 +332,32 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}		
 			
 			
-			print '<div id="main-content"><br><form action="updateCategory.php" method="post"><br>			
-				<table><tr>
-				<td><label for="lid">Category Code</label></td><td>
-					<select style="width:100%" name="id" id="id" onchange="Showparam()">';
-					   while ($r_l=$result_loc->fetch_object()){
-						  if ($r_l->id==$t[0]){
-							  print '<option value="'.$r_l->id.'" selected>'.$r_l->id.'**'.$r_l->item.'</option>';}
-						  else{
-							 print '<option value="'.$r_l->id.'">'.$r_l->id.'**'.$r_l->item.'</option>';}
-					};				
-			print '</select>	
-				</td></tr>			
+			print '<div><br><form action="updateCategory.php" method="post">		
+				<table>
 					<tr>
+						<td>Category Code: </td>
 						<td>
-						  <label for="code">Category Item</label>
-						</td>				  				
+							<select style="width:100%" name="id" id="id" onchange="Showparam()">';
+							while ($r_l=$result_loc->fetch_object()){
+								if ($r_l->id==$t[0]){
+									print '<option value="'.$r_l->id.'" selected>'.$r_l->id.'**'.$r_l->item.'</option>';}
+								else{
+									print '<option value="'.$r_l->id.'">'.$r_l->id.'**'.$r_l->item.'</option>';}
+							};				
+					print '</select>	
+						</td>
+					</tr>			
+					<tr>
+						<td>Category Item: </td>				  				
 						<td> 
 							<input style="width:100%" type="text" name="item" id="item"></input>
 						</td>				  				
 					</tr>
-					<tr>
-							<td style="width:38%" ><br> 	
-							</td>				
-							<td>
-							  <input class=button--general type="submit" value="Update">
-							<br></td>  
-						</tr></table></form><br></div></body>';
+					</table>
+					<br>
+					<hr>
+					<input class=button--general type="submit" value="Update">
+					</form><br></div></body>';
 						
 						if ($gid<>''){ 
 							print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$gid.' has been updated successfully</span></div>';

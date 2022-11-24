@@ -162,6 +162,7 @@
 		<div class="container">   
 			<h2>All Compound Categories</h2>  
 			<hr>
+			<br>
 			<div>
 				<input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search..">
 				<table id="mediaTb" class="table table-striped table-condensed table-bordered">   

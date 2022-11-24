@@ -25,10 +25,20 @@
 		}
 	}
 	
-	print'<h2>Delete Category</h2>';
+	print'<h2>Delete Category</h2><hr>';
 
 	print '
 	<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
 	/* Popup container - can be anything you want */
 	.popup {
 	  position: relative;
@@ -227,14 +237,13 @@
 			}		
 			
 			
-			print '<body><div id="main-content">
+			print '<body><div>
 			<form action="delCategory.php" method="post">';
 			
 			echo '<br><table>';
 										
-			print '<tr style="color:#555555;">
-				<td>	
-					<label for="lid">Category</label></td><br>	  				
+			print '<tr>
+					<td>Category: </td>  				
 					<td>
 					<select style="margin-left:10px" name="id">';
 					   while ($r_l=$result_loc->fetch_object()){
@@ -246,12 +255,9 @@
 			
 			
 			print	'</td>
-							<td>
-							  <input class=button--general style="margin-left:10px" type="submit" value="Delete">
-							</td>  
-						</tr><tr><td><br><br></td></tr>';
+					</tr>';
 			 
-			echo '</table></form></div>';
+			echo '</table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete"></form></div>';
 
 			if ($suid<>''){ 
 				print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$suid.' has been deleted successfully</span></div>';

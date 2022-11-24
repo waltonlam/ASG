@@ -24,7 +24,7 @@
 			exit();
 		}		
 		
-		echo '<h2>Show All Factor</h2><hr>';
+		echo '<h2>All Factors</h2><hr>';
 		echo '<br>';		
 		echo '<input type="text" id="myInput" onkeyup="search()" placeholder="Search for compound.." title="Type in a compound" placeholder="Search..">';
 		echo '<br>';

@@ -26,6 +26,16 @@
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 print '
 <style>
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -141,9 +151,8 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
-
 
 	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 	*/
@@ -156,51 +165,41 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	  window.attachEvent("onload", prompt_msg);
 	}
 
-		function editClick(){
-			
-			
-			location.replace("updatelocationform.php")
-		}
+	function editClick(){	
+		location.replace("updatelocationform.php")
+	}
+
+	function delClick(){
+		alert("delete click");
+	}
+
+	function showSuccessAlert(){
+		alert("Delete Successfully");
+	}
 	
-		function delClick(){
-			alert("delete click");
+	function showConfirmAlert(){	
+		var answer = confirm ("Confirm to delete this record?")
+		if (answer){	
 		}
-	
-	
-		function showSuccessAlert(){
-			alert("Delete Successfully");
-		}
-		
-		function showConfirmAlert(){
-			
-			var answer = confirm ("Confirm to delete this record?")
-			if (answer){
-				
-				
-			}
-		}
+	}
 
+	function prompt_msg() {
+		var popup = document.getElementById("del_code");
+		popup.classList.toggle("show");
+	}			
 
-		function prompt_msg() {
-			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
-		}			
+	function Showparam() {
+		var e = document.getElementById("cid");
+		var str = e.options[e.selectedIndex].innerHTML;
+		var info = str.split("**");
 
-		
-		function Showparam() {
-			var e = document.getElementById("cid");
-			var str = e.options[e.selectedIndex].innerHTML;
-			var info = str.split("**");
+		var grp = document.getElementById("gid");
+		grp.options[grp.options.selectedIndex].selected = true;
 
-			var grp = document.getElementById("gid");
-			grp.options[grp.options.selectedIndex].selected = true;
-
-			document.getElementById("cp_name").value = info[1];
-			document.getElementById("gid").value = info[2];
-			document.getElementById("who_tef").value = info[3];
-		}
-
-
+		document.getElementById("cp_name").value = info[1];
+		document.getElementById("gid").value = info[2];
+		document.getElementById("who_tef").value = info[3];
+	}
 	</script>';
 
 	print '<script>
@@ -236,15 +235,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	</script>';
 
-		
-
 	print '
-	
 		<script>
-			
-				function editClick(){
-					
-					
+				function editClick(){	
 					location.replace("updatelocationform.php")
 				}
 			
@@ -252,18 +245,12 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					alert("delete click");
 				}
 			
-			
 				function showSuccessAlert(){
 					alert("Success");
-				}
-			
-				
-			
+				}	
 		</script>
-	
 	';
 	
-
 	$gid="";
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 	{
@@ -279,31 +266,32 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				print "<script>window.load = function(){prompt_msg();};</script>";		
 
 			}
-																															
-		
+		}
 	}
-}
-	
-	
-
 ?>
 
- <h2>Add New Category</h2>
-  <body>
-<div id="main-content"><br><table><tr>
-   
-    <form action="addCategory.php" method="post">
-       <td style="width:38%" >
-			<label>Category Code</label></td><td>
-            <input type="text" name="id" required/>
-		</td></tr><tr>
-        <td style="width:38%" >    <label>Category Name</label>
-</td>    <td><input type="text" name="item" required/>
-</td></tr><td></td><td>
-        <input class="submit" type="submit" value="Add"  /></td>
-    </form></table>
-
-<br></div>
+ 	<h2>Add Category</h2><hr>
+  	<body>
+	<div>
+		<br>
+		<form action="addCategory.php" method="post">
+			<table>
+				<tr>
+					<td>Category Code: </td>
+					<td>
+						<input type="text" name="id" required/>
+					</td>
+				</tr>
+				<tr>
+					<td>Category Name: </td>
+					<td>
+						<input type="text" name="item" required/>
+					</td>
+				</tr>
+			</table>
+			<br><hr><input class="submit" type="submit" value="Add"/>
+		</form>
+	</div>
 
 <?php
 if ($gid<>''){ 

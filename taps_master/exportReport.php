@@ -63,10 +63,20 @@
 		padding-right: 20px;
 		align-content: center;
 	}
+
+	input[type=button], input[type=submit], input[type=reset] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
 </style>
 
 <html>
-	<h2>Export GLab Report</h2>
+	<h2>Export GLab Report</h2><hr>
 	<br>
     <form class="form-horizontal" action="function.php" name="upload_excel"  onsubmit="return validateForm()" enctype="multipart/form-data" method="post" >
         <fieldset>

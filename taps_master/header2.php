@@ -141,7 +141,7 @@ print '<html>
 						<button class="dropbtn" onclick="myFunction()">Site
 							<i class="fa fa-caret-down"></i>
 						</button>
-						<div class="dropdown-content" id="myDropdown">														
+						<div class="dropdown-content" id="myDropdown">		
 							<a href="showSite.php">Show All</a>
 							<a href="updateSite.php">Update Site</a>
 							<a href="delSite.php">Delete Site</a>
