@@ -25,12 +25,22 @@
 		}
 	}
 	
-	print'<h2>Update Site</h2>';
+	print'<h2>Update Site</h2><hr>';
 	
 
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 print '
 <style>
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -152,44 +162,35 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 	*/
-	if (window.addEventListener) // W3C standard
-	{
+	if (window.addEventListener) // W3C standard{
 	  window.addEventListener("load", prompt_msg, false);  /* NB **not** "onload"*/
-	} 
-	else if (window.attachEvent) // Microsoft
+	} else if (window.attachEvent) // Microsoft
 	{
 	  window.attachEvent("onload", prompt_msg);
 	}
 
-		function editClick(){
-			
-			
-			location.replace("updatelocationform.php")
-		}
-	
-		function delClick(){
-			alert("delete click");
-		}
-	
-	
-		function showSuccessAlert(){
-			alert("Delete Successfully");
-		}
-		
-		function showConfirmAlert(){
-			
-			var answer = confirm ("Confirm to delete this record?")
-			if (answer){
-				
-				
-			}
-		}
+	function editClick(){	
+		location.replace("updatelocationform.php")
+	}
 
+	function delClick(){
+		alert("delete click");
+	}
 
-		function prompt_msg() {
-			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
-		}			
+	function showSuccessAlert(){
+		alert("Delete Successfully");
+	}
+	
+	function showConfirmAlert(){
+		var answer = confirm ("Confirm to delete this record?")
+		if (answer){	
+		}
+	}
+
+	function prompt_msg() {
+		var popup = document.getElementById("del_code");
+		popup.classList.toggle("show");
+	}			
 
 	</script>';
 
@@ -267,52 +268,40 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 	print '
 	<script>
-		
-			function refresh(){
-				
-				
-				window.location.refresh();
-			}
-		
-			function delClick(){
-				alert("delete click");
-			}
-		
-		
-			function showSuccessAlert(){
-				alert("Success");
-			}
-		
-		
-		</script>
+		function refresh(){	
+			window.location.refresh();
+		}
 	
+		function delClick(){
+			alert("delete click");
+		}
+	
+		function showSuccessAlert(){
+			alert("Success");
+		}
+	</script>
 	';
 	
 	print '<script language="javascript">function Showparam() {
-		var e = document.getElementById("code");
-		var str = e.options[e.selectedIndex].innerHTML;
-		var info = str.split("**");
-	
-		var grp = document.getElementById("code");
-		grp.options[grp.options.selectedIndex].selected = true;
-	
-		document.getElementById("loc").value = info[1];
-	}
-	
+			var e = document.getElementById("code");
+			var str = e.options[e.selectedIndex].innerHTML;
+			var info = str.split("**");
+		
+			var grp = document.getElementById("code");
+			grp.options[grp.options.selectedIndex].selected = true;
+		
+			document.getElementById("loc").value = info[1];
+		}
 	</script>';
 	
-	
-		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
-			
-			//getMediaData();
-		 //} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
+		//if (isset($_GET['click']) && $_GET['click'] == 'media') {	
+		//getMediaData();
+		//} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
 		//	 getLocationData();
-		 //}
+		//}
 		 
-		
 		 $sid="";
-		 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
-		{
+		 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			if (!empty($_POST['code']) and !empty($_POST['loc']))	
 				{
 					$u= "update site set "
@@ -331,20 +320,12 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 						echo "Error: " . $dbc->error;
 						exit();
 					};
-
 			}else{
-					print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
-					$criteria = "";
-					$comp="false";				
-
-					}
-				
-	} 
-		 
-		 
-		 
-		 
-		 
+				print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
+				$criteria = "";
+				$comp="false";				
+			}	
+		} 
 
 		/*function getLocationData(){
 			
@@ -361,11 +342,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				exit();
 			}		
 
-
-			print '<body onload="Showparam()"><div id="main-content"><br><form action="updateSite.php" method="post">';
-			
+			print '<body onload="Showparam()"><div>
+				   <form action="updateSite.php" method="post">';
 			echo '<br>';
-			
 			echo '<table>';
 					//<tr>
 					//	<th>Code</th>
@@ -373,54 +352,33 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					//	<th>Action</th>
 					//</tr>';
 					
-					
 			print '<tr>
-				<td>Location Code</td>
-					<td>
-					<select name=code id="code" onchange="Showparam()">';
-					   while ($r_l=$result_loc->fetch_object()){
-						  if ($r_l->code==$t[0]){
-							  print '<option value="'.$r_l->code.'" selected>'.$r_l->code.'**'.$r_l->location.'</option>';}
-						  else{
-							 print '<option value="'.$r_l->code.'">'.$r_l->code.'**'.$r_l->location.'</option>';}
-					};				
-					
-			
-			print '</select></td>
-			</tr>			
-					<tr>
+						<td>Location Code: </td>
 						<td>
-						  <label for="loc">Location Name</label>
-						</td>				  				
+							<select name=code id="code" onchange="Showparam()">';
+							while ($r_l=$result_loc->fetch_object()){
+								if ($r_l->code==$t[0]){
+									print '<option value="'.$r_l->code.'" selected>'.$r_l->code.'**'.$r_l->location.'</option>';}
+								else{
+									print '<option value="'.$r_l->code.'">'.$r_l->code.'**'.$r_l->location.'</option>';}
+							};				
+							
+					print '</select>
+						</td>
+					</tr>			
+					<tr>
+						<td>Location Name: </td>				  				
 						<td>  
 							<input style="width:100%" type="text" name="loc" id="loc"></input>
 						</td>				  				
 					</tr>';			
 			
-			print	'<tr style="color:#555555;">
-							<td style="width:38%;text-align:right">
-							</td>				
-							<td>
-							  <input class=button--general type="submit" value="Update">
-							</td>  
-						</tr>
+			print	'</table><br><hr><input class=button--general type="submit" value="Update"></form></div></div>';
 						
-					</table></form><br></div></div>';
-						
-			
 			echo '</table></body>';
 			if ($sid<>''){ 
 				print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$sid.' has been updated successfully</span></div>';
 			};
 //		}
-		
-		
-		
 		include 'footer.html';
-
 ?>
-		
-		
-		
-		
-	

@@ -1,4 +1,3 @@
-		
 <?php  
 	include ('iconn.php');
 	include 'header2.php';
@@ -28,6 +27,16 @@
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 	print '<html><head>
 	<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
 	/* Popup container - can be anything you want */
 	.popup {
 	  position: relative;
@@ -185,9 +194,6 @@
 			
 		</script></head>
 	';
-	
-
-
 
 		$code = '';
 
@@ -275,15 +281,9 @@
 			}		
 			
 			
-	print'<br><span style="font-size:26px;font-weight: bold">Delete Location</span>';
-	
-	
-			
-			print '<br><br><body><div id="main-content">
-
+	print'<h2>Delete Site</h2><hr>';
+			print '<br><body><div>
 			<form action="delSite.php" method="post">';
-			
-			echo '<br>';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
 					//<tr>
@@ -292,10 +292,9 @@
 					//	<th>Action</th>
 					//</tr>';
 
-			print '<table><tr style="color:#555555"><br>
-				<td>	
-					<label for="lid" style="width:100%">Location Code</label>	  				
-					</td><td>
+			print '<table><tr>
+				<td>Location Code: </td>
+				<td>
 					<select style="margin-left:10px" name="code" id="code">';
 					   while ($r_l=$result_loc->fetch_object()){
 						  if ($r_l->code==$t[0]){
@@ -303,21 +302,9 @@
 						  else{
 							 print '<option value="'.$r_l->code.'">'.$r_l->code.'**'.$r_l->location.'</option>';}
 					};				
-					
-			
-			
-			print	'</td><td><input name="submit" class="button--general btn submit" style="margin-left:10px" type="submit" value="delete">
-							  </td>  
-						</tr><tr><td><br></td>';							  
-						
-					print	'<td></td>';
-						
-			print	'<td></td>	</tr>
-						';
-						
-			
 
-
+			print	'</td>
+					</tr>';
 
 			 //while ($row =$result_loc->fetch_assoc()){
 				 
@@ -336,10 +323,8 @@
 				 
 				 
 			 //}
-			 
-			 
-			 
-			echo '</table><br></div>
+
+			echo '</table><br><hr><input name="submit" class="button--general btn submit" style="margin-left:10px" type="submit" value="delete"></div>
 			</form>';
 			
 			if ($code<>''){ 
@@ -347,13 +332,8 @@
 			};			
 			
 			print '</body></html>';
-
 //		}
-		
-		
-		
 		include 'footer.html';
-
 ?>
 		
 

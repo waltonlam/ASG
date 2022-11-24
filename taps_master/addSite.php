@@ -42,6 +42,16 @@
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 print '
 <style>
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -252,9 +262,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	</script>';
 
-		
-
-
 	$scode="";
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 	{
@@ -269,31 +276,32 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				  //echo "<script> window.onload = function() {showSuccessAlert();}; </script>";
 				  print "<script>window.load = function(){prompt_msg();};</script>";			
 			}
-		}
-																															
-		
+		}	
 	}
-	
-	
-
-
-
-
 ?>
 
- <h2>Add New Location record</h2>
-  <body>
-<div id="main-content"><br><table><tr>
-   
-    <form class="post-form" action="addSite.php" method="post">
-			<td style="width:38%" >
-			<label>Code</label></td><td>
-            <input type="text" name="code" required/></td></tr><tr><td style="width:38%" >
-            <label>Location</label></td><td>
-            <input type="text" name="location" required/></td></tr><tr><td> </td><td>    
-        <input class="submit" type="submit" value="Add"  /><br><br></td>
-    </form></table>
-
+<body>
+<h2>Add Site</h2><hr>
+<div>
+	<br>
+	<form class="post-form" action="addSite.php" method="post">
+		<table>
+			<tr>
+				<td>Site Code: </td>
+				<td>
+					<input type="text" name="code" required/>
+				</td>
+			</tr>
+			<tr>
+				<td>Location: </td>
+				<td>
+            		<input type="text" name="location" required/>
+				</td>
+			</tr>    
+		</table>
+		<br><hr>
+		<input class="submit" type="submit" value="Add"  /><br><br></td>
+	</form>
 </div>
 
 <?php
