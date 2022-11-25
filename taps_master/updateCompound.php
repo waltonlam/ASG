@@ -31,6 +31,16 @@ if (isset($_SESSION['prev_incid'])) {
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 print '
 <style>
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -408,13 +418,11 @@ exit();
 
 
 
-print '<body onload="Showparam()"><h2>Update Compound</h2><div id="main-content"><br>
+print '<body onload="Showparam()"><h2>Update Compound</h2><hr><div>
 <form action="updateCompound.php" method="post">
-	  <table>';	
-print '<tr style="color:#555555;">
-	  <td>	
-		  <label for="cid">Compound</label>	  				
-		  <td>
+	  <table><br>';	
+print '<tr>
+	  <td>Compound: <td>
 		  <select style="margin-left:10px" name="cid" id="cid" onchange="Showparam()">';
 			 while ($r_cp=$result_cp->fetch_object()){
 				 /*
@@ -424,14 +432,10 @@ print '<tr style="color:#555555;">
 				   print '<option value="'.$r_e->ele_id.'">'.$r_e->ele_id.' > '.$r_e->name.'**'.$r_e->unt.'**'.$r_e->gcde.'</option>';}
 				*/
 				print '<option value="'.$r_cp->id.'">'.$r_cp->id.'**'.$r_cp->name.'**'.$r_cp->code.'**'.$r_cp->who_tef.'</option>';
+			};			  
 
-
-				};			  
-
-print '</select></td><tr style="color:#555555;">
-				<td>	
-					<label for="gid">Compound Group</label>	  				
-					<td>
+print '</select></td><tr>
+				<td>Compound Group: <td>
 					<select style="margin-left:10px" name="gid" id="gid">';
 					   while ($r_l=$result_g->fetch_object()){
 						   /*
@@ -445,34 +449,21 @@ print '</select></td><tr style="color:#555555;">
 					};					
 
 print '</select></td></tr>			
-			<tr style="color:#555555;">
-				<td>
-				  <label for="name">Compound Name</label>
-				</td>				  				
+			<tr>
+				<td>Compound Name: </td>				  				
 				<td>  
 					<input style="width:37%;margin-left:10px" type="text" name="cp_name" id="cp_name"></input>
 				</td>				  				
 
 			</tr>			
-			<tr style="color:#555555;">
-				<td>
-				  <label for="name">WHO TEF</label>
-				</td>				  				
+			<tr>
+				<td>WHO TEF: </td>				  				
 				<td>  
 					<input style="margin-left:10px" type="number" step="0.01" name="who_tef" id="who_tef"></input>
 				</td>				  				
-
 			</tr>';			
-	
 
-			
-print	'<tr style="color:#555555;">
-				<td><br>
-				</td>				
-				<td>
-				  <input class=button--general style="margin-left:10px" type="submit" value="Update">
-				<br></td>  
-			</tr><br></table></form><br></div>';
+print	'</table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Update"></form></div>';
 
 
 if ($comp_id<>''){ 

@@ -122,7 +122,7 @@
 					<tr>	
 						<td style="vertical-align: top;">Co-located Sample ID: </td>
 						<td>
-							<label><?php echo $coLocateSample[0]["sample_id"]?>"</label>
+							<label><?php echo $coLocateSample[0]["sample_id"]?></label>
 						</td>
 					</tr>
 					<tr>	

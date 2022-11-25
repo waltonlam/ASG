@@ -225,7 +225,7 @@ legend {
   color:#FFF;
   }
 
-/*#menu {
+#menu {
   border:none;
   border:0px;
   margin:0px;
@@ -246,13 +246,12 @@ legend {
 #nav li {
   display:inline-block;
   position:relative;
-  float:left;
   background: #2e4692;
   }
 
 #nav li a {
   display:inline-block;
-  width:390px;
+  width:200px;
   line-height:50px;
   padding:0;
   text-decoration:none;
@@ -276,4 +275,4 @@ legend {
 #nav li:hover ul ul {display:none;}
 
 #nav li:hover ul {display:block;} 
-#nav li li:hover ul {margin-left:390px; margin-top:-35px; display:block;} */
+#nav li li:hover ul {margin-left:390px; margin-top:-35px; display:block;} 

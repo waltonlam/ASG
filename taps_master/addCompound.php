@@ -28,6 +28,16 @@
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
 print '
 <style>
+input[type=submit] {
+	background-color: #87ceeb;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	width:100
+}
+
 /* Popup container - can be anything you want */
 .popup {
   position: relative;
@@ -343,8 +353,8 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}		
 			
 			
-			print '<h2>Add New Compound record</h2>';
-			print '<div id="main-content"><br>';
+			print '<h2>Add Compound</h2><hr>';
+			print '<div><br>';
 			print '<form action="addCompound.php" method="post"><table>';
 			
 			
@@ -357,9 +367,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					
 
 			print '<tr>
-				<td >	
-					<label for="lid">Category Code</label>	  				
-					</td><td>
+					<td>Category Code: </td><td>
 					<select  style="margin-left:10px" name="gid">';
 					   while ($r_l=$result_loc->fetch_object()){
 						  if ($r_l->id==$t[0]){
@@ -373,7 +381,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			
 			print '<tr>';
 			print '<td>';
-			print '<label>ID</label></td><td>
+			print 'ID: </td><td>
             <input  style="margin-left:10px" type="text" name="id" required/>';
 			
 			print '</td>';
@@ -382,7 +390,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			print '<tr>';
 			print '<td>';
        
-            print '<label>Name</label></td><td>
+            print 'Name: </td><td>
             <input  style="margin-left:10px" type="text" name="name" required/>';
 			
 			print '</td>';
@@ -390,23 +398,12 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			print '</tr>
 
 			<tr>
-			<td>
-			  <label for="who_tef">WHO TEF</label>
-			</td>				  				
+			<td>WHO TEF: </td>				  				
 			<td>  
 				<input style="margin-left:10px" type="number" step="0.01" name="who_tef" id="who_tef"></input>
 			</td></tr>';		
-			
-			print	'<tr>
-							<td>
-							</td>				
-							<td>
-							  <input style="margin-left:10px" class="submit" type="submit" value="Add"  />
-							</td>  
-						</tr>';
 						
-			
-			print '</table>';
+			print '</table><br><hr><input style="margin-left:10px" class="submit" type="submit" value="Add"  />';
 			
 			print '</form>';
 			

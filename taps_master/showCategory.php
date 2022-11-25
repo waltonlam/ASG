@@ -145,7 +145,7 @@
 				}
 			}
 			
-			$per_page_record = 10;  // Number of entries to show in a page.   
+			$per_page_record = 20;  // Number of entries to show in a page.   
 			// Look for a GET variable page if not found default is 1.        
 			if (isset($_GET["page"])) {    
 				$page  = $_GET["page"];    
@@ -164,7 +164,7 @@
 			<hr>
 			<br>
 			<div>
-				<input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search..">
+				<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
 				<table id="mediaTb" class="table table-striped table-condensed table-bordered">   
 					<thead>   
 						<tr>   
@@ -204,14 +204,14 @@
 						}       
 								
 						for ($i=1; $i<=$total_pages; $i++) {   
-						if ($i == $page) {   
-							$pagLink .= "<a class = 'active' href='showCategory.php?page="  
-																.$i."'>".$i." </a>";   
-						}               
-						else  {   
-							$pagLink .= "<a href='showCategory.php?page=".$i."'>   
-																".$i." </a>";     
-						}   
+							if ($i == $page) {   
+								$pagLink .= "<a class = 'active' href='showCategory.php?page="  
+																	.$i."'>".$i." </a>";   
+							}               
+							else  {   
+								$pagLink .= "<a href='showCategory.php?page=".$i."'>   
+																	".$i." </a>";     
+							}   
 						};     
 						echo $pagLink;   
 				
@@ -229,7 +229,7 @@
 		</div>  
 		<!--/center-->   
 		<script>  
-			function search(){
+			/*function search(){
 				var input, filter, table, tr, td, i, txtValue;
 				input = document.getElementById("myInput");
 				filter = input.value.toUpperCase();
@@ -246,7 +246,7 @@
 						}
 					}       
 				}
-			}
+			}*/
 
 			function delClick(){
 				alert("delete click");

@@ -25,11 +25,19 @@
 		}
 	}
 	
-	print'<h2>Delete Compound</h2>';
-	
-
+	print'<h2>Delete Compound</h2><hr>';
 	print '
 	<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
 	/* Popup container - can be anything you want */
 	.popup {
 	  position: relative;
@@ -171,17 +179,13 @@
 		</script>
 	
 	';
-	
-	
-	
-	
+
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();
 		 //} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
 
 		 //}
-		 
 		
 	$scode='';
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -214,11 +218,7 @@
 
 		}			
 	} 
-		 
-		 
-		 
-		 
-		 
+ 
 /*
 		function getMediaData(){
 			
@@ -235,10 +235,8 @@
 				print '<p class="text--error">'.'Location Configuration Error!</p>';
 				exit();
 			}		
-			
-			
-			
-			print '<body><div id="main-content"><form action="delCompound.php" method="post">';
+
+			print '<body><div><form action="delCompound.php" method="post">';
 			
 			echo '<br><table>';
 			
@@ -251,8 +249,7 @@
 					
 					
 			print '<tr style="color:#555555;">
-				<td >	
-					<label for="lid">Compound Name</label></td>	  				
+				<td>Compound Name: </td>	  				
 					<td>
 					<select style="margin-left:10px" name="id">';
 					   while ($r_l=$result_loc->fetch_object()){
@@ -261,14 +258,9 @@
 						  else{
 							 print '<option value="'.$r_l->id.'">'.$r_l->id.'**'.$r_l->name.'</option>';}
 					};				
-					
 			
-			
-			print	'</td>
-							<td>
-							  <input class=button--general style="margin-left:10px" type="submit" value="Delete">
-							</td>  
-							</tr><tr><td><br><br></td></tr></table>';
+			print	'</td> 
+					</tr></table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete">';
 						
 			if ($scode<>''){ 
 				print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$scode.' has been deleted successfully</span></div>';
@@ -281,27 +273,16 @@
 				//echo "<td id='location'>" . $row["location"]."</td>";
 				//echo "<td>";
 				
-				
 				//echo "<input id='btn-edit'  type='submit' value='Update'>";
 				
 				//echo "<a class='btn btn-edit btn-sm' href='updateLocation.php?code=". $row["code"]."& location=". $row["location"]."'  >EDIT</a> ";
 				//echo "<a class='btn btn-delete btn-sm'    href='location.php?del_Item=". $row["code"]."'>Delete</a> ";
 				//echo "</td>";
-				//echo "</tr>";
-				 
-				 
-			 //}
-			 
-			 
-			 
+				//echo "</tr>";			 
+			 //} 	 
 			echo '</table></form></div><body>';
-
 //		}
-		
-		
-		
 		include 'footer.html';
-
 ?>
 		
 
