@@ -5,7 +5,7 @@ session_start();
 $_SESSION['vusername'] = "-";
 $_SESSION['utp'] = "";
 define('TITLE', 'Logout');
-include('templates/header.html');
+//include('templates/header.html');
 include('iconn.php');
 
 // Print some introductory text:
@@ -21,11 +21,28 @@ include('iconn.php');
 $comp="true";
 $invuser="false";
 session_destroy();
-
-echo '<p style="color:blue;font-weight:bold;text-align:center;font-size:30px">User logout successfully</p>';
+echo '<img src="/taps/css/taps_logo.jpg" class="responsive">';
+echo '<p style="color:blue;font-weight:bold;text-align:center;font-size:30px">Logout successfully</p>';
 	
-echo '<p align="center"><a href="login.php" align="right" >Go Login Page</a></p>';
+echo '<p align="center"><a href="login.php" align="right" >Go to Login Page</a></p>';
 
 
 include('templates/footer.html'); // Need the footer.
 ?>
+
+<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
+	.responsive {
+		width: 100%;
+		height: auto;
+	}
+</style>

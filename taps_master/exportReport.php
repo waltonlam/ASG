@@ -49,7 +49,7 @@
 
 	legend {
 		padding:5px 10px;
-		background-color:black;
+		background-color:#4a60df;
 		color:#FFF;
 		border-radius:3px;
 		box-shadow:2px 2px 4px #666;
@@ -78,7 +78,7 @@
 <html>
 	<h2 style="margin-left:10px">Export GLab Report</h2><hr>
     <form class="form-horizontal" action="function.php" name="upload_excel"  onsubmit="return validateForm()" enctype="multipart/form-data" method="post" >
-        <fieldset>
+        <fieldset style="overflow-x:auto;">
         	<legend>Date</legend>
 			<div class="box">
 				<label for="sDate" style="margin-right:15px">From :</label>
@@ -89,7 +89,7 @@
 		</fieldset>
 		<br>
 
-        <fieldset>
+        <fieldset style="overflow-x:auto;">
         	<legend>Site</legend>
 			<div class="box">
 				<table style="margin-left:20px; margin-right: 20px;">
@@ -111,7 +111,7 @@
 		</fieldset>
 		<br>
 
-		<fieldset>
+		<fieldset style="overflow-x:auto;">
 			<legend>Compound & Category</legend>
 			<div class="box">
 				<div style="margin-top:10px" width= "100%">
@@ -178,9 +178,10 @@
 			</div>
 		</fieldset>
 
-		<input type="submit" style="margin-left:10px" id="review" name="review" class="btn btn-success" value="CURRENT"  align="right" /> 
-		<input type="submit" style="margin-left:10px" id="raw" name="review" class="btn btn-success" value="RAW"  align="right" />
-		<input type="submit" style="margin-left:10px" id="hist" name="review" class="btn btn-success" value="HISTORY"  align="right" />
+		<hr>
+		<input type="submit" style="margin-left:10px" id="review" name="review" value="CURRENT"/> 
+		<input type="submit" style="margin-left:10px" id="raw" name="review" value="RAW"/>
+		<input type="submit" style="margin-left:10px" id="hist" name="review" value="HISTORY"/>
 		<!-- <input type="submit" id="submit" name="export" action="plot" class="btn btn-success" value="Export"  align="right"  /> -->
     </form>
  	<?php echo "<script> window.onload = function() {cateItemSelect();}; </script>";?>
@@ -357,6 +358,5 @@
 
 <!-- <div>
 	<input type="checkbox"   id="'.$vals['code'].'" onclick="sampleIdToggleSelect()" value=" '.$vals['code'].'">
-
 	<label style="margin-right: 30px;" for="ex">'.$vals['location'].'</label>
-	</div> -->
+</div> -->
