@@ -159,16 +159,15 @@
 			$rs_result = mysqli_query ($conn, $query);    
 		?>    
 	
-		<div class="container">   
-			<h2>All Compound Categories</h2>  
+		<div>   
+			<h2 style="margin-left:10px">All Categories</h2>  
 			<hr>
-			<br>
 			<div>
 				<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
 				<table id="mediaTb" class="table table-striped table-condensed table-bordered">   
 					<thead>   
 						<tr>   
-							<th width="10%">ID</th>   
+							<th>ID</th>   
 							<th>Item</th>   
 						</tr>   
 					</thead>   
@@ -186,15 +185,14 @@
 						?>     
 					</tbody>   
 				</table>   
-				<br><hr>
-				<div class="pagination">    
+				<hr>
+				<div class="pagination" style="margin-left:10px">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM category";     
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
 						$total_records = $row[0];     
-						
-						echo "</br>";     
+						   
 						// Number of pages required.   
 						$total_pages = ceil($total_records / $per_page_record);     
 						$pagLink = "";       
@@ -220,8 +218,8 @@
 						}
 					?>    
 				</div> 
-				<div class="inline">   
-					<input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+				<div class="inline" style="margin-right:10px">  
+					<input id="page" type="number" width="100" min="1" max="<?php echo $total_pages?>"   
 					placeholder="<?php echo $page."/".$total_pages; ?>" required>   
 					<button onClick="go2Page();">Go</button>   
 				</div>    

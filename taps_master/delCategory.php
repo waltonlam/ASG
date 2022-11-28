@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print'<h2>Delete Category</h2><hr>';
+	print'<h2 style="margin-left:10px">Delete Category</h2><hr>';
 
 	print '
 	<style>
@@ -153,45 +153,34 @@
 	}
 	</style>';
 
-
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script  type="text/javascript">
-			
-				
-			
-				function delClick(){
-					alert("delete click");
-				}
-			
-				function notSuccessAlert(){
-					alert("Cannot delete! it is because there are some compounds which include to this category");
-				}
-			
-				function showSuccessAlert(){
-					alert("Success");
-				}
-			
-				function myFunction() {
-					var popup = document.getElementById("del_code");
-					popup.classList.toggle("show");
-				}	
-			
+			function delClick(){
+				alert("delete click");
+			}
+		
+			function notSuccessAlert(){
+				alert("Cannot delete! it is because there are some compounds which include to this category");
+			}
+		
+			function showSuccessAlert(){
+				alert("Success");
+			}
+		
+			function myFunction() {
+				var popup = document.getElementById("del_code");
+				popup.classList.toggle("show");
+			}	
 		</script>
-	
 	';
-	
 	
 //			 getLoginData();
 		 
-		
-		$suid='';
+	$suid='';
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-		if (!empty($_POST['id'])){
-					
+		if (!empty($_POST['id'])){			
 			$suid = $_POST['id'];
-			
-			
 			$search = "select * from category where id = '{$suid}';";						
 			$result=$dbc->query($search);
 
@@ -206,17 +195,13 @@
 				echo "Error: " . $dbc->error;
 				exit();
 			}
-				
 				//print '<p class="text--error">'.'category Configuration Error!</p>';
 				//print "No information";
-
 		}else{
 			print '<p class="text--error">There is no information for deletion<br>Go back and try again.</p>';		
 			$criteria = "";
 			$comp="false";				
-
 		}					 
-		 
 	}
 		 
 /*
@@ -236,11 +221,10 @@
 				exit();
 			}		
 			
-			
 			print '<body><div>
 			<form action="delCategory.php" method="post">';
 			
-			echo '<br><table>';
+			echo '<table style="margin-left:10px">';
 										
 			print '<tr>
 					<td>Category: </td>  				
@@ -253,11 +237,10 @@
 							 print '<option value="'.$r_l->id.'">'.$r_l->id.'**'.$r_l->item.'</option>';}
 					};				
 			
-			
 			print	'</td>
 					</tr>';
 			 
-			echo '</table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete"></form></div>';
+			echo '</table><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete"></form></div>';
 
 			if ($suid<>''){ 
 				print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$suid.' has been deleted successfully</span></div>';

@@ -1,4 +1,3 @@
-
 <?php  
 	include ('iconn.php');
 	include 'header2.php';
@@ -153,23 +152,21 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 
-	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
-	*/
-	if (window.addEventListener) // W3C standard
-	{
-	  window.addEventListener("load", prompt_msg, false);  /* NB **not** "onload"*/
-	} 
-	else if (window.attachEvent) // Microsoft
-	{
-	  window.attachEvent("onload", prompt_msg);
-	}
+		/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
+		*/
+		if (window.addEventListener) // W3C standard
+		{
+		window.addEventListener("load", prompt_msg, false);  /* NB **not** "onload"*/
+		} 
+		else if (window.attachEvent) // Microsoft
+		{
+		window.attachEvent("onload", prompt_msg);
+		}
 
 		function editClick(){
-			
-			
 			location.replace("updatelocationform.php")
 		}
 	
@@ -177,27 +174,23 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			alert("delete click");
 		}
 	
-	
 		function showSuccessAlert(){
 			alert("Delete Successfully");
 		}
 		
 		function showConfirmAlert(){
-			
 			var answer = confirm ("Confirm to delete this record?")
-			if (answer){
-				
-				
+			if (answer){	
 			}
 		}
 
-
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
 
-		
 		function Showparam() {
 			var e = document.getElementById("cid");
 			var str = e.options[e.selectedIndex].innerHTML;
@@ -210,8 +203,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			document.getElementById("gid").value = info[2];
 			document.getElementById("who_tef").value = info[3];
 		}
-
-
 	</script>';
 
 	print '<script>
@@ -247,9 +238,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	</script>';
 
-		
-
-
 	print '<script language="javascript">function Showparam() {
 		var e = document.getElementById("id");
 		var str = e.options[e.selectedIndex].innerHTML;
@@ -262,7 +250,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	
 	</script>';
-	print'<body onload="Showparam()"><h2>Update Category</h2><hr>';
+	print'<body onload="Showparam()"><h2 style="margin-left:10px">Update Category</h2><hr>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();
@@ -272,51 +260,38 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 		 
 	$gid="";
 		
-		 
-		 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
-		{
-			if (!empty($_POST['id']) and !empty($_POST['item']))	
-				{
-					$gid=$_POST['id'];
-						$u= "update category set "
-						."id='".$_POST['id'].
-						"',item='".$_POST['item']."'"
-						." where id='".$_POST['id']."';";
-						
-						
-				if ($dbc->query($u) === TRUE) {
-					// $updated=TRUE;
-					/*
-					echo '<script>alert("Update Success");
-							window.location.href = "updateCategory.php"; 
-						
-					</script>';
-						*/
-						
-					print "<script>window.load = function(){prompt_msg();};</script>";							
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (!empty($_POST['id']) and !empty($_POST['item'])){
+			$gid=$_POST['id'];
+				$u= "update category set "
+				."id='".$_POST['id'].
+				"',item='".$_POST['item']."'"
+				." where id='".$_POST['id']."';";
+								
+			if ($dbc->query($u) === TRUE) {
+				// $updated=TRUE;
+				/*
+				echo '<script>alert("Update Success");
+						window.location.href = "updateCategory.php"; 
 					
-				}else{
-					echo "Error: " . $dbc->error;
-					exit();
-				};
+				</script>';
+					*/
+					
+				print "<script>window.load = function(){prompt_msg();};</script>";							
 				
-
+			}else{
+				echo "Error: " . $dbc->error;
+				exit();
+			};
 		}else{
-				print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
-				$criteria = "";
-				$comp="false";				
-
-				}
-
+			print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
+			$criteria = "";
+			$comp="false";				
+		}
 	} 
-		 
-		 
-		 
+		  
 		/* 
-		 
-
 		function getMediaData(){
-			
 			if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
 			{
 				print '<p style="color:red;">Could not connect to the database:<br>'.mysqli_connect_error().'.</p>';
@@ -332,8 +307,8 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}		
 			
 			
-			print '<div><br><form action="updateCategory.php" method="post">		
-				<table>
+			print '<div><form action="updateCategory.php" method="post">		
+				<table style="margin-left:10px">
 					<tr>
 						<td>Category Code: </td>
 						<td>
@@ -353,15 +328,13 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 							<input style="width:100%" type="text" name="item" id="item"></input>
 						</td>				  				
 					</tr>
-					</table>
-					<br>
-					<hr>
-					<input class=button--general type="submit" value="Update">
-					</form><br></div></body>';
+					</table>					
+					<hr><input class=button--general style="margin-left:10px" type="submit" value="Update">
+					</form></div></body>';
 						
-						if ($gid<>''){ 
-							print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$gid.' has been updated successfully</span></div>';
-						};			
+					if ($gid<>''){ 
+						print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$gid.' has been updated successfully</span></div>';
+					};			
 			
 			 //while ($row =$result_loc->fetch_assoc()){
 				 
@@ -377,40 +350,23 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				//echo "<a class='btn btn-delete btn-sm'    href='location.php?del_Item=". $row["code"]."'>Delete</a> ";
 				//echo "</td>";
 				//echo "</tr>";
-				 
-				 
+	 
 			 //}
-			 
-			 
-			 
-
 	//	}
-		
-		
-		
-		include 'footer.html';
 
+		include 'footer.html';
 ?>
-		
-		<script>
-		
-			function editClick(){
-				
-				
-				location.replace("updatelocationform.php")
-			}
-		
-			function delClick(){
-				alert("delete click");
-			}
-		
-		
-			function showSuccessAlert(){
-				alert("Success");
-			}
-		
-		
-		</script>
-		
-		
+
+	<script>
+		function editClick(){
+			location.replace("updatelocationform.php")
+		}
 	
+		function delClick(){
+			alert("delete click");
+		}
+
+		function showSuccessAlert(){
+			alert("Success");
+		}
+	</script>

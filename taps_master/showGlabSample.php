@@ -121,12 +121,12 @@
 			//}
 		?>
 
-		<div class="container">
-			<h2>Search Glab Sample</h2>
+		<div>
+			<h2 style="margin-left:10px">Search Glab Sample</h2>
 			<hr>
 			<div>
 				<form class="post-form" action="showGlabSample.php" method="post">
-					<table>
+					<table style="margin-left:10px">
 						<td style="width:25%">
 							<label>Site Code:</label>
 						</td>
@@ -164,7 +164,7 @@
 				</form>
 			</div>
 
-			<div>
+			<div style="overflow-x:auto;">
 				<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
 				<table class="table table-striped table-condensed table-bordered"> 
 					<thead>  
@@ -308,8 +308,8 @@
 					?>     
 					</tbody>
 				</table>
-				<br><hr>
-				<div class="pagination">    
+				<hr>
+				<div class="pagination" style="margin-left:10px">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM glab_sample ";
 						if(!empty($_SESSION['site_id'])){
@@ -322,8 +322,7 @@
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
 						$total_records = $row[0];     
-						
-						echo "</br>";     
+						  
 						// Number of pages required.   
 						$total_pages = ceil($total_records / $per_page_record);     
 						//$_SESSION['ttl_page'] = $total_pages;
@@ -350,7 +349,7 @@
 						}
 					?>    
 				</div> 
-				<div class="inline">   
+				<div class="inline" style="margin-right:10px">   
 					<input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
 					placeholder="<?php echo $page."/".$total_pages; ?>" required>   
 					<button onClick="go2Page();">Go</button>   

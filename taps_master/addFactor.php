@@ -47,13 +47,12 @@
 			}
 		}
 	?>
-	<h2>Add Factor</h2>
+	<h2 style="margin-left:10px">Add Factor</h2>
 	<hr>
 	<body>
 		<div>
 			<form class="post-form" action="addFactor.php" method="post">     
-				<br>
-				<table>
+				<table style="margin-left:10px">
 					<tr>
 						<td>Compound Code: </td>
 						<td>
@@ -85,8 +84,8 @@
 						</td>
 					</tr>
 				</table>
-				<br><hr>
-				<input class="submit" type="submit" value="Add"  />
+				<hr>
+				<input style="margin-left:10px" class="submit" type="submit" value="Add"  />
 			</form>
 		</div>
 	</body>

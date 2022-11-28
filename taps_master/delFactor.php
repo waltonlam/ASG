@@ -2,7 +2,7 @@
 	include ('iconn.php');
 	include 'header2.php';
 	
-	print'<h2>Delete Factor</h2><hr>';
+	print'<h2 style="margin-left:10px">Delete Factor</h2><hr>';
 	print '	
 		<style>
 			input[type=submit] {
@@ -16,7 +16,7 @@
 			}
 		</style>
 		
-		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script  type="text/javascript">		
 			function editClick(){			
 				location.replace("updatelocationform.php")
@@ -73,12 +73,11 @@
 			exit();
 		}		
 		
-		print '<form action="delFactor.php" method="post">';		
-		print '<br>';		
-		print '<table>';
+		print '<form action="delFactor.php" method="post">';				
+		print '<table style="margin-left:10px">';
 		print '<tr>
 				<td>	
-					<label for="lid">Factor: </label>	  				
+					Factor:  				
 				</td>
 				<td>
 				<select style="margin-left:10px" name="compound">';
@@ -88,7 +87,7 @@
 						else{
 							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.$r_l->who_tef.'</option>';}
 					};				
-		print '</select></td></tr></table><br><hr><input type="submit" value="delete">';
+		print '</select></td></tr></table><hr><input style="margin-left:10px" type="submit" value="delete">';
 
 			//while ($row =$result_loc->fetch_assoc()){
 			//echo "<tr>";

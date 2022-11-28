@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print'<h2>Delete Account</h2><hr>';
+	print'<h2 style="margin-left:10px">Delete Account</h2><hr>';
 	print '
 	<style>
 	input[type=submit] {
@@ -154,7 +154,7 @@
 
 
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script  type="text/javascript">
 			
 				
@@ -228,7 +228,7 @@
 
 	print '<body><div><form action="delAccount.php" method="POST">';
 	
-	echo '<table><br>';
+	echo '<table style="margin-left:10px">';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
 					//<tr>
@@ -236,8 +236,7 @@
 					//	<th>Location</th>
 					//	<th>Action</th>
 					//</tr>';
-					
-					
+							
 			print '<tr>
 					<td>Account: </td>	  				
 					<td>
@@ -250,7 +249,7 @@
 					};				
 			
 			print	'
-							 </tr><tr><td><br></td></tr>
+							 </tr>
 						</table><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete" ></form></div>						';
 
 				if ($suid<>''){ 

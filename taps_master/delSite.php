@@ -152,7 +152,7 @@
 	</style>';
 
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 		<script  type="text/javascript">
 
 		
@@ -281,8 +281,8 @@
 			}		
 			
 			
-	print'<h2>Delete Site</h2><hr>';
-			print '<br><body><div>
+	print'<h2 style="margin-left:10px">Delete Site</h2><hr>';
+			print '<body><div>
 			<form action="delSite.php" method="post">';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
@@ -292,8 +292,8 @@
 					//	<th>Action</th>
 					//</tr>';
 
-			print '<table><tr>
-				<td>Location Code: </td>
+			print '<table style="margin-left:10px"><tr>
+				<td >Location Code: </td>
 				<td>
 					<select style="margin-left:10px" name="code" id="code">';
 					   while ($r_l=$result_loc->fetch_object()){
@@ -324,8 +324,8 @@
 				 
 			 //}
 
-			echo '</table><br><hr><input name="submit" class="button--general btn submit" style="margin-left:10px" type="submit" value="delete"></div>
-			</form>';
+			echo '</table><hr><input name="submit" class="button--general btn submit" style="margin-left:10px" type="submit" value="delete">
+			</form></div>';
 			
 			if ($code<>''){ 
 				print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$code.' has been deleted successfully</span></div>';

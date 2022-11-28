@@ -151,8 +151,8 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-	<script  type="text/javascript">
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type="text/javascript">
 
 	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 	*/
@@ -185,7 +185,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 	function prompt_msg() {
 		var popup = document.getElementById("del_code");
-		popup.classList.toggle("show");
+		if(popup){
+			popup.classList.toggle("show");
+		}
 	}			
 
 	function Showparam() {
@@ -270,12 +272,11 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 ?>
 
- 	<h2>Add Category</h2><hr>
+ 	<h2 style="margin-left:10px">Add Category</h2><hr>
   	<body>
 	<div>
-		<br>
 		<form action="addCategory.php" method="post">
-			<table>
+			<table style="margin-left:10px">
 				<tr>
 					<td>Category Code: </td>
 					<td>
@@ -289,7 +290,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					</td>
 				</tr>
 			</table>
-			<br><hr><input class="submit" type="submit" value="Add"/>
+			<hr><input style="margin-left:10px" class="submit" type="submit" value="Add"/>
 		</form>
 	</div>
 

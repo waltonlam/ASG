@@ -121,12 +121,12 @@
 			}
 		?>
 		<div>
-			<h2>View Incident Report</h2>
+			<h2 style="margin-left:10px">View Incident Report</h2>
 			<span id="message" style="color:red"><?php echo $msg ?></span>
 			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
-				<table>
+				<table style="margin-left:10px">
 					<tr>	
 						<td style="width: 160px; vertical-align: top;">Site: </td>
 						<td>
@@ -186,12 +186,11 @@
 							</div>
 						</td>
 					</tr>
-				</table>		
-				<br>		
+				</table>				
 				<hr>
-				<input type="submit" name="submit" value="Save"> 
-				<input type="submit" name="delete" value="Delete" <?php if (empty($sitePhotoResultList)) { ?> style="display: none" <?php } ?> > 
-				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
+				<input type="submit" style="margin-left:10px" name="submit" value="Save"> 
+				<input type="submit" style="margin-left:10px" name="delete" value="Delete" <?php if (empty($sitePhotoResultList)) { ?> style="display: none" <?php } ?> > 
+				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
 			</form>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

@@ -24,7 +24,7 @@
 		}
 	}
 	
-	print '<h2>All Sites</h2><hr>';
+	print '<h2 style="margin-left:10px">All Sites</h2><hr>';
 		getLocationData();
 		function getLocationData(){
 			if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
@@ -40,9 +40,7 @@
 				print '<p class="text--error">'.'Site Configuration Error!</p>';
 				exit();
 			}		
-			//echo '<br>';
-			echo '<br><input type="text" id="myInput" onkeyup="search()" placeholder="Search for code ..." title="Type in a name" placeholder="Search..">';	
-			echo '<br>';
+			//echo '<input type="text" id="myInput" onkeyup="search()" placeholder="Search for code ..." title="Type in a name" placeholder="Search..">';	
 			echo '<table id="locTb"  class="table" cellspacing="0" width="100%">
 					<tr>
 						<th>Code</th>
@@ -55,7 +53,7 @@
 				echo "<td class='row-data'>" . $row["location"]."</td>";
 				echo "</tr>";
 			}
-			echo '</table><br><hr>';
+			echo '</table><hr>';
 		}
 		include 'footer.html';
 ?>

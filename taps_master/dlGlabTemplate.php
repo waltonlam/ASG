@@ -39,11 +39,10 @@
 			}
 		?>
 
-		<div class="container">
-			<h2>Download Glab Data Template</h2>
+		<div>
+			<h2 style="margin-left:10px">Download Glab Data Template</h2>
 			<hr> 
 			<div>
-				<br>
 				<table class="table table-striped table-condensed table-bordered"> 
 					<thead>  
 						<tr>
@@ -61,8 +60,8 @@
 							</td>							                                      
 						</tr>			
 					</tbody>
-				</table>   
-				<br><hr>
+				</table>
+				<hr>
 			</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="	crossorigin="anonymous"></script>

@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print'<h2>Update Site</h2><hr>';
+	print'<h2 style="margin-left:10px">Update Site</h2><hr>';
 	
 
 //https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
@@ -156,17 +156,16 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 
 
 	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 	*/
-	if (window.addEventListener) // W3C standard{
-	  window.addEventListener("load", prompt_msg, false);  /* NB **not** "onload"*/
-	} else if (window.attachEvent) // Microsoft
-	{
-	  window.attachEvent("onload", prompt_msg);
+	if (window.addEventListener){
+		window.addEventListener("load", prompt_msg, false);
+	} else if (window.attachEvent){
+		window.attachEvent("onload", prompt_msg);
 	}
 
 	function editClick(){	
@@ -189,7 +188,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 	function prompt_msg() {
 		var popup = document.getElementById("del_code");
-		popup.classList.toggle("show");
+		if(popup){
+			popup.classList.toggle("show");
+		}
 	}			
 
 	</script>';
@@ -344,8 +345,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 			print '<body onload="Showparam()"><div>
 				   <form action="updateSite.php" method="post">';
-			echo '<br>';
-			echo '<table>';
+			echo '<table style="margin-left:10px">';
 					//<tr>
 					//	<th>Code</th>
 					//	<th>Location</th>
@@ -373,7 +373,7 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 						</td>				  				
 					</tr>';			
 			
-			print	'</table><br><hr><input class=button--general type="submit" value="Update"></form></div></div>';
+			print	'</table><hr><input class=button--general style="margin-left:10px" type="submit" value="Update"></form></div></div>';
 						
 			echo '</table></body>';
 			if ($sid<>''){ 

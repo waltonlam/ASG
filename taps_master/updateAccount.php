@@ -157,7 +157,7 @@
 	</style>';
 
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 		/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 		*/
@@ -190,7 +190,9 @@
 
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
 
 		function Showparam() {
@@ -293,10 +295,10 @@
 		exit();
 	}		
 	
-	print '<h2>Update Account</h2><hr>';
+	print '<h2 style="margin-left:10px">Update Account</h2><hr>';
 	print '<div>';
-	print '<br><form action="updateAccount.php" method="post">';
-	print '<table>';
+	print '<form action="updateAccount.php" method="post">';
+	print '<table style="margin-left:10px">';
 
 	//echo '<table class="table" cellspacing="0" width="100%">
 			//<tr>
@@ -356,7 +358,7 @@
 						<input style="margin-left:10px"  type="checkbox" name="ronly" value="" id="ronly">
 					</td>	
 				</tr>	
-			</table><br><hr><input style="margin-left:10px" class=button--general type="submit" value="Update">';
+			</table><hr><input style="margin-left:10px" class=button--general type="submit" value="Update">';
 
 		//while ($row =$result_loc->fetch_assoc()){	
 		//echo "<tr>";
@@ -370,8 +372,7 @@
 		//echo "</tr>";	
 		//}
 	
-	print '</table><br>';
-	print '<br></div>';
+	print '</table></div>';
 
 	echo "<script> window.onload = function() {selectFirstItem();}; </script>";
 	if ($suid<>''){ 
@@ -417,7 +418,7 @@
 				    success:function(response) {
 			        	// alert(response);
 						var obj = JSON.parse(response);
-						console.log(obj["uid"] + "  |  "+obj["pwd"]+ "  |  "+obj["fname"]+ "  |  "+obj["lname"] + "  |  "+obj["ronly"]);
+						//console.log(obj["uid"] + "  |  "+obj["pwd"]+ "  |  "+obj["fname"]+ "  |  "+obj["lname"] + "  |  "+obj["ronly"]);
 
 						if (obj["uid"] == str) {
 							document.getElementById("fname").value = obj["fname"];

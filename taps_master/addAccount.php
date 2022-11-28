@@ -152,7 +152,7 @@
 	</style>';
 
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 		/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 		*/
@@ -173,23 +173,21 @@
 			alert("delete click");
 		}
 
-
 		function showSuccessAlert(){
 			alert("Delete Successfully");
 		}
 		
 		function showConfirmAlert(){
-			
 			var answer = confirm ("Confirm to delete this record?")
-			if (answer){
-				
-				
+			if (answer){	
 			}
 		}
 
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
 
 		function Showparam() {
@@ -280,16 +278,15 @@
 	}
 ?>
 
-	<h2>Add Account</h2>
+	<h2 style="margin-left:10px">Add Account</h2>
 	<hr>
 	<body>
 		<div>
-			<br>
 			<form action="addAccount.php" method="post">
-				<table>
+				<table style="margin-left:10px">
 					<tr>
 						<td>		
-							<label>User ID</label>
+							<label>User ID:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="uid" required>
@@ -297,7 +294,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label>Password</label>
+							<label>Password:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="pwd" required>
@@ -305,7 +302,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label>First name</label>
+							<label>First name:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="fname">
@@ -313,7 +310,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label>Last name</label>
+							<label>Last name:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="lname">
@@ -321,7 +318,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label>Read only</label>
+							<label>Read only:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="checkbox" name="ronly">
@@ -330,7 +327,7 @@
 				</table>
 				<br>
 				<hr>
-				<input style="margin-left:10px"  class="submit" type="submit" value="Add"  />
+				<input style="margin-left:10px" class="submit" type="submit" value="Add"  />
 			</form>
 		</div>
 	<?php

@@ -3,7 +3,6 @@
 	include ('iconn.php');
 	include 'header2.php';
 	
-
 	print '<h2>All record</h2>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
@@ -11,14 +10,6 @@
 		 //} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
 			 getConstractorData();
 		 //}
-		 
-		
-		 
-		
-		 
-		 
-		 
-		 
 
 		function getConstractorData(){
 			
@@ -40,8 +31,8 @@
 			
 			echo '<input type="text" id="myInput" onkeyup="search()" placeholder="Search for sample id.." title="Type in a compound" placeholder="Search..">';
 			
-			echo '<br>';
-			echo '<table id="compoundTb" class="table" cellspacing="0" width="100%">
+			echo '<div style="overflow-x:auto;">';
+			echo '<table id="compoundTb" class="table" cellspacing="0">
 					<tr>
 						<th>Sample ID</th>
 						<th>Site</th>
@@ -85,54 +76,34 @@
 					/*echo gettype($mInt);
 					echo '<br>';
 					echo $mS;*/
-					
-					
-					
-					echo "</tr>";
-				 
+					echo "</tr>"; 
 			 }
-			 
-			 
-			 
-			echo '</table>';
-
+			echo '</table></div>';
 		}
-		
-		
-		
 		include 'footer.html';
-
 ?>
-		
-		<script>
-		
-			function search(){
-				
-				
-				var input, filter, table, tr, td, i, txtValue;
-				input = document.getElementById("myInput");
-				filter = input.value.toUpperCase();
-				table = document.getElementById("compoundTb");
-				tr = table.getElementsByTagName("tr");
-				for (i = 0; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[0];
-					if (td) {
-					  txtValue = td.textContent || td.innerText;
-					  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					  } else {
-						tr[i].style.display = "none";
-					  }
-					}       
-				  }
+
+<script>
+	function search(){
+		var input, filter, table, tr, td, i, txtValue;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("compoundTb");
+		tr = table.getElementsByTagName("tr");
+		for (i = 0; i < tr.length; i++) {
+			td = tr[i].getElementsByTagName("td")[0];
+			if (td) {
+				txtValue = td.textContent || td.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				tr[i].style.display = "";
+				} else {
+				tr[i].style.display = "none";
+				}
+			}       
 			}
-		
-			function delClick(){
-				alert("delete click");
-			}
-		
-		
-		</script>
-		
-		
-	
+	}
+
+	function delClick(){
+		alert("delete click");
+	}
+</script>

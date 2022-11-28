@@ -156,7 +156,7 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 
 
@@ -198,7 +198,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
 
 		
@@ -418,9 +420,9 @@ exit();
 
 
 
-print '<body onload="Showparam()"><h2>Update Compound</h2><hr><div>
+print '<body onload="Showparam()"><h2 style="margin-left:10px">Update Compound</h2><hr><div>
 <form action="updateCompound.php" method="post">
-	  <table><br>';	
+	  <table style="margin-left:10px">';	
 print '<tr>
 	  <td>Compound: <td>
 		  <select style="margin-left:10px" name="cid" id="cid" onchange="Showparam()">';
@@ -463,7 +465,7 @@ print '</select></td></tr>
 				</td>				  				
 			</tr>';			
 
-print	'</table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Update"></form></div>';
+print	'</table><hr><input class=button--general style="margin-left:10px" type="submit" value="Update"></form></div>';
 
 
 if ($comp_id<>''){ 

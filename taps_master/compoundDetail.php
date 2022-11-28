@@ -65,13 +65,12 @@
 	</head>
 	<body>
 		<div>
-			<h2>Compound Detail</h2>
+			<h2 style="margin-left:10px">Compound Detail</h2>
 			<hr>
 			<!--form action="?id=<?php //echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()"-->
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
-				<br>
 				<span style="color:red"><?php echo $err_msg ?></span>
-				<table>
+				<table style="margin-left:10px">
 					<tr>	
 						<td style="width: 330px; vertical-align: top;">Sample ID: </td>
 						<td>
@@ -175,13 +174,12 @@
 					</tr>
 					<?php } ?>
 				</table>
-				<br>
 				<hr>
 				<?php if($result[0]["compound_grp"] == 'DF' or $result[0]["compound_grp"] == 'DI_PB'){ ?>
-					<input type="submit" name="calTef" value="Calculate TEF"/>
+					<input type="submit" style="margin-left:10px" name="calTef" value="Cal. TEF"/>
 				<?php } ?>
-				<input type="submit" name="submit" value="Submit"> 
-				<input type="button" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>	
+				<input type="submit" style="margin-left:10px" name="submit" value="Submit"> 
+				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>	
 			</form>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

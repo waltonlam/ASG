@@ -167,7 +167,7 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
 
 
@@ -206,12 +206,12 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}
 		}
 
-
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
-
 		
 		function Showparam() {
 			var e = document.getElementById("cid");
@@ -281,11 +281,10 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 ?>
 
 <body>
-<h2>Add Site</h2><hr>
+<h2 style="margin-left:10px">Add Site</h2><hr>
 <div>
-	<br>
 	<form class="post-form" action="addSite.php" method="post">
-		<table>
+		<table style="margin-left:10px">
 			<tr>
 				<td>Site Code: </td>
 				<td>
@@ -299,8 +298,8 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				</td>
 			</tr>    
 		</table>
-		<br><hr>
-		<input class="submit" type="submit" value="Add"  /><br><br></td>
+		<hr>
+		<input style="margin-left:10px" class="submit" type="submit" value="Add"  /></td>
 	</form>
 </div>
 

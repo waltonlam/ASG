@@ -57,7 +57,7 @@
 			exit();
 		}		
 
-		print '<h2>Update Factor</h2><hr>';
+		print '<h2 style="margin-left:10px">Update Factor</h2><hr>';
 		print '	
 		<style>
 			input[type=submit] {
@@ -73,7 +73,7 @@
 		
 		print '<form action="updateFactor.php" method="post">';
 		
-		echo '<br><table>';
+		echo '<table style="margin-left:10px">';
 		
 		//echo '<table class="table" cellspacing="0" width="100%">
 				//<tr>
@@ -120,7 +120,7 @@
 					</td>				  				
 				</tr>';			
 		
-		print	'</table><br><hr><input type="submit" value="Update">';
+		print '</table><hr><input style="margin-left:10px" type="submit" value="Update">';
 		
 		//while ($row =$result_loc->fetch_assoc()){	 
 		//echo "<tr>";

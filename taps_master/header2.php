@@ -28,8 +28,8 @@
 		exit();
 		} else{
 	?>
-		<h1><a href="exportReport.php"> TAPS </a></h1>
-		<p align="right">Signed in as <?php echo $_SESSION['vuserid'].', Last login time: '.$_SESSION['lastLoginTime'] ?> </p>
+		<h1 style="margin-left:10px"><a href="exportReport.php"> TAPS </a></h1>
+		<p style="margin-right:10px" align="right">Signed in as <?php echo $_SESSION['vuserid'].', Last login time: '.$_SESSION['lastLoginTime'] ?> </p>
 
 	<?php		
 		} 
@@ -137,9 +137,10 @@
 								</ul>
 								</li>
 								<li>
-								<a href="#">Graph Generation <span class="caret"></span></a>
+								<a href="#">Statistical Graph<span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="genSummaryPlot.php">Generate Summary Plot</a></li>
+									<li><a href="genSummaryPlot.php">Summary Plot</a></li>
+									<li><a href="genSummaryPlot.php">Scatter Plot</a></li>
 								</ul>
 								</li>
 								<li><a href="logout.php">Logout</a></li>

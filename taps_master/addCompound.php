@@ -153,32 +153,28 @@ Different arrow positioning
 </style>';
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 	<script  type="text/javascript">
-
-
-	/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
-	*/
-	if (window.addEventListener) // W3C standard
-	{
-	  window.addEventListener("load", prompt_msg, false);  /* NB **not** "onload"*/
-	} 
-	else if (window.attachEvent) // Microsoft
-	{
-	  window.attachEvent("onload", prompt_msg);
-	}
+		/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
+		*/
+		if (window.addEventListener){
+			window.addEventListener("load", prompt_msg, false);
+		} 
+		else if (window.attachEvent){
+			window.attachEvent("onload", prompt_msg);
+		}
 
 		function editClick(){
 			
 			
 			location.replace("updatelocationform.php")
 		}
-	
+
 		function delClick(){
 			alert("delete click");
 		}
-	
-	
+
+
 		function showSuccessAlert(){
 			alert("Delete Successfully");
 		}
@@ -192,12 +188,12 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}
 		}
 
-
 		function prompt_msg() {
 			var popup = document.getElementById("del_code");
-			popup.classList.toggle("show");
+			if(popup){
+				popup.classList.toggle("show");
+			}
 		}			
-
 		
 		function Showparam() {
 			var e = document.getElementById("cid");
@@ -211,8 +207,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			document.getElementById("gid").value = info[2];
 			document.getElementById("who_tef").value = info[3];
 		}
-
-
 	</script>';
 
 	print '<script>
@@ -248,40 +242,25 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	}
 	</script>';
 
-		
-
 	print '
-	
 		<script>
-			
-				function editClick(){
-					
-					
-					location.replace("updatelocationform.php")
-				}
-			
-				function delClick(){
-					alert("delete click");
-				}
-			
-			
-				function showSuccessAlert(){
-					alert("Success");
-				}
-			
-				
-			
+			function editClick(){	
+				location.replace("updatelocationform.php")
+			}
+		
+			function delClick(){
+				alert("delete click");
+			}
+		
+			function showSuccessAlert(){
+				alert("Success");
+			}
 		</script>
-	
 	';
-	
-	
 	
 	$cid="";
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		
 		$success = false;
-		
 		if (!empty($_POST['id']) and !empty($_POST['name']) and !empty($_POST['gid']) ){
 			//if (isset($_POST['userid']) and isset($_POST['fname']) and isset($_POST['lname']) and isset($_POST['pwd']))
 				$cid=$_POST['id'];
@@ -299,7 +278,6 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				
 				$sql = "INSERT INTO compound(id,name) VALUES ('".$_POST['id']."','".$_POST['name'].")";
 			}*/
-			
 			
 			echo '<br>';
 			if ($dbc->query($sql) === FALSE) {
@@ -328,16 +306,11 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			}else{
 				echo '<p align="center" style="color:blue;font-weight:bold;font-size:28px">New media added Not successfully</p>';
 			} */
-
-		}
-			
+		}	
 	}
-	
 
-	
 	/*
 	function getMediaData(){
-	
 			if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
 			{
 				print '<p style="color:red;">Could not connect to the database:<br>'.mysqli_connect_error().'.</p>';
@@ -352,19 +325,17 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				exit();
 			}		
 			
-			
-			print '<h2>Add Compound</h2><hr>';
-			print '<div><br>';
-			print '<form action="addCompound.php" method="post"><table>';
-			
+			print '<h2 style="margin-left:10px">Add Compound</h2><hr>';
+			print '<div>';
+			print '<form action="addCompound.php" method="post">
+			<table style="margin-left:10px">';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
 					//<tr>
 					//	<th>Code</th>
 					//	<th>Location</th>
 					//	<th>Action</th>
-					//</tr>';
-					
+					//</tr>';	
 
 			print '<tr>
 					<td>Category Code: </td><td>
@@ -403,16 +374,13 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 				<input style="margin-left:10px" type="number" step="0.01" name="who_tef" id="who_tef"></input>
 			</td></tr>';		
 						
-			print '</table><br><hr><input style="margin-left:10px" class="submit" type="submit" value="Add"  />';
+			print '</table><hr><input style="margin-left:10px" class="submit" type="submit" value="Add"  />';
 			
 			print '</form>';
 			
 			print '<br></div>';if ($cid<>''){print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$cid.' has been updated successfully</span></div>';
 			};
-
-
 ?>
-
  
 </body>
 </html>

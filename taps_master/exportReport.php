@@ -49,7 +49,7 @@
 
 	legend {
 		padding:5px 10px;
-		background-color:#4F709F;
+		background-color:black;
 		color:#FFF;
 		border-radius:3px;
 		box-shadow:2px 2px 4px #666;
@@ -76,8 +76,7 @@
 </style>
 
 <html>
-	<h2>Export GLab Report</h2><hr>
-	<br>
+	<h2 style="margin-left:10px">Export GLab Report</h2><hr>
     <form class="form-horizontal" action="function.php" name="upload_excel"  onsubmit="return validateForm()" enctype="multipart/form-data" method="post" >
         <fieldset>
         	<legend>Date</legend>
@@ -179,9 +178,9 @@
 			</div>
 		</fieldset>
 
-		<input type="submit" id="review" name="review" class="btn btn-success" value="CURRENT"  align="right" /> 
-		<input type="submit" id="raw" name="review" class="btn btn-success" value="RAW"  align="right" />
-		<input type="submit" id="hist" name="review" class="btn btn-success" value="HISTORY"  align="right" />
+		<input type="submit" style="margin-left:10px" id="review" name="review" class="btn btn-success" value="CURRENT"  align="right" /> 
+		<input type="submit" style="margin-left:10px" id="raw" name="review" class="btn btn-success" value="RAW"  align="right" />
+		<input type="submit" style="margin-left:10px" id="hist" name="review" class="btn btn-success" value="HISTORY"  align="right" />
 		<!-- <input type="submit" id="submit" name="export" action="plot" class="btn btn-success" value="Export"  align="right"  /> -->
     </form>
  	<?php echo "<script> window.onload = function() {cateItemSelect();}; </script>";?>

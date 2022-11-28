@@ -5,15 +5,16 @@ session_start();
 $_SESSION['vusername'] = "-";
 $_SESSION['utp'] = "";
 define('TITLE', 'Login');
-include('templates/header.html');
+//include('templates/header.html');
 include('iconn.php');
 date_default_timezone_set('Asia/Hong_Kong');
 
 // Print some introductory text:
 //print '<h2 dir="ltr" style="margin-left: 465px; margin-right: 80px">用戶登入</h2>';
-print '<h2 align="center">Login</h2>';
+print '<img src="/taps/css/taps_logo.jpg" class="responsive"><div>
+		<h2 style="margin-right:10px">Toxic Air Pollution System</h2><hr>';
 
-	//<p>Users who are logged in can take advantage of certain features like this, that, and the other thing.</p>';
+//<p>Users who are logged in can take advantage of certain features like this, that, and the other thing.</p>';
 
 // Check if the form has been submitted:
 
@@ -42,45 +43,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				$invuser="true";
 			}				
 
-			
 			//$q = "select * from user_acc where userid = ? and pwd= ?";
 			//$stmt = $db->prepare($q);
 			//$stmt->bind_param('ss',$_POST['userid'], $_POST['pwd']);
 			//$stmt->execute();
 			//mysqli_query($dbc, $q);			
-
-
-
 	} else { 
 		$comp="false";
 		//print '<p class="text--error">Please make sure you enter both an email address and a password!<br>Go back and try again.</p>';
 
 	}
-
 } 
 
 //else { // Display the form.
-
-	print '<form action="login.php" method="post">
-	<p align="center" style="margin-right:18px">
-	<font size="5">Username:<input type="text" name="uid" size="20" dir="ltr" style="margin-left: 8px;" required>
-	</br>
-	<p align="center" style="margin-right:18px">
-	<font size="5">Password:<input type="password" name="pwd" size="20" dir="ltr" style="margin-left: 8px;" >
-	</p>
-	<p align="center">
-	<input type="submit" name="submit" value="Submit" class="button--general">
-	</p>
+	print '
+	<form action="login.php" method="post">
+	<table style="margin-right:10px">
+		<tr>
+			<td>User ID:</td>
+			<td><input type="text" name="uid" size="15" dir="ltr" required></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><input type="password" name="pwd" size="15" dir="ltr"></td>
+		</tr>
+	<table>
+	<hr>
+	<input style="margin-right:10px" type="submit" name="submit" value="Login" class="button--general">
 	</form>';
 	
 	if ($comp=="false"){
-				print '<p align="center" class="text--error">Please ensure the username or password is correct!</p>';}
+		print '<p align="center" class="text--error">Please ensure the username or password is correct!</p>';
+	}
 
 	if ($invuser=="true"){
-				print '<p align="center" class="text--error">Please ensure the username or password is correct!</p>';}
-
+		print '<p align="center" class="text--error">Please ensure the username or password is correct!</p>';
+	}
 
 //}
 
 include('templates/footer.html'); // Need the footer.
 ?>
+
+<style>
+	input[type=submit] {
+		background-color: #87ceeb;
+		color: white;
+		padding: 12px 20px;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		width:100
+	}
+
+	.responsive {
+		width: 100%;
+		height: auto;
+	}
+</style>

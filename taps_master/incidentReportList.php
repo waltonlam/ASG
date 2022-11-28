@@ -98,12 +98,12 @@
 		?>
 
 
-		<div class="container"> 
-			<h2>All Incident Report</h2>
+		<div> 
+			<h2 style="margin-left:10px">All Incident Report</h2>
 			<hr> 
-			<div>
+			<div style="overflow-x:auto;">
 				<form class="post-form" action="incidentReportList.php" method="post">
-					<table>
+					<table style="margin-left:10px">
 						<td style="width:25%">
 							<label>Site Code:</label>
 						</td>
@@ -186,9 +186,8 @@
 					</tbody>
 				</table>
 				<!--a href="insert.php" class="btn-link">Add Image</a-->
-				<br>
 				<hr>
-				<div class="pagination">    
+				<div class="pagination" style="margin-left:10px">    
 					<?php  
 						$query = "SELECT COUNT(*) FROM incident_report";   
 						if(!empty($_SESSION['site_code_inc'])){
@@ -201,8 +200,7 @@
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
 						$total_records = $row[0];     
-						
-						echo "</br>";     
+  
 						// Number of pages required.   
 						$total_pages = ceil($total_records / $per_page_record);
 						//$_SESSION['ttl_incident_page'] = $total_pages;
@@ -229,7 +227,7 @@
 						}
 					?>    
 				</div> 
-				<div class="inline">   
+				<div class="inline" style="margin-right:10px">   
 					<input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
 					placeholder="<?php echo $page."/".$total_pages; ?>" required>   
 					<button onClick="go2Page();">Go</button>   

@@ -1,16 +1,34 @@
 <?php
-require_once "iconn.php";
-require_once "header2.php";
+    require_once "iconn.php";
+    require_once "header2.php";
 ?>
 
 <html>
     <head>
         <meta charset="utf-8" />
+        <style>
+            input[type=submit] {
+                background-color: #87ceeb;
+                color: white;
+                padding: 12px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                width:100
+            }
+        </style>
     </head>
+    
     <body>
+        <h2 style="margin-left:10px">Generate Summary Plot</h2>
         <form method="POST" ACTION="">
-            <input type="text" name="number">
-            <input type="submit" value="submit">            
+            <table style="margin-left:10px">
+                <tr>
+                    <td><label>Please input a number: </label></td>
+                    <td><input type="text" name="number"></td>          
+                </tr>      
+            </table>
+            <input class="btn-submit" style="margin-left:10px" type="submit" value="submit">
         </form>
 
         <?php

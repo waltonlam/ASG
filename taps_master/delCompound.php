@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print'<h2>Delete Compound</h2><hr>';
+	print'<h2 style="margin-left:10px">Delete Compound</h2><hr>';
 	print '
 	<style>
 	input[type=submit] {
@@ -154,31 +154,25 @@
 
 
 	print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script  type="text/javascript">
-			
-				
-			
-				function delClick(){
-					alert("delete click");
-				}
-			
-				function notSuccessAlert(){
-					alert("Cannot delete! it is because there are some compounds which include to this category");
-				}
-			
-				function showSuccessAlert(){
-					alert("Success");
-				}
-			
-				function myFunction() {
-					var popup = document.getElementById("del_code");
-					popup.classList.toggle("show");
-				}	
-			
-		</script>
+	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+	<script  type="text/javascript">
+		function delClick(){
+			alert("delete click");
+		}
 	
-	';
+		function notSuccessAlert(){
+			alert("Cannot delete! it is because there are some compounds which include to this category");
+		}
+	
+		function showSuccessAlert(){
+			alert("Success");
+		}
+	
+		function myFunction() {
+			var popup = document.getElementById("del_code");
+			popup.classList.toggle("show");
+		}	
+	</script>';
 
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
@@ -188,21 +182,15 @@
 		 //}
 		
 	$scode='';
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
-	{
-
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		if (!empty($_POST['id']))	
 		{
-			$scode = $_POST['id'];
-				
+			$scode = $_POST['id'];	
 			$u= "delete from compound where id='{$scode}';";
-			
 			//$cu= "delete from compound_map where compound_id='{$scode}';";
-			
 			//if ($dbc->query($u) === TRUE and $dbc->query($cu) === TRUE ) {
 				// $updated=TRUE;
-			if ($dbc->query($u) === TRUE) {
-										
+			if ($dbc->query($u) === TRUE) {					
 				//echo '<script>alert("Delete Success");
 				//window.location.href = "delCompound.php"; </script>';
 				print "<script>window.onload = function(){myFunction();};</script>";				
@@ -210,12 +198,10 @@
 				echo "Error: " . $dbc->error;
 				exit();
 			};
-					
 		}else{
 			print '<p class="text--error">There is no information for deletion<br>Go back and try again.</p>';		
 			$criteria = "";
 			$comp="false";				
-
 		}			
 	} 
  
@@ -237,8 +223,7 @@
 			}		
 
 			print '<body><div><form action="delCompound.php" method="post">';
-			
-			echo '<br><table>';
+			echo '<table style="margin-left:10px">';
 			
 			//echo '<table class="table" cellspacing="0" width="100%">
 					//<tr>
@@ -260,7 +245,7 @@
 					};				
 			
 			print	'</td> 
-					</tr></table><br><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete">';
+					</tr></table><hr><input class=button--general style="margin-left:10px" type="submit" value="Delete">';
 						
 			if ($scode<>''){ 
 				print '<div class="popup" onclick="myFunction()"><span class="popuptext" id="del_code">'.$scode.' has been deleted successfully</span></div>';

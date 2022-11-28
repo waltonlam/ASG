@@ -197,26 +197,23 @@ if (isset($_POST["import"])) {
 	</head>
 
 	<body>
-		<h2>Import PAH CSV File</h2><hr>
+		<h2 style="margin-left:10px">Import PAH CSV File</h2><hr>
 		<div id="response"
 			class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
 			<?php if(!empty($message)) { echo $message; } ?>
-			</div>
+		</div>
 		<div>
-			<div class="row">
-				<form class="form-horizontal" action="" method="post"
-					name="frmCSVImport" id="frmCSVImport"
-					enctype="multipart/form-data">
-					<div class="input-row">
-						<h4><label class="col-md-4 control-label">(Choose Data File (.csv)</label></h4> 
-					</div>			
-					<div class="input-row">
-						<input type="file" name="file" id="file" accept=".csv">
-					</div>
-					<br><hr>
-					<button type="submit" id="submit" name="import" class="btn-submit">Import</button>							
-				</form>
-			</div>
+			<form  action="" method="post" name="frmCSVImport" id="frmCSVImport"
+				enctype="multipart/form-data">
+				<table style="margin-left:10px">
+					<tr>
+						<td><label>(Choose Data File (.csv) </label></td>
+						<td><input type="file" name="file" id="file" accept=".csv"></td>
+					</tr>	
+				</table>
+				<hr>
+				<button type="submit" style="margin-left:10px" id="submit" name="import" class="btn-submit">Import</button>							
+			</form>
 		</div>
 	</body>
 </html>

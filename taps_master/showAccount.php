@@ -25,7 +25,7 @@
 		}
 	}
 	
-	print '<h2>All User Accounts</h2><hr><br>';
+	print '<h2 style="margin-left:10px">All User Accounts</h2><hr>';
 		//if (isset($_GET['click']) && $_GET['click'] == 'media') {
 			
 			//getMediaData();
@@ -60,9 +60,7 @@
 						<th>First name</th>
 						<th>Last name</th>
 						<th>Read only</th>
-
 					</tr>';
-					
 			
 			 while ($row =$result_loc->fetch_assoc()){
 				 
@@ -79,50 +77,35 @@
 					}else{
 						echo "<td>No</td>";
 					}
-
-
 					//echo "<td>" . $row["ronly"]."</td>";
-
 					echo "</tr>";
-				 
 			 }
-			 
-			 
-			 
-			echo '</table><br><hr>';
-
+			echo '</table><hr>';
 		}
-		
-		
-		
 		include 'footer.html';
-
 ?>
 		
-		<script>	
-			/*function search(){
-				var input, filter, table, tr, td, i, txtValue;
-				input = document.getElementById("myInput");
-				filter = input.value.toUpperCase();
-				table = document.getElementById("compoundTb");
-				tr = table.getElementsByTagName("tr");
-				for (i = 0; i < tr.length; i++) {
-					td = tr[i].getElementsByTagName("td")[0];
-					if (td) {
-					  txtValue = td.textContent || td.innerText;
-					  if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					  } else {
-						tr[i].style.display = "none";
-					  }
-					}       
-				  }
-			}*/
-		
-			function delClick(){
-				alert("delete click");
+<script>	
+	/*function search(){
+		var input, filter, table, tr, td, i, txtValue;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("compoundTb");
+		tr = table.getElementsByTagName("tr");
+		for (i = 0; i < tr.length; i++) {
+			td = tr[i].getElementsByTagName("td")[0];
+			if (td) {
+				txtValue = td.textContent || td.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+				tr[i].style.display = "";
+				} else {
+				tr[i].style.display = "none";
+				}
+			}       
 			}
-		</script>
-		
-		
-	
+	}*/
+
+	function delClick(){
+		alert("delete click");
+	}
+</script>
