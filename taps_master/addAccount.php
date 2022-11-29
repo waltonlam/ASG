@@ -286,7 +286,7 @@
 				<table style="margin-left:10px">
 					<tr>
 						<td>		
-							<label>User ID:</label>
+							<label>User ID<span style="color:red">*</span>:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="uid" required>
@@ -294,7 +294,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label>Password:</label>
+							<label>Password<span style="color:red">*</span>:</label>
 						</td>
 						<td>
 							<input style="margin-left:10px" type="text" name="pwd" required>
@@ -325,7 +325,6 @@
 						</td>
 					</tr>
 				</table>
-				<br>
 				<hr>
 				<input style="margin-left:10px" class="submit" type="submit" value="Add"  />
 			</form>

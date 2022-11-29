@@ -309,9 +309,9 @@
 	$globalAccountArray = array();
 			
 		print  '<tr>
-					<td>User Id: </td>
+					<td><label>User Id: </label></td>
 					<td>
-						<select style="margin-left:10px" name="uid" id="accountSelector" onchange="updateUi(value)">';
+						<select style="width:100%; margin-left:10px;" name="uid" id="accountSelector" onchange="updateUi(value)">';
 						while ($r_l=$result_loc->fetch_object()){
 								print '<option value="'.$r_l->uid.'">'.$r_l->uid.'**'.$r_l->fname.' '.$r_l->lname.'</option>';
 								$accountObj = new stdClass();
@@ -326,9 +326,9 @@
 		print       '</td>
 				</tr>			
 				<tr>
-				<td>Password: </td>				  				
+				<td><label>Password: </label></td>				  				
 				<td>  
-					<input style="margin-left:10px" type="text" name="pwd" id="pwd"></input>
+					<input style="width:100%; margin-left:10px;" type="text" name="pwd" id="pwd"></input>
 				</td>				  				
 			</tr>';			
 	
@@ -337,25 +337,25 @@
 				</td>	
 				<tr>
 					<td>
-						First name: 
+						<label>First name: </label> 
 					</td>	
 					<td>
-						<input style="margin-left:10px" type="text" name="fname" id="fname"></input>
+						<input style="width:100%; margin-left:10px;" type="text" name="fname" id="fname"></input>
 					</td>
 				<tr>		
 					<td>
-						Last name: 
+						<label>Last name: </label>
 					</td>	
 					<td>
-						<input style="margin-left:10px" type="text" name="lname" id="lname"></input>
+						<input style="width:100%; margin-left:10px;" type="text" name="lname" id="lname"></input>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						Read only: 
+						<label>Read only: </label> 
 					</td>
 					<td>
-						<input style="margin-left:10px"  type="checkbox" name="ronly" value="" id="ronly">
+						<input style="margin-left:10px;"  type="checkbox" name="ronly" value="" id="ronly">
 					</td>	
 				</tr>	
 			</table><hr><input style="margin-left:10px" class=button--general type="submit" value="Update">';

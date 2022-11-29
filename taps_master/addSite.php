@@ -286,15 +286,15 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 	<form class="post-form" action="addSite.php" method="post">
 		<table style="margin-left:10px">
 			<tr>
-				<td>Site Code: </td>
+				<td><label>Site Code<span style="color:red">*</span>: </label></td>
 				<td>
-					<input type="text" name="code" required/>
+					<input style="width:100%; margin-left:10px;" type="text" name="code" required/>
 				</td>
 			</tr>
 			<tr>
-				<td>Location: </td>
+				<td><label>Site Name<span style="color:red">*</span>: </label></td>
 				<td>
-            		<input type="text" name="location" required/>
+            		<input style="width:100%; margin-left:10px;" type="text" name="location" required/>
 				</td>
 			</tr>    
 		</table>

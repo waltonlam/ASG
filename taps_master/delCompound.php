@@ -233,10 +233,10 @@
 					//</tr>';
 					
 					
-			print '<tr style="color:#555555;">
-				<td>Compound Name: </td>	  				
+			print '<tr>
+				<td><label>Compound: </label></td>	  				
 					<td>
-					<select style="margin-left:10px" name="id">';
+					<select style="width:100%; margin-left:10px;" name="id">';
 					   while ($r_l=$result_loc->fetch_object()){
 						  if ($r_l->id==$t[0]){
 							  print '<option value="'.$r_l->id.'" selected>'.$r_l->id.'**'.$r_l->name.'</option>';}

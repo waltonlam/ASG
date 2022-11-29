@@ -338,8 +338,8 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					//</tr>';	
 
 			print '<tr>
-					<td>Category Code: </td><td>
-					<select  style="margin-left:10px" name="gid">';
+					<td><label>Category Code: </label></td><td>
+					<select style="width:100%; margin-left:10px;" name="gid">';
 					   while ($r_l=$result_loc->fetch_object()){
 						  if ($r_l->id==$t[0]){
 							  print '<option value="'.$r_l->id.'" selected>'.'('.$r_l->id.') '.$r_l->item.'</option>';}
@@ -352,8 +352,8 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			
 			print '<tr>';
 			print '<td>';
-			print 'ID: </td><td>
-            <input  style="margin-left:10px" type="text" name="id" required/>';
+			print '<label>ID<span style="color:red">*</span>: </label></td><td>
+            <input style="width:100%; margin-left:10px;" type="text" name="id" required/>';
 			
 			print '</td>';
 			print '</tr>';
@@ -361,24 +361,24 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			print '<tr>';
 			print '<td>';
        
-            print 'Name: </td><td>
-            <input  style="margin-left:10px" type="text" name="name" required/>';
+            print '<label>Name<span style="color:red">*</span>: </label></td><td>
+            <input style="width:100%; margin-left:10px;" type="text" name="name" required/>';
 			
 			print '</td>';
 			
 			print '</tr>
 
-			<tr>
-			<td>WHO TEF: </td>				  				
+			<!--tr>
+			<td><label>WHO TEF: </label></td>				  				
 			<td>  
-				<input style="margin-left:10px" type="number" step="0.01" name="who_tef" id="who_tef"></input>
-			</td></tr>';		
+				<input style="width:100%; margin-left:10px;" type="number" step="0.01" name="who_tef" id="who_tef"></input>
+			</td></tr-->';		
 						
 			print '</table><hr><input style="margin-left:10px" class="submit" type="submit" value="Add"  />';
 			
 			print '</form>';
 			
-			print '<br></div>';if ($cid<>''){print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$cid.' has been updated successfully</span></div>';
+			print '<br></div>';if ($cid<>''){print '<div class="popup" onclick="prompt_msg()"><span class="popuptext" id="del_code">'.$cid.' has been added successfully</span></div>';
 			};
 ?>
  

@@ -9,10 +9,10 @@
 	//}
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-		if (!empty($_POST['compound']) and !empty($_POST['i_tef'])){				
+		if (!empty($_POST['compound'])){				
 			$u= "update factor set "
 			."compound='".$_POST['compound']."'";
-			if(!empty ($_POST['who_tef_2005'])){
+			if(!empty ($_POST['who_tef_1998'])){
 				$u .= ",who_tef_1998='".$_POST['who_tef_1998']."'";
 			}		
 			
@@ -20,7 +20,7 @@
 				$u .= ",who_tef_2005='".$_POST['who_tef_2005']."'";
 			}
 
-			if(!empty ($_POST['who_tef_2005'])){
+			if(!empty ($_POST['i_tef'])){
 				$u .= ",i_tef='".$_POST['i_tef']."'";
 			}
 
@@ -34,6 +34,7 @@
 				echo "Error: " . $dbc->error;
 				exit();
 			};
+			echo "<meta http-equiv='refresh' content='0'>";
 		}else{
 			print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
 			$criteria = "";
@@ -71,7 +72,7 @@
 			}
 		</style>';
 		
-		print '<form action="updateFactor.php" method="post">';
+		print '<body onload="Showparam()"><form action="updateFactor.php" method="post">';
 		
 		echo '<table style="margin-left:10px">';
 		
@@ -84,39 +85,39 @@
 					
 		print '<tr>
 				<td>	
-					Factor Code: 				
+					<label>Factor Code: </label> 				
 				<td>
-				<select style="margin-left:10px" name="compound">';
+				<select style="width:100%; margin-left:10px;" name="compound" id="compound" onchange="Showparam()">';
 					while ($r_l=$result_loc->fetch_object()){
 						if ($r_l->lid==$t[0]){
-							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') '.$r_l->who_tef_2005.'</option>';}
+							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') '.'**'.$r_l->who_tef_1998.'**'.$r_l->who_tef_2005.'**'.$r_l->i_tef.'</option>';}
 						else{
-							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.$r_l->who_tef_2005.'</option>';}
+							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.'**'.$r_l->who_tef_1998.'**'.$r_l->who_tef_2005.'</option>';}
 				};				
 				
 		print '</td></tr>			
 				<tr>
 					<td>
-						WHO-TEF-1998: 
+						<label>WHO-TEF-1998: </label> 
 					</td>				  				
 					<td>  
-						<input style="margin-left:10px" type="text" name="who_tef_1998" id="who_tef_1998"></input>
+						<input style="width:100%; margin-left:10px;" type="text" name="who_tef_1998" id="who_tef_1998"></input>
 					</td>				  				
 				</tr>
 				<tr>
 					<td>
-						WHO-TEF-2005: 
+						<label>WHO-TEF-2005: </label> 
 					</td>				  				
 					<td>  
-						<input style="margin-left:10px" type="text" name="who_tef_2005" id="who_tef_2005"></input>
+						<input style="width:100%; margin-left:10px;" type="text" name="who_tef_2005" id="who_tef_2005"></input>
 					</td>				  				
 				</tr>
 				<tr>
 					<td>
-						I-TEF: 
+						<label>I-TEF: </label> 
 					</td>				  				
 					<td>  
-						<input style="margin-left:10px" type="text" name="i_tef" id="i_tef"></input>
+						<input style="width:100%; margin-left:10px;" type="text" name="i_tef" id="i_tef"></input>
 					</td>				  				
 				</tr>';			
 		
@@ -134,12 +135,25 @@
 		//echo "</tr>"; 
 		//}
 
-		echo '</table>';
+		echo '</table></form><body>';
 	}
 	include 'footer.html';
 ?>
 		
 <script>
+	function Showparam() {
+		var e = document.getElementById("compound");
+		var str = e.options[e.selectedIndex].innerHTML;
+		var info = str.split("**");
+
+		var grp = document.getElementById("compound");
+		grp.options[grp.options.selectedIndex].selected = true;
+
+		document.getElementById("who_tef_1998").value = info[1];
+		document.getElementById("who_tef_2005").value = info[2];
+		document.getElementById("i_tef").value = info[3];
+	}
+
 	function editClick(){
 		location.replace("updatelocationform.php")
 	}

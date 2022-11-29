@@ -353,9 +353,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 					//</tr>';
 					
 			print '<tr>
-						<td>Location Code: </td>
+						<td><label>Site Code: </label></td>
 						<td>
-							<select name=code id="code" onchange="Showparam()">';
+							<select style="width:100%; margin-left:10px;" name=code id="code" onchange="Showparam()">';
 							while ($r_l=$result_loc->fetch_object()){
 								if ($r_l->code==$t[0]){
 									print '<option value="'.$r_l->code.'" selected>'.$r_l->code.'**'.$r_l->location.'</option>';}
@@ -367,9 +367,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 						</td>
 					</tr>			
 					<tr>
-						<td>Location Name: </td>				  				
+						<td><label>Site Name: </label></td>				  				
 						<td>  
-							<input style="width:100%" type="text" name="loc" id="loc"></input>
+							<input style="width:100%; margin-left:10px;" type="text" name="loc" id="loc"></input>
 						</td>				  				
 					</tr>';			
 			

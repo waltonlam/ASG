@@ -4,17 +4,6 @@
 ?>
 <html>
 	<style>
-	  /*input[type=text], select, textarea {
-		width: 200;
-		padding: 12px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		box-sizing: border-box;
-		margin-top: 6px;
-		margin-bottom: 16px;
-		resize: vertical;
-	  }*/
-
 	  input[type=submit] {
 		background-color: #87ceeb;
 		color: white;
@@ -23,12 +12,6 @@
 		border-radius: 4px;
 		cursor: pointer;
 		width:100
-	  }
-
-	  #main-content {
-		border-radius: 5px;
-		background-color: #f2f2f2;
-		padding: 20px;
 	  }
 	</style>
 
@@ -54,33 +37,33 @@
 			<form class="post-form" action="addFactor.php" method="post">     
 				<table style="margin-left:10px">
 					<tr>
-						<td>Compound Code: </td>
+						<td><label>Compound Code<span style="color:red">*</span>: </label></td>
 						<td>
-							<input type="text" name="compound_code" required/>
+							<input style="width:100%; margin-left:10px;" type="text" name="compound_code" required/>
 						</td>
 					</tr>
 					<tr>
-						<td>Compound: </td>
+						<td><label>Compound<span style="color:red">*</span>: </label></td>
 						<td>
-							<input type="text" name="compound" required/>
+							<input style="width:100%; margin-left:10px;" type="text" name="compound" required/>
 						</td>  
 					</tr>
 					<tr>
-						<td>WHO-TEF-2005: </td>
+						<td><label>WHO-TEF-2005<span style="color:red">*</span>: </label></td>
 						<td>
-							<input type="text" name="who_tef_2005" required/>
+							<input style="width:100%; margin-left:10px;" type="text" name="who_tef_2005" required/>
 						</td> 
 					</tr>
 					<tr>
-						<td>WHO-TEF-1998: </td>
+						<td><label>WHO-TEF-1998<span style="color:red">*</span>: </label></td>
 						<td>
-							<input type="text" name="who_tef_1998" required/>
+							<input style="width:100%; margin-left:10px;" type="text" name="who_tef_1998" required/>
 						</td>
 					</tr>
 					<tr>
-						<td>I-TEF: </td>
+						<td><label>I-TEF: </label></td>
 						<td>
-							<input type="text" name="i_tef"/>
+							<input style="width:100%; margin-left:10px;" type="text" name="i_tef"/>
 						</td>
 					</tr>
 				</table>

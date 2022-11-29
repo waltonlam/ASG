@@ -278,15 +278,15 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 		<form action="addCategory.php" method="post">
 			<table style="margin-left:10px">
 				<tr>
-					<td>Category Code: </td>
+					<td><label>Category Code<span style="color:red">*</span>: </label></td>
 					<td>
-						<input type="text" name="id" required/>
+						<input style="width:100%; margin-left:10px;" type="text" name="id" required/>
 					</td>
 				</tr>
 				<tr>
-					<td>Category Name: </td>
+					<td><label>Category Name<span style="color:red">*</span>: </label></td>
 					<td>
-						<input type="text" name="item" required/>
+						<input style="width:100%; margin-left:10px;" type="text" name="item" required/>
 					</td>
 				</tr>
 			</table>

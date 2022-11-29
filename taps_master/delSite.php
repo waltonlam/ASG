@@ -293,9 +293,9 @@
 					//</tr>';
 
 			print '<table style="margin-left:10px"><tr>
-				<td >Location Code: </td>
+				<td><label>Site: </label></td>
 				<td>
-					<select style="margin-left:10px" name="code" id="code">';
+					<select style="width:100%; margin-left:10px;" name="code" id="code">';
 					   while ($r_l=$result_loc->fetch_object()){
 						  if ($r_l->code==$t[0]){
 							  print '<option value="'.$r_l->code.'" selected>'.$r_l->code.'**'.$r_l->location.'</option>';}

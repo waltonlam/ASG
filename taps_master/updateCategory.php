@@ -153,7 +153,7 @@ Different arrow positioning
 
 print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
-	<script  type="text/javascript">
+	<script type="text/javascript">
 
 		/*https://stackoverflow.com/questions/9434/add-multiple-window-onload-events  
 		*/
@@ -310,9 +310,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 			print '<div><form action="updateCategory.php" method="post">		
 				<table style="margin-left:10px">
 					<tr>
-						<td>Category Code: </td>
+						<td><label>Category Code: </label></td>
 						<td>
-							<select style="width:100%" name="id" id="id" onchange="Showparam()">';
+							<select style="width:100%; margin-left:10px;" name="id" id="id" onchange="Showparam()">';
 							while ($r_l=$result_loc->fetch_object()){
 								if ($r_l->id==$t[0]){
 									print '<option value="'.$r_l->id.'" selected>'.$r_l->id.'**'.$r_l->item.'</option>';}
@@ -323,9 +323,9 @@ print '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.mi
 						</td>
 					</tr>			
 					<tr>
-						<td>Category Item: </td>				  				
+						<td><label>Category Name: </label></td>				  				
 						<td> 
-							<input style="width:100%" type="text" name="item" id="item"></input>
+							<input style="width:100%; margin-left:10px;" margin-left:10px;" type="text" name="item" id="item"></input>
 						</td>				  				
 					</tr>
 					</table>					
