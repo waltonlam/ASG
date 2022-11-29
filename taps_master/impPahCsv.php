@@ -35,6 +35,8 @@ if (isset($_POST["import"])) {
     if ($_FILES["file"]["size"] > 0) {		
         $file = fopen($fileName, "r");
         $r_in=0;
+		$count_duplicate=0;
+
         mysqli_autocommit($dbc, FALSE);
         mysqli_begin_transaction($dbc, MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
 		$header = null;
@@ -83,28 +85,41 @@ if (isset($_POST["import"])) {
 				}
 			}
 
-			if (!empty($sampleId)){
-				$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `field_blank`) VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$fieldBlank."');";
+			$select_qry = "SELECT * FROM glab_sample WHERE sample_id = '".$sampleId."'
+							AND compound = '".$compound."'
+							AND CURRENT_TIMESTAMP > create_date";
 
-				//echo $in1;
+			$checkDupRes=mysqli_query($dbc, $select_qry);
+			$rowcount=mysqli_num_rows($checkDupRes); 
+			if ($rowcount == 0) {
+				if (!empty($sampleId)){
+					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
+					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
+					//echo $in1;
 
-				$res=mysqli_query($dbc, $in1); /* or trigger_error("Query Failed! SQL: $in1 - Error: ".mysqli_error($dbc), E_USER_ERROR);*/
-							
-				if (! empty($res)) {
-					$r_in++;
-					$type = "success";
-					$message = "*No. of records have been imported : ".$r_in;
-				} else {
-					$type = "error";
-					print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
-					exit();
+					$res=mysqli_query($dbc, $in1); 
+					/* or trigger_error("Query Failed! SQL: $in1 - Error: ".mysqli_error($dbc), E_USER_ERROR);*/
+								
+					if (!empty($res)) {
+						$r_in++;
+						$type = "success";
+						$message = "*No. of records have been imported : ".$r_in;
+					} else {
+						$type = "error";
+						print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
+						exit();
+					}
+
+					if ($type == "success"){
+						mysqli_commit($dbc);        
+					}else{
+						mysqli_rollback($dbc);
+					}
 				}
-
-				if ($type == "success"){
-					mysqli_commit($dbc);        
-				}else{
-					mysqli_rollback($dbc);
-				}
+			}else{
+				$count_duplicate++;
+				$type = "error";
+				$message = "*No. of records are duplicated : ".$count_duplicate;
 			}
 		}
 		mysqli_autocommit($dbc, TRUE);
