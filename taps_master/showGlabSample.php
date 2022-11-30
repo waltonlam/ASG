@@ -171,19 +171,20 @@
 						<tr>
 							<th width="10%">Sample ID</th>
 							<th width="10%">Start Date</th>
-							<th width="5%">Duration</th>
+							<!--th width="5%">Duration</th-->
 							<th width="5%">Site</th>
-							<th width="5%">Cpd Cat</th>
+							<!--th width="5%">Cpd Cat</th>
 							<th width="5%">Sample Type</th>
-							<th width="10%">Case No. 1</th>
+							<th width="10%">Case No. 1</th-->
 							<th width="10%">Compound</th>
 							<th width="5%">Compound Group</th>
 							<th width="5%">CONC (µg/m3)</th>
-							<th width="5%">Sampling Method</th>
+							<th width="5%">Co-Located Sample Status</th>
+							<!--th width="5%">Sampling Method</th>
 							<th width="5%">Sampler</th>
 							<th width="5%">Detector</th>
-							<th width="10%">Sample By</th>
-							<th width="5%">Analyse By</th>
+							<th width="5%">Sample By</th>
+							<th width="5%">Analyse By</th-->
 						</tr>
 					</thead> 
 					<tbody>   
@@ -192,6 +193,9 @@
 							$hide='';
 							$avgFrmThreeYrs = 0;
 							$percentile = 0;
+							$status = 'Valid';
+							$countPercDiff = 0;
+							$countTotalColocSample = 0;
 
 							if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
 								$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
@@ -218,21 +222,21 @@
 							<td>
 								<?php echo $row["strt_date"]?>
 							</td>
-							<td>
-								<?php echo $row["duration"]?>
-							</td>
+							<!--td>
+								<?php //echo $row["duration"]?>
+							</td-->
 							<td>
 								<?php echo $row["site_id"]?>
 							</td>
-							<td>
-								<?php echo $row["cpdcat"]?>
+							<!--td>
+								<?php //echo $row["cpdcat"]?>
 							</td>
 							<td>
-								<?php echo $row["samp_type"]?>
+								<?php //echo $row["samp_type"]?>
 							</td>
 							<td>
-								<?php echo $row["casno1"]?>
-							</td>
+								<?php //echo $row["casno1"]?>
+							</td-->
 							<td>
 								<?php echo $row["compound"]?>
 							</td>
@@ -251,7 +255,7 @@
 										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
 											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
 							?>
-											<td bgcolor= "red">
+											<td bgcolor= "#f5ad9b">
 												<?php echo $row["conc_g_m3"]?>
 											</td>
 							<?php 
@@ -287,21 +291,43 @@
 								}
 							?>								
 
-							<td>
-								<?php echo $row["samp_mthd"]?>
+							<!--td bgcolor= "#f5ad9b"-->
+								<?php 
+								if(strlen($row["sample_id"]) > 12){
+									$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"]);
+									$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
+									
+									if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
+								?>		
+										<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
+								<?php
+									}else{
+								?>
+										<td bgcolor= "#84e084"><?php echo $status = 'Valid'; ?> </td>
+								<?php
+									}
+								}else{
+								?>
+									<td><?php echo $status = 'N.A.'; ?> </td>
+								<?php
+								}
+								?>
+							<!--/td-->
+							<!--td>
+								<?php //echo $row["samp_mthd"]?>
 							</td>
 							<td>
-								<?php echo $row["sampler"]?>
+								<?php //echo $row["sampler"]?>
 							</td>
 							<td>
-								<?php echo $row["detector"]?>
+								<?php //echo $row["detector"]?>
 							</td>
 							<td>
-								<?php echo $row["sample_by"]?>
+								<?php //echo $row["sample_by"]?>
 							</td>
 							<td>
-								<?php echo $row["analyse_by"]?>
-							</td>                                       
+								<?php //echo $row["analyse_by"]?>
+							</td-->                                       
 						</tr>     
 					<?php     
 						};    
