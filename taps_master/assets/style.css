@@ -76,11 +76,17 @@ body {
 	padding: 10px;
 }
 
-.img-preview {
+/*.img-preview {
 	width: 150px;
 	height: 150px;
 	border-radius: 50%;
 	border: 1px solid #0C0B0B;
+	margin-bottom: 5px;
+}*/
+
+.img-preview {
+	width: 150px;
+	height: 150px;
 	margin-bottom: 5px;
 }
 

@@ -107,8 +107,14 @@
 						</td>
 					</tr>
 					<tr>
+						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+					</tr>
+					<tr>
 						<td style="width: 160px; vertical-align: top;">Remark: </td>
 						<td><textarea id="remark" name="remark" rows="7" cols="100"></textarea></td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
 						<td style="width: 160px; vertical-align: top;">Upload Site Photo: </td>

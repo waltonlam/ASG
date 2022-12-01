@@ -126,67 +126,78 @@
 			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
-				<table style="margin-left:10px">
-					<tr>	
-						<td style="width: 160px; vertical-align: top;">Site: </td>
-						<td>
-							<select name=site_code id="site_code">
+				<div style="overflow-x: auto;">
+					<table style="margin-left:10px">
+						<tr>	
+							<td style="width: 160px; vertical-align: top;">Site: </td>
+							<td>
+								<select name=site_code id="site_code">
+									<?php
+										while ($r_l=$result_loc->fetch_object()){
+											if ($r_l->code==$result[0]["site_id"]){
+												print '<option value="'.$r_l->code.'" selected>'.$r_l->code.$r_l->location.'</option>';
+											}else{
+												print '<option value="'.$r_l->code.'">'.$r_l->code.$r_l->location.'</option>';
+											}
+										};
+									?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Remark: </td>
+							<td><textarea id="remark" name="remark" rows="7" cols="100"><?php echo $result[0]["remark"]?></textarea></td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Site Photo: </td>
+							<td>
+								<div>
 								<?php
-									while ($r_l=$result_loc->fetch_object()){
-										if ($r_l->code==$result[0]["site_id"]){
-											print '<option value="'.$r_l->code.'" selected>'.$r_l->code.$r_l->location.'</option>';
-										}else{
-											print '<option value="'.$r_l->code.'">'.$r_l->code.$r_l->location.'</option>';
-										}
-									};
+									$sitePhotoResultList = $imageModel->getSitePhotoById($_GET["id"]);	
+									if(!empty($sitePhotoResultList)) {
+										for($x = 0; $x < count($sitePhotoResultList); $x++) {
+											if(isset($sitePhotoResultList[$x])) {
+												$filename = $sitePhotoResultList[$x]["file_name"];
+												$sitePhotoId = $sitePhotoResultList[$x]["id"];
+												$path= $sitePhotoResultList[$x]["path"];
+								?>			
+												<input style="vertical-align: top;" type="checkbox" name="site_photo_delete_id[]" value="<?= $sitePhotoId ?>">
+												<a href="<?php echo $path ?>" class="btn-action" target="_blank">
+													<img src="<?php echo $path?>" class="img-preview" alt="photo"> 
+												</a>
+								<?php		
+											} else {
+												echo "No Site Photo Found";
+											}
+										}	
+									}else{
+								?>		
+									No Site Photo Found. Please upload...
+								<?php
+									}
 								?>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 160px; vertical-align: top;">Remark: </td>
-						<td><textarea id="remark" name="remark" rows="7" cols="100"><?php echo $result[0]["remark"]?></textarea></td>
-					</tr>
-					<tr>
-						<td style="width: 160px; vertical-align: top;">Site Photo: </td>
-						<td>
-							<div>
-							<?php
-								$sitePhotoResultList = $imageModel->getSitePhotoById($_GET["id"]);	
-								if(!empty($sitePhotoResultList)) {
-									for($x = 0; $x < count($sitePhotoResultList); $x++) {
-										if(isset($sitePhotoResultList[$x])) {
-											$filename = $sitePhotoResultList[$x]["file_name"];
-											$sitePhotoId = $sitePhotoResultList[$x]["id"];
-											$path= $sitePhotoResultList[$x]["path"];
-							?>			
-											<input style="vertical-align: top;" type="checkbox" name="site_photo_delete_id[]" value="<?= $sitePhotoId ?>">
-											<a href="<?php echo $path ?>" class="btn-action" target="_blank">
-												<img src="<?php echo $path?>" class="img-preview" alt="photo"> 
-											</a>
-							<?php		
-										} else {
-											echo "No Site Photo Found";
-										}
-									}	
-								}else{
-							?>		
-								No Site Photo Found. Please upload...
-							<?php
-								}
-							?>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td style="width: 160px; vertical-align: top;">Upload Site Photo: </td>
-						<td>
-							<div>
-								<input type="file" name="files[]" multiple>
-							</div>
-						</td>
-					</tr>
-				</table>				
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Upload Site Photo: </td>
+							<td>
+								<div>
+									<input type="file" name="files[]" multiple>
+								</div>
+							</td>
+						</tr>
+					</table>	
+				</div>			
 				<hr>
 				<input type="submit" style="margin-left:10px" name="submit" value="Save"> 
 				<input type="submit" style="margin-left:10px" name="delete" value="Delete" <?php if (empty($sitePhotoResultList)) { ?> style="display: none" <?php } ?> > 
