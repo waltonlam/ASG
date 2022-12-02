@@ -81,6 +81,13 @@
 				exit();
 			}
 
+			$compoundGrpList = "select id from category order by id ASC;";
+			$compoundGrpResult=$dbc->query($compoundGrpList);
+			if (!$compoundGrpResult->num_rows){
+				print '<p class="text--error">'.'Site Configuration Error!</p>';
+				exit();
+			}
+
 			$per_page_record = 50;  // Number of entries to show in a page.   
 			// Look for a GET variable page if not found default is 1.        
 			if (isset($_GET["page"])) {    
@@ -103,22 +110,48 @@
 
 			if(!isset($_SESSION["site_id"]) or $_SERVER['REQUEST_METHOD'] == 'POST'){
 				$_SESSION['site_id'] = $_POST['site_id'];
+				$_SESSION['compound_grp'] = $_POST['compound_grp'];
 				$_SESSION['dateFrom'] = $_POST['dateFrom'];
 				$_SESSION['dateTo'] = $_POST['dateTo'];
 			}
 
 			$query = "SELECT * FROM glab_sample "; 
+
 			if(!empty($_SESSION['site_id'])){
 				$query .= " where site_id = '".$_SESSION['site_id']."' ";
+				if(!empty($_SESSION['compound_grp'])){
+					$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
+				}
+	
+				if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+					$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+				}	
+			}else{
+				if(!empty($_SESSION['compound_grp'])){
+					$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
+
+					if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+						$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+					}	
+				}else{
+					if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+						$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+					}	
+				}
 			}
 
-			if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-				$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
-			}
-			
 			$query .= " order by sample_id LIMIT $start_from, $per_page_record";     
 			$rs_result = mysqli_query ($conn, $query);  
 			//}
+
+			if(isset($_POST['reset'])){
+				unset($_SESSION['site_id']);
+				unset($_SESSION['compound_grp']);
+				unset($_SESSION['dateFrom']);
+				unset($_SESSION['dateTo']);
+
+				echo "<meta http-equiv='refresh' content='0'>";
+			}
 		?>
 
 		<div>
@@ -127,37 +160,59 @@
 			<div>
 				<form class="post-form" action="showGlabSample.php" method="post">
 					<table style="margin-left:10px">
-						<td style="width:25%">
-							<label>Site Code:</label>
-						</td>
-						<td>
-							<select name=site_id id="site_id">
-								<?php
-									while ($r_l=$result_loc->fetch_object()){
-										if ($r_l->code==$t[0]){
-											print '<option value="'.$r_l->code.'" selected>'.$r_l->code.$r_l->location.'</option>';
-										}else{
-											print '<option value="'.$r_l->code.'">'.$r_l->code.$r_l->location.'</option>';
-										}
-									};
-								?>
-							</select>
-						</td>
+						<tr>
+							<td>
+								<label>Site Code: </label>
+							</td>
+							<td>
+								<select style="width:100%; margin-left:10px;" name="site_id" id="site_id">
+								<option value="">Please Select</option>
+									<?php
+										while ($r_l=$result_loc->fetch_object()){
+											if ($r_l->code==$t[0]){
+												print '<option value="'.$r_l->code.'" selected>'.$r_l->code.$r_l->location.'</option>';
+											}else{
+												print '<option value="'.$r_l->code.'">'.$r_l->code.$r_l->location.'</option>';
+											}
+										};
+									?>
+								</select>
+							</td>
 						</tr>
 						<tr>
-							<td style="width:25%">
-								<label>Date from: </label>
+							<td>
+								<label>Compound Group: </label>
+							</td>
+							<td>
+								<select style="width:100%; margin-left:10px;" name="compound_grp" id="compound_grp">
+								<option value="">Please Select</option>
+									<?php
+										while ($r_c=$compoundGrpResult->fetch_object()){
+											if ($r_c->id==$t[0]){
+												print '<option value="'.$r_c->id.'" selected>'.$r_c->id.'</option>';
+											}else{
+												print '<option value="'.$r_c->id.'">'.$r_c->id.'</option>';
+											}
+										};
+									?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label>Start Date from: </label>
 							</td>
 							<td>							
-								<input type="date" name="dateFrom" />							 
+								<input style="margin-left:10px;" type="date" name="dateFrom" />							 
 								<label> to </label>							
-								<input type="date" name="dateTo"/>
+								<input style="margin-left:10px;" type="date" name="dateTo"/>
 							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>    
-								<input type="submit" value="Search"/>
+								<input style="margin-left:10px;" type="submit" value="Search"/>
+								<input style="margin-left:10px;" type="submit" name="reset" value="Reset"/>
 							</td>
 						</tr>
 					</table>
@@ -337,13 +392,29 @@
 				<hr>
 				<div class="pagination" style="margin-left:10px">    
 					<?php  
-						$query = "SELECT COUNT(*) FROM glab_sample ";
+						$query = "SELECT COUNT(*) FROM glab_sample ";					
 						if(!empty($_SESSION['site_id'])){
 							$query .= " where site_id = '".$_SESSION['site_id']."' ";
+							if(!empty($_SESSION['compound_grp'])){
+								$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
+							}
+				
+							if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+								$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+							}	
+						}else{
+							if(!empty($_SESSION['compound_grp'])){
+								$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
+			
+								if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+									$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+								}	
+							}else{
+								if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+									$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+								}	
+							}
 						}
-						if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-							$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
-						}						
 
 						$rs_result = mysqli_query($conn, $query);     
 						$row = mysqli_fetch_row($rs_result);     
@@ -360,12 +431,10 @@
 								
 						for ($i=1; $i<=$total_pages; $i++) {   
 							if ($i == $page) {   
-								$pagLink .= "<a class = 'active' href='showGlabSample.php?page="  
-																	.$i."'>".$i." </a>";   
+								$pagLink .= "<a class = 'active' href='showGlabSample.php?page=".$i."'>".$i." </a>";   
 							}               
 							else  {   
-								$pagLink .= "<a href='showGlabSample.php?page=".$i."'>   
-																	".$i." </a>";     
+								$pagLink .= "<a href='showGlabSample.php?page=".$i."'>".$i." </a>";     
 							}   
 						};     
 						echo $pagLink;   
@@ -383,7 +452,7 @@
 			</div>
 		</div>
 
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="	crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="assets/validate.js"></script>
 		<script>
 			function go2Page(){   
