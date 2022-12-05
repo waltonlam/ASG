@@ -19,7 +19,7 @@
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		  if (!empty($_POST['compound']) and !empty($_POST['who_tef_1998']) or !empty($_POST['who_tef_2005']) or !empty($_POST['i_tef'])){
 				//if (isset($_POST['userid']) and isset($_POST['fname']) and isset($_POST['lname']) and isset($_POST['pwd']))	
-				$sql = "INSERT INTO factor(compound_code,compound,who_tef_1998,who_tef_2005,i_tef) VALUES ('".$_POST['compound_code']."','".$_POST['compound']."','".$_POST['who_tef_1998']."','".$_POST['who_tef_2005']."','".$_POST['i_tef']."')";
+				$sql = "INSERT INTO factor(compound_code,compound,who_tef_1998,who_tef_2005,i_tef,who_tef) VALUES ('".$_POST['compound_code']."','".$_POST['compound']."','".$_POST['who_tef_1998']."','".$_POST['who_tef_2005']."','".$_POST['i_tef']."','".$_POST['who_tef']."')";
 				
 				if ($dbc->query($sql) === FALSE) {
 					echo "Error: " . $dbc->error;
@@ -64,6 +64,12 @@
 						<td><label>I-TEF: </label></td>
 						<td>
 							<input style="width:100%; margin-left:10px;" type="text" name="i_tef"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>WHO-TEF: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="text" name="who_tef"/>
 						</td>
 					</tr>
 				</table>

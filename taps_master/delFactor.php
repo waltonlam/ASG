@@ -83,9 +83,9 @@
 				<select style="width:100%; margin-left:10px;" name="compound">';
 					while ($r_l=$result_loc->fetch_object()){
 						if ($r_l->lid==$t[0]){
-							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') '.$r_l->who_tef.'</option>';}
+							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') </option>';}
 						else{
-							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.$r_l->who_tef.'</option>';}
+							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') </option>';}
 					};				
 		print '</select></td></tr></table><hr><input style="margin-left:10px" type="submit" value="delete">';
 

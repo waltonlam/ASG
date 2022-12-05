@@ -33,13 +33,23 @@
 					<th>WHO-TEF-1998</th>
 					<th>WHO-TEF-2005</th>
 					<th>I-TEF</th>
+					<th>WHO-TEF</th>
 				</tr>';		
 		while ($row =$result_loc->fetch_assoc()){				
 			echo "<tr>";
 			echo "<td>" . $row["compound"]."</td>";
 			echo "<td>" . $row["who_tef_1998"]."</td>";
 			echo "<td>" . $row["who_tef_2005"]."</td>";
-			echo "<td>" . $row["i_tef"]."</td>";
+			if($row["i_tef"] != 0){
+				echo "<td>" . $row["i_tef"]."</td>";
+			}else{
+				echo "<td></td>";
+			}
+			if($row["who_tef"] != 0){
+				echo "<td>" . $row["who_tef"]."</td>";
+			}else{
+				echo "<td></td>";
+			}
 			echo "</tr>";				
 		}					
 		echo '</table><hr>';

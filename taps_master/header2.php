@@ -94,6 +94,14 @@
 										</ul>
 									</li>
 									<li>
+										<a href="#">Maintain QC Criteria <span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="showQCriteria.php">Show All</a></li>
+											<li><a href="updateQCriteria.php">Update QC Criteria</a></li>
+											<li><a href="addQCriteria.php">Add QC Criteria</a></li>
+										</ul>
+									</li>
+									<li>
 										<a href="#">Maintain User Account <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showAccount.php">Show All</a></li>

@@ -62,7 +62,7 @@
 			exit();
 		}		
 
-		print '<h2 style="margin-left:10px">Update Factor</h2><hr>';
+		print '<h2 style="margin-left:10px">Update QC Criteria</h2><hr>';
 		print '	
 		<style>
 			input[type=submit] {
