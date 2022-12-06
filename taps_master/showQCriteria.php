@@ -10,7 +10,7 @@
 			$all_id = $_POST['qc_delete_id'];
 			$extract_id = implode(',' , $all_id);
 
-			//Delete files in db
+			//Delete QC Criteria in DB
 			$query = "DELETE FROM qc_criteria WHERE id IN($extract_id) ";
 			$deleteQeury = $dbc->query($query);
 			if($deleteQeury){
@@ -19,7 +19,7 @@
 				$msg = "QC Criteria not deleted.";
 			}
 		}else{
-
+			$msg = "Please select at least one compound group to delete.";
 		}
 	}
 ?>
@@ -42,6 +42,7 @@
 	<body>
 		<div>
 			<h2 style="margin-left:10px">All QC Criteria</h2>
+			<span id="message" style="margin-left:10px; color:red;"><?php echo $msg ?></span>
 			<hr>				
 			<form method="post" name="frm-list" >
 				<div style="overflow-x: auto;">
@@ -76,7 +77,9 @@
 					</table>	
 				</div>			
 				<hr>
-				<input type="submit" style="margin-left:10px" name="delete" value="Delete" >
+				<input type="submit" style="margin-left:10px" name="delete" value="Delete">
+				<input type="button" style="margin-left:10px" name="add" value="Add" onClick="document.location.href='addQCriteria.php'">
+				<input type="button" style="margin-left:10px" name="update" value="Update" onClick="document.location.href='updateQCriteria.php'">
 			</form>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

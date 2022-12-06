@@ -85,8 +85,8 @@
 
 		//Delete files in db
 		$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
-		$deleteQeury = $dbc->query($query);
-		if($deleteQeury){
+		$deleteQuery = $dbc->query($query);
+		if($deleteQuery){
 			$msg = "Site photos deleted successfully.";
 		}else{
 			$msg = "Site photos not deleted.";
@@ -178,7 +178,7 @@
 										}	
 									}else{
 								?>		
-									No Site Photo Found. Please upload...
+									No Site Photo Found. Please upload.
 								<?php
 									}
 								?>

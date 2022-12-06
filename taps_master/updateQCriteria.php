@@ -1,181 +1,133 @@
 <?php  
-	include ('iconn.php');
-	include 'header2.php';
-	
-	//if (isset($_GET['click']) && $_GET['click'] == 'media') {
-	//getMediaData();
-	//} else if(isset($_GET['click']) && $_GET['click'] == 'location'){
-		getFactorData();
-	//}
-	
-	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-		if (!empty($_POST['compound'])){				
-			$u= "update factor set "
-			."compound='".$_POST['compound']."'";
-			if(!empty ($_POST['who_tef_1998'])){
-				$u .= ",who_tef_1998='".$_POST['who_tef_1998']."'";
-			}		
-			
-			if(!empty ($_POST['who_tef_2005'])){
-				$u .= ",who_tef_2005='".$_POST['who_tef_2005']."'";
-			}
-
-			if(!empty ($_POST['i_tef'])){
-				$u .= ",i_tef='".$_POST['i_tef']."'";
-			}
-
-			if(!empty ($_POST['who_tef'])){
-				$u .= ",who_tef='".$_POST['who_tef']."'";
-			}
-
-			$u .=" where compound='".$_POST['compound']."';";
-			
-			if ($dbc->query($u) === TRUE) {
-				// $updated=TRUE;
-				echo '<script>alert("Update Success")</script>';
-				header("Refresh:0");
-			}else{
-				echo "Error: " . $dbc->error;
-				exit();
-			};
-			echo "<meta http-equiv='refresh' content='0'>";
-		}else{
-			print '<p class="text--error">There is no information for updating<br>Go back and try again.</p>';		
-			$criteria = "";
-			$comp="false";				
-		}
-		exit();				
-	} 
-
-	function getFactorData(){
-		if (!$dbc = new mysqli('localhost', 'root', '', 'taps'))
-		{
-			print '<p style="color:red;">Could not connect to the database:<br>'.mysqli_connect_error().'.</p>';
-			exit();
-		}
-
-		$l = "select * from factor order by compound ASC;";
-		//print $q;
-		$result_loc=$dbc->query($l);
-		if (!$result_loc->num_rows){
-			print '<p class="text--error">'.'Factor Configuration Error!</p>';
-			exit();
-		}		
-
-		print '<h2 style="margin-left:10px">Update QC Criteria</h2><hr>';
-		print '	
-		<style>
-			input[type=submit] {
-				background-color: #87ceeb;
-				color: white;
-				padding: 12px 20px;
-				border: none;
-				border-radius: 4px;
-				cursor: pointer;
-				width:100
-			}
-		</style>';
-		
-		print '<body onload="Showparam()"><form action="updateFactor.php" method="post">';
-		
-		echo '<table style="margin-left:10px">';
-		
-		//echo '<table class="table" cellspacing="0" width="100%">
-				//<tr>
-				//	<th>Code</th>
-				//	<th>Location</th>
-				//	<th>Action</th>
-				//</tr>';
-					
-		print '<tr>
-				<td>	
-					<label>Factor Code: </label> 				
-				<td>
-				<select style="width:100%; margin-left:10px;" name="compound" id="compound" onchange="Showparam()">';
-					while ($r_l=$result_loc->fetch_object()){
-						if ($r_l->lid==$t[0]){
-							print '<option value="'.$r_l->compound.'" selected>'.'('.$r_l->compound.') '.'**'.$r_l->who_tef_1998.'**'.$r_l->who_tef_2005.'**'.$r_l->i_tef.'**'.$r_l->who_tef.'</option>';}
-						else{
-							print '<option value="'.$r_l->compound.'">'.'('.$r_l->compound.') '.'**'.$r_l->who_tef_1998.'**'.$r_l->who_tef_2005.'**'.$r_l->i_tef.'**'.$r_l->who_tef.'</option>';}
-				};				
-				
-		print '</td></tr>			
-				<tr>
-					<td>
-						<label>WHO-TEF-1998: </label> 
-					</td>				  				
-					<td>  
-						<input style="width:100%; margin-left:10px;" type="text" name="who_tef_1998" id="who_tef_1998"></input>
-					</td>				  				
-				</tr>
-				<tr>
-					<td>
-						<label>WHO-TEF-2005: </label> 
-					</td>				  				
-					<td>  
-						<input style="width:100%; margin-left:10px;" type="text" name="who_tef_2005" id="who_tef_2005"></input>
-					</td>				  				
-				</tr>
-				<tr>
-					<td>
-						<label>I-TEF: </label> 
-					</td>				  				
-					<td>  
-						<input style="width:100%; margin-left:10px;" type="text" name="i_tef" id="i_tef"></input>
-					</td>				  				
-				</tr>
-				<tr>
-					<td>
-						<label>WHO-TEF: </label> 
-					</td>				  				
-					<td>  
-						<input style="width:100%; margin-left:10px;" type="text" name="who_tef" id="who_tef"></input>
-					</td>				  				
-				</tr>';			
-		
-		print '</table><hr><input style="margin-left:10px" type="submit" value="Update">';
-		
-		//while ($row =$result_loc->fetch_assoc()){	 
-		//echo "<tr>";
-		//echo "<td id='code'>" . $row["code"]."</td>";
-		//echo "<td id='location'>" . $row["location"]."</td>";
-		//echo "<td>";
-		//echo "<input id='btn-edit'  type='submit' value='Update'>";
-		//echo "<a class='btn btn-edit btn-sm' href='updateLocation.php?code=". $row["code"]."& location=". $row["location"]."'  >EDIT</a> ";
-		//echo "<a class='btn btn-delete btn-sm'    href='location.php?del_Item=". $row["code"]."'>Delete</a> ";
-		//echo "</td>";
-		//echo "</tr>"; 
-		//}
-
-		echo '</table></form><body>';
-	}
-	include 'footer.html';
+	namespace Phppot;
+	use Phppot\DataSource;
+	require_once "connection.php";  
+	require_once "iconn.php";
+	require_once "header2.php";
 ?>
-		
-<script>
-	function Showparam() {
-		var e = document.getElementById("compound");
-		var str = e.options[e.selectedIndex].innerHTML;
-		var info = str.split("**");
 
-		var grp = document.getElementById("compound");
-		grp.options[grp.options.selectedIndex].selected = true;
+<html>
+	<style>
+		input[type=button], input[type=submit] {
+			background-color: #87ceeb;
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			width:100
+		}
+	</style>
 
-		document.getElementById("who_tef_1998").value = info[1];
-		document.getElementById("who_tef_2005").value = info[2];
-		document.getElementById("i_tef").value = info[3]
-		document.getElementById("who_tef").value = info[4];
-	}
+	<?php
+		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+			if (!empty($_POST['compound_grp'])){				
+				$u= "update qc_criteria set "
+				."compound_grp='".$_POST['compound_grp']."'";
+				if(!empty ($_POST['ptg_diff_colocate'])){
+					$u .= ",ptg_diff_colocate='".$_POST['ptg_diff_colocate']."'";
+				}		
+				
+				if(!empty ($_POST['ptg_pollutant'])){
+					$u .= ",ptg_pollutant='".$_POST['ptg_pollutant']."'";
+				}
+	
+				if(!empty ($_POST['percentile'])){
+					$u .= ",percentile='".$_POST['percentile']."'";
+				}
+	
+				if(!empty ($_POST['year_avg'])){
+					$u .= ",year_avg='".$_POST['year_avg']."'";
+				}
+	
+				$u .=" where compound_grp='".$_POST['compound_grp']."';";
+				
+				$updateQuery = $dbc->query($u);
+				if ($updateQuery) {
+					$msg = "QC Criteria is updated. ";
+				}else{
+					$msg = "QC Criteria cannot be updated. ";
+				}
+			}else{
+				$msg = "There is no information for updating";	
+			}			
+		} 
+	?>
 
-	function editClick(){
-		location.replace("updatelocationform.php")
-	}
+	<body onload="Showparam()">
+		<?php 
+			$selectQuery = "select * from qc_criteria order by id ASC;";
+			$qcResult=$dbc->query($selectQuery);
+			if (!$qcResult->num_rows){
+				print '<p class="text--error">'.'QC Criteria Configuration Error!</p>';
+				exit();
+			}
+		?>
+		<h2 style="margin-left:10px">Update QC Criteria</h2>
+		<span id="message" style="margin-left:10px; color:red;"><?php echo $msg ?></span>
+		<hr>
+		<div>
+			<form class="post-form" action="updateQCriteria.php" method="post">     
+				<table style="margin-left:10px">
+					<tr>
+						<td>	
+							<label>Compound Group: </label> 				
+						<td>
+						<select style="width:100%; margin-left:10px;" name="compound_grp" id="compound_grp" onchange="Showparam()">';
+							<?php
+								while ($r_l=$qcResult->fetch_object()){
+									if ($r_l->compound_grp==$result[0]["compound_grp"]){
+										print '<option value="'.$r_l->compound_grp.'" selected>'.$r_l->compound_grp.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
+									}else{
+										print '<option value="'.$r_l->compound_grp.'" >'.$r_l->compound_grp.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
+									}
+								};
+							?>									
+						</td>
+					</tr>
+					<tr>
+						<td><label>Percentage Difference of co-locate Sample: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="number" name="ptg_diff_colocate" id="ptg_diff_colocate"/>
+						</td>  
+					</tr>
+					<tr>
+						<td><label>Percentage of Pollutant: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="number" name="ptg_pollutant" id="ptg_pollutant"/>
+						</td> 
+					</tr>
+					<tr>
+						<td><label>Percentile: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="number" name="percentile" id="percentile"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label>Year of Average: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="number" name="year_avg" id="year_avg"/>
+						</td>
+					</tr>
+				</table>
+				<hr>
+				<input style="margin-left:10px" class="submit" type="submit" value="Update"  />
+				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='showQCriteria.php'">
+			</form>
+		</div>
+	</body>
+	<script>
+		function Showparam() {
+			var e = document.getElementById("compound_grp");
+			var str = e.options[e.selectedIndex].innerHTML;
+			var info = str.split("**");
+			var grp = document.getElementById("compound_grp");
+			grp.options[grp.options.selectedIndex].selected = true;
 
-	function delClick(){
-		alert("delete click");
-	}
-
-	function showSuccessAlert(){
-		alert("Success");
-	}
-</script>
+			document.getElementById("ptg_diff_colocate").value = info[1];
+			document.getElementById("ptg_pollutant").value = info[2];
+			document.getElementById("percentile").value = info[3]
+			document.getElementById("year_avg").value = info[4];
+		}
+	</script>
+</html>

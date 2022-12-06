@@ -61,15 +61,15 @@
 						</td>
 					</tr>
 					<tr>
-						<td><label>I-TEF: </label></td>
+						<td><label>I-TEF<span style="color:red">*</span>: </label></td>
 						<td>
-							<input style="width:100%; margin-left:10px;" type="text" name="i_tef"/>
+							<input style="width:100%; margin-left:10px;" type="text" name="i_tef" required/>
 						</td>
 					</tr>
 					<tr>
-						<td><label>WHO-TEF: </label></td>
+						<td><label>WHO-TEF<span style="color:red">*</span>: </label></td>
 						<td>
-							<input style="width:100%; margin-left:10px;" type="text" name="who_tef"/>
+							<input style="width:100%; margin-left:10px;" type="text" name="who_tef" required/>
 						</td>
 					</tr>
 				</table>
