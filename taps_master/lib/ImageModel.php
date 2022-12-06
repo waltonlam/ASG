@@ -33,16 +33,18 @@ class ImageModel
         return $output;
     }
 
-    public function insertIncidentReport($site_id, $remark) {
+    public function insertIncidentReport($site_id, $remark, $compoundGroup, $compound) {
         //$create_date = date('Y-m-d'); 
         $create_by = $_SESSION['vuserid'];
         //echo $create_date;
 
-        $query = "INSERT INTO incident_report(site_id,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,CURDATE(),CURDATE(),?,?)";
-        $paramType = 'ssss';
+        $query = "INSERT INTO incident_report(site_id,compound_grp,compound,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
+        $paramType = 'ssssss';
 
         $paramValue = array(
             $site_id,
+            $compoundGroup,
+            $compound,
             $remark,
             //"'".$create_date."'",
             //"'".$create_date."'",

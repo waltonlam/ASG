@@ -15,8 +15,23 @@
 		 
 		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
 		$fileNames = array_filter($_FILES['files']['name']); 
+
+		$compoundGroup = "";
+		$compound = "";
+		if (!empty($_POST['compoundGrp'])) {
+			foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
+				$compoundGroup = $selectedCompoundGrp;
+			}
+		}
+
+		if (!empty($_POST['compound'])) {
+			foreach ($_POST['compound'] as $selected) {
+				$compound .= $selected.',';
+			}
+		}
+
 		if(!empty($fileNames)){ 
-			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark']);
+			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark'], $compoundGroup, $compound);
 
 			foreach($_FILES['files']['name'] as $key=>$val){ 
 				// File upload path 
@@ -57,7 +72,6 @@
 		}else{ 
 			$statusMsg = 'Please select a file to upload.'; 
 		} 
-		header('Location: addSitePhoto.php');
 	} 
 ?>
 
@@ -74,6 +88,30 @@
 				width:100
 			}
 		</style>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script src="assets/validate.js"></script>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+		<script>
+			function getCompound() {
+				var str='';
+				var val=document.getElementById('compoundGrpList');
+				for (i=0;i< val.length;i++) { 
+					if(val[i].selected){
+						str += val[i].value + ','; 
+					}
+				}         
+				var str=str.slice(0,str.length -1);
+				$.ajax({          
+					type: "GET",
+					url: "getCompound.php",
+					data:'compoundGrp_id='+str,
+					success: function(data){
+						$("#compoundList").html(data);
+					}
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<?php
@@ -83,10 +121,13 @@
 				print '<p class="text--error">'.'Site Configuration Error!</p>';
 				exit();
 			}
+
+			$selectCompoundGroup = "select * from category order by id ASC;";
+			$compoundGrpResult = $dbc->query($selectCompoundGroup);
 		?>
 		<div class="form-container">
 			<h2 style="margin-left:10px">Add Incident Report</h2>
-			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
+			<span id="message" style="margin-left:10px; color:red"><?php echo $statusMsg ?></span>
 			<hr>				
 			<form action="" method="post" name="frm-add" enctype="multipart/form-data">
 				<table style="margin-left:10px">
@@ -103,6 +144,31 @@
 										}
 									};
 								?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">Compound Group:</td>
+						<td>
+							<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" size=10>
+								<option value="">Select Compound Group</option>
+								<?php foreach ($compoundGrpResult as $compoundGrp) { ?>
+									<option value="<?php echo $compoundGrp["id"]; ?>"><?php echo $compoundGrp["item"]; ?></option>
+								<?php } ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">Compound: </td>
+						<td>
+							<select name="compound[]" id="compoundList" multiple size=10>
+								<option value="">Select Compound</option>
 							</select>
 						</td>
 					</tr>
@@ -130,7 +196,5 @@
 				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>		
 			</form>
 		</div>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script src="assets/validate.js"></script>
 	</body>
 </html>
