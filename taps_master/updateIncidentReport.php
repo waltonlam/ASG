@@ -8,11 +8,26 @@
 
 	if (isset($_POST["submit"])) {
 		//$result = $imageModel->uploadImage();
-		$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['remark']);
+		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ""; 
+		$compoundGroup = "";
+		$compound = "";
+		if (!empty($_POST['compoundGrp'])) {
+			foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
+				$compoundGroup = $selectedCompoundGrp;
+			}
+		}
+
+		if (!empty($_POST['compound'])) {
+			foreach ($_POST['compound'] as $selected) {
+				$compound .= $selected.',';
+			}
+		}
+
+		$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['remark'], $compoundGroup, $compound);
 		if(empty($id)){
-			$msg = "Incident report is updated successfully.";
+			$statusMsg = "Incident report is updated successfully.";
 		}else{
-			$msg = "Incident report is failed to update.";
+			$statusMsg = "Incident report is failed to update.";
 		}
 
 		$create_by = $_SESSION['vuserid'];
@@ -20,9 +35,8 @@
 		// File upload configuration 
 		$targetDir = "/opt/lampp/htdocs/taps/uploads/"; 
 		$allowTypes = array('jpg','png','jpeg','gif'); 
-		 
-		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
 		$fileNames = array_filter($_FILES['files']['name']); 
+
 		if(!empty($fileNames)){ 
 			//$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark']);
 
@@ -62,10 +76,7 @@
 			}else{ 
 				$statusMsg = "Upload failed! ".$errorMsg; 
 			} 
-		}else{ 
-			$statusMsg = 'Please select a file to upload.'; 
-		} 
-		header('Location: addSitePhoto.php');
+		}
 	}
 
 	if(isset($_POST['delete'])){
@@ -110,6 +121,29 @@
 				width:100
 			}
 		</style>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		<script src="assets/validate.js"></script>
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+		<script>
+			function getCompound() {
+				var str='';
+				var val=document.getElementById('compoundGrpList');
+				for (i=0;i< val.length;i++) { 
+					if(val[i].selected){
+						str += val[i].value + ','; 
+					}
+				}         
+				var str=str.slice(0,str.length -1);
+				$.ajax({          
+					type: "GET",
+					url: "getCompound.php",
+					data:'compoundGrp_id='+str,
+					success: function(data){
+						$("#compoundList").html(data);
+					}
+				});
+			}
+		</script>
 	</head>
 	<body>
 		<?php
@@ -119,10 +153,20 @@
 				print '<p class="text--error">'.'Site Configuration Error.</p>';
 				exit();
 			}
+
+			$selectCompoundGroup = "select * from category order by id ASC;";
+			$compoundGrpResult = $dbc->query($selectCompoundGroup);
+
+			$compoundStr = substr($result[0]["compound"], 0, -1);
+			$compoundStr_arr = explode (",", $compoundStr); 
+			//print_r($compoundStr_arr);
+
+			$selectCompound = "select * from compound where code = '".$result[0]["compound_grp"]."';";
+			$compoundResult = $dbc->query($selectCompound);
+			//print_r($compoundResult);
 		?>
 		<div>
 			<h2 style="margin-left:10px">View Incident Report</h2>
-			<span id="message" style="color:red"><?php echo $msg ?></span>
 			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
@@ -141,6 +185,34 @@
 											}
 										};
 									?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Compound Group:</td>
+							<td>
+								<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" size=10>
+									<option value="">Select Compound Group</option>
+									<?php foreach ($compoundGrpResult as $compoundGrp) { ?>
+										<option value="<?php echo $compoundGrp["id"]; ?>" <?php echo ($compoundGrp["id"] == $result[0]["compound_grp"]) ? 'selected="selected"' : "" ?>><?php echo $compoundGrp["item"]; ?></option>
+									<?php } ?>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Compound: </td>
+							<td>
+								<select name="compound[]" id="compoundList" multiple size=10>
+									<option value="">Select Compound</option>
+									<?php foreach ($compoundResult as $compound) { ?>
+										<option value="<?php echo $compound["id"]; ?>" <?php echo (in_array($compound["id"], $compoundStr_arr)) ? 'selected="selected"' : "" ?>><?php echo $compound["name"]; ?></option>
+									<?php } ?>
 								</select>
 							</td>
 						</tr>
@@ -204,7 +276,5 @@
 				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='incidentReportList.php'"/>						
 			</form>
 		</div>
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script src="assets/validate.js"></script>
 	</body>
 </html>

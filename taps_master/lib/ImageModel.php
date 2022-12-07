@@ -107,11 +107,13 @@ class ImageModel
     }
 
 
-    public function updateIncidentReport($incidentReportId, $site_code, $remark) {
-        $query = "UPDATE incident_report SET site_id=?, remark=? WHERE id=?";
-        $paramType = 'ssi';
+    public function updateIncidentReport($incidentReportId, $site_code, $remark, $compoundGroup, $compound) {
+        $query = "UPDATE incident_report SET site_id=?, compound_grp = ?, compound = ?, remark=? WHERE id=?";
+        $paramType = 'ssssi';
         $paramValue = array(
             $site_code, 
+            $compoundGroup, 
+            $compound,
             $remark,
             $incidentReportId
         );
