@@ -56,6 +56,7 @@ if (isset($_POST["import"])) {
 		$compound = "";
 		$compound_grp = "PH";
 		$conc_ppbv= "";
+		$conc_ppbv_str= "";
 		$fieldBlank = "N";
 		$testCount = 0;
 
@@ -80,7 +81,13 @@ if (isset($_POST["import"])) {
 					if(empty($value)){
 						$conc_ppbv = '0.00';
 					}else{
-						$conc_ppbv = str_replace('<', '', $value);
+						$conc_ppbv_str = $value;
+						if(substr($value,0,1) == "<"){
+							$conc_ppbv = str_replace('<', '', $value);
+							$conc_ppbv = $conc_ppbv/2;
+						}else{
+							$conc_ppbv = $value;
+						}
 					}
 				}
 			}
@@ -93,8 +100,8 @@ if (isset($_POST["import"])) {
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
-					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
-					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
+					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `conc_ppbv_str`, `field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
+					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$conc_ppbv_str."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
 					//echo $in1;
 
 					$res=mysqli_query($dbc, $in1); 
