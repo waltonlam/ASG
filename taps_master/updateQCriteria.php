@@ -24,6 +24,9 @@
 			if (!empty($_POST['compound_grp'])){				
 				$u= "update qc_criteria set "
 				."compound_grp='".$_POST['compound_grp']."'";
+				if(!empty ($_POST['comp_grp_name'])){
+					$u .= ",comp_grp_name='".$_POST['comp_grp_name']."'";
+				}
 				if(!empty ($_POST['ptg_diff_colocate'])){
 					$u .= ",ptg_diff_colocate='".$_POST['ptg_diff_colocate']."'";
 				}		
@@ -77,13 +80,19 @@
 							<?php
 								while ($r_l=$qcResult->fetch_object()){
 									if ($r_l->compound_grp==$result[0]["compound_grp"]){
-										print '<option value="'.$r_l->compound_grp.'" selected>'.$r_l->compound_grp.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
+										print '<option value="'.$r_l->compound_grp.'" selected>'.$r_l->compound_grp.'**'.$r_l->comp_grp_name.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
 									}else{
-										print '<option value="'.$r_l->compound_grp.'" >'.$r_l->compound_grp.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
+										print '<option value="'.$r_l->compound_grp.'" >'.$r_l->compound_grp.'**'.$r_l->comp_grp_name.'**'.$r_l->ptg_diff_colocate.'**'.$r_l->ptg_pollutant.'**'.$r_l->percentile.'**'.$r_l->year_avg.'</option>';
 									}
 								};
 							?>									
 						</td>
+					</tr>
+					<tr>
+						<td><label>Compound Group Name: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="text" name="comp_grp_name" id="comp_grp_name"/>
+						</td>  
 					</tr>
 					<tr>
 						<td><label>Percentage Difference of co-locate Sample: </label></td>
@@ -92,7 +101,7 @@
 						</td>  
 					</tr>
 					<tr>
-						<td><label>Percentage of Pollutant: </label></td>
+						<td><label>Over Limit Rate: </label></td>
 						<td>
 							<input style="width:100%; margin-left:10px;" type="number" name="ptg_pollutant" id="ptg_pollutant"/>
 						</td> 
@@ -124,10 +133,11 @@
 			var grp = document.getElementById("compound_grp");
 			grp.options[grp.options.selectedIndex].selected = true;
 
-			document.getElementById("ptg_diff_colocate").value = info[1];
-			document.getElementById("ptg_pollutant").value = info[2];
-			document.getElementById("percentile").value = info[3]
-			document.getElementById("year_avg").value = info[4];
+			document.getElementById("comp_grp_name").value = info[1];
+			document.getElementById("ptg_diff_colocate").value = info[2];
+			document.getElementById("ptg_pollutant").value = info[3];
+			document.getElementById("percentile").value = info[4]
+			document.getElementById("year_avg").value = info[5];
 		}
 	</script>
 </html>

@@ -51,15 +51,16 @@
 							<tr>
 								<th></th>
 								<th>Compound Group</th>
+								<th>Compound Group Name</th>
 								<th>Percentage Difference of co-locate Sample</th>
-								<th>Percentage of Pollutant</th>
+								<th>Over Limit Rate</th>
 								<th>Percentile</th>
 								<th>Year of Average</th>
 							</tr>
 						</thead> 
 						<tbody> 
 							<?php 
-								$query = "select * from qc_criteria order by id ASC;";
+								$query = "select * from qc_criteria order by compound_grp ASC;";
 								$rs_result = mysqli_query ($conn, $query);
 								
 								while ($row = mysqli_fetch_array($rs_result)){ 
@@ -67,7 +68,8 @@
 								<tr>
 									<td><input style="vertical-align: top;" type="checkbox" name="qc_delete_id[]" value="<?php echo $row["id"] ?>"></td>
 									<td><?php echo $row["compound_grp"] ?></td>
-									<td><?php echo $row["ptg_diff_colocate"] ?></td>
+									<td><?php echo $row["comp_grp_name"] ?></td>
+									<td><?php echo $row["ptg_diff_colocate"]."%" ?></td>
 									<td><?php echo $row["ptg_pollutant"] ?></td>
 									<td><?php echo $row["percentile"] ?></td>
 									<td><?php echo $row["year_avg"] ?></td>

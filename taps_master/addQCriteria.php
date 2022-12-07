@@ -22,13 +22,13 @@
 				$checkDuplicateCompound = $dbc->query($selectQuery);
 
 				if($checkDuplicateCompound->num_rows === 0){
-					$sql = "INSERT INTO qc_criteria(compound_grp,ptg_diff_colocate,ptg_pollutant,percentile,year_avg) VALUES ('".$_POST['compound_grp']."','".$_POST['ptg_diff_colocate']."','".$_POST['ptg_pollutant']."','".$_POST['percentile']."','".$_POST['year_avg']."')";
+					$sql = "INSERT INTO qc_criteria(compound_grp,comp_grp_name,ptg_diff_colocate,ptg_pollutant,percentile,year_avg) VALUES ('".$_POST['compound_grp']."','".$_POST['compound_grp']."','".$_POST['ptg_diff_colocate']."','".$_POST['ptg_pollutant']."','".$_POST['percentile']."','".$_POST['year_avg']."')";
 				
 					if ($dbc->query($sql) === FALSE) {
 						echo "Error: " . $dbc->error;
 						exit();
 					}else{					
-						$msg = "New Factor is created.";
+						$msg = "New Compound group is created.";
 					}
 				}else{
 					$msg = "Compound group is existed.";
@@ -51,13 +51,19 @@
 						</td>
 					</tr>
 					<tr>
+						<td><label>Compound Group Name<span style="color:red">*</span>: </label></td>
+						<td>
+							<input style="width:100%; margin-left:10px;" type="text" name="comp_grp_name" required/>
+						</td>
+					</tr>
+					<tr>
 						<td><label>Percentage Difference of co-locate Sample<span style="color:red">*</span>: </label></td>
 						<td>
 							<input style="width:100%; margin-left:10px;" type="number" name="ptg_diff_colocate" required/>
 						</td>  
 					</tr>
 					<tr>
-						<td><label>Percentage of Pollutant<span style="color:red">*</span>: </label></td>
+						<td><label>Over Limit Rate<span style="color:red">*</span>: </label></td>
 						<td>
 							<input style="width:100%; margin-left:10px;" type="number" name="ptg_pollutant" required/>
 						</td> 

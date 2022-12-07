@@ -237,6 +237,17 @@ class CompoundModel {
         return $result;
     }
 
+    //Get deviation from qc_criteria
+    public function getDeviationByCompoundGrp($compoundGrp) {
+        $sql = "SELECT * FROM qc_criteria WHERE compound_grp = ? ;";
+		$paramType = 's';
+        $paramValue = array(
+            $compoundGrp
+        );
+        $result = $this->conn->select($sql, $paramType, $paramValue);
+        return $result;
+    }
+
     public function updateSiteIdSampleId($id, $sample_id, $site_id) {
         $query = "UPDATE glab_sample SET sample_id = ?, site_id = ? WHERE id=?";
         $paramType = 'sss';

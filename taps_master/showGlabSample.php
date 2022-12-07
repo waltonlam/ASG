@@ -375,8 +375,9 @@
 									if(strlen($row["sample_id"]) > 12){
 										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"]);
 										$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
-										
-										if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
+										$deviation = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
+										//if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
+										if($countPercDiff[0]["count_diff"] > $deviation[0]["ptg_pollutant"]){
 									?>		
 											<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
 									<?php
