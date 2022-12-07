@@ -1,28 +1,22 @@
 <?php
 namespace Phppot;
-
 use Phppot\DataSource;
 
-class ImageModel
-{
-
+class ImageModel{
     private $conn;
 
-    function __construct()
-    {
+    function __construct(){
         require_once 'DataSource.php';
         $this->conn = new DataSource();
     }
 
-    function getAllImages($start_from, $per_page_record)
-    {
+    function getAllImages($start_from, $per_page_record){
         $sqlSelect = "SELECT * FROM site_photo LIMIT $start_from, $per_page_record";
         $result = $this->conn->select($sqlSelect);
         return $result;
     }
 
-    function uploadImage()
-    {
+    function uploadImage(){
         $imagePath = "uploads/" . $_FILES["image"]["name"];
         $name = $_FILES["image"]["name"];
         $result = move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath);

@@ -152,13 +152,33 @@
 
 				echo "<meta http-equiv='refresh' content='0'>";
 			}
+
+			if(isset($_POST['delete'])){
+				if(!empty($_POST['glab_delete_id'])){
+					$all_id = $_POST['glab_delete_id'];
+					$extract_id = implode(',' , $all_id);
+		
+					//Delete QC Criteria in DB
+					$query = "DELETE FROM glab_sample WHERE id IN($extract_id) ";
+					$deleteQeury = $dbc->query($query);
+					if($deleteQeury){
+						$msg = "Glab Sample deleted successfully.";
+					}else{
+						$msg = "Glab Sample not deleted.";
+					}
+				}else{
+					$msg = "Please select at least one sample to delete.";
+				}
+			}
 		?>
 
 		<div>
 			<h2 style="margin-left:10px">Search Glab Sample</h2>
+			<span id="message" style="margin-left:10px; color:red;"><?php echo $msg ?></span>
 			<hr>
-			<div>
-				<form class="post-form" action="showGlabSample.php" method="post">
+			<form class="post-form" action="showGlabSample.php" method="post">
+				<div>
+				
 					<table style="margin-left:10px">
 						<tr>
 							<td>
@@ -216,240 +236,246 @@
 							</td>
 						</tr>
 					</table>
-				</form>
-			</div>
+				
+				</div>
 
-			<div style="overflow-x:auto;">
-				<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
-				<table class="table table-striped table-condensed table-bordered"> 
-					<thead>  
-						<tr>
-							<th width="10%">Sample ID</th>
-							<th width="10%">Start Date</th>
-							<!--th width="5%">Duration</th-->
-							<th width="5%">Site</th>
-							<!--th width="5%">Cpd Cat</th>
-							<th width="5%">Sample Type</th>
-							<th width="10%">Case No. 1</th-->
-							<th width="10%">Compound</th>
-							<th width="5%">Compound Group</th>
-							<th width="5%">CONC (µg/m3)</th>
-							<th width="5%">Co-Located Sample Status</th>
-							<!--th width="5%">Sampling Method</th>
-							<th width="5%">Sampler</th>
-							<th width="5%">Detector</th>
-							<th width="5%">Sample By</th>
-							<th width="5%">Analyse By</th-->
-						</tr>
-					</thead> 
-					<tbody>   
-					<?php  
-						while ($row = mysqli_fetch_array($rs_result)) {   
-							$hide='';
-							$avgFrmThreeYrs = 0;
-							$percentile = 0;
-							$status = 'Valid';
-							$countPercDiff = 0;
-							$countTotalColocSample = 0;
+				<div style="overflow-x:auto;">
+					<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
+					<table class="table table-striped table-condensed table-bordered"> 
+						<thead>  
+							<tr>
+								<th width="1%"></th>
+								<th width="10%">Sample ID</th>
+								<th width="10%">Start Date</th>
+								<!--th width="5%">Duration</th-->
+								<th width="5%">Site</th>
+								<!--th width="5%">Cpd Cat</th>
+								<th width="5%">Sample Type</th>
+								<th width="10%">Case No. 1</th-->
+								<th width="10%">Compound</th>
+								<th width="5%">Compound Group</th>
+								<th width="5%">CONC (µg/m3)</th>
+								<th width="5%">Co-Located Sample Status</th>
+								<!--th width="5%">Sampling Method</th>
+								<th width="5%">Sampler</th>
+								<th width="5%">Detector</th>
+								<th width="5%">Sample By</th>
+								<th width="5%">Analyse By</th-->
+							</tr>
+						</thead> 
+						<tbody>   
+						<?php  
+							while ($row = mysqli_fetch_array($rs_result)) {   
+								$hide='';
+								$avgFrmThreeYrs = 0;
+								$percentile = 0;
+								$status = 'Valid';
+								$countPercDiff = 0;
+								$countTotalColocSample = 0;
 
-							if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
-								$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
-								//print_r($last3YrsConcList);
-								$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
-								//echo "Percentile: ".$percentile;
-								$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
-								if($_SESSION['utp'] == 1){
-									if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
-										or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
-											$hide = ' style="display: none;"';
-									} 
-								}
-							}
-
-							// Display each field of the records.    
-					?>     
-						<tr <?php echo $hide;?>> 
-							<td>
-								<a href="compoundDetail.php?id=<?php echo $row['id']; ?>" class="btn-action">
-									<?php echo $row["sample_id"]?>
-								</a> 								
-							</td>    
-							<td>
-								<?php echo $row["strt_date"]?>
-							</td>
-							<!--td>
-								<?php //echo $row["duration"]?>
-							</td-->
-							<td>
-								<?php echo $row["site_id"]?>
-							</td>
-							<!--td>
-								<?php //echo $row["cpdcat"]?>
-							</td>
-							<td>
-								<?php //echo $row["samp_type"]?>
-							</td>
-							<td>
-								<?php //echo $row["casno1"]?>
-							</td-->
-							<td>
-								<?php echo $row["compound"]?>
-							</td>
-							<td>
-								<?php echo $row["compound_grp"]?>
-							</td>
-							<?php								
 								if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
-									//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 									//print_r($last3YrsConcList);
-									//$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
 									//echo "Percentile: ".$percentile;
-									//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
-									
-									if($_SESSION['utp'] == 0){
+									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									if($_SESSION['utp'] == 1){
 										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
 											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
-							?>
-											<td bgcolor= "#f5ad9b">
+												$hide = ' style="display: none;"';
+										} 
+									}
+								}
+
+								// Display each field of the records.    
+						?>     
+							<tr <?php echo $hide;?>> 
+								<td>
+									<input type="checkbox" name="glab_delete_id[]" value="<?php echo $row["id"] ?>">
+								</td>
+								<td>
+									<a href="compoundDetail.php?id=<?php echo $row['id']; ?>" class="btn-action">
+										<?php echo $row["sample_id"]?>
+									</a> 								
+								</td>    
+								<td>
+									<?php echo $row["strt_date"]?>
+								</td>
+								<!--td>
+									<?php //echo $row["duration"]?>
+								</td-->
+								<td>
+									<?php echo $row["site_id"]?>
+								</td>
+								<!--td>
+									<?php //echo $row["cpdcat"]?>
+								</td>
+								<td>
+									<?php //echo $row["samp_type"]?>
+								</td>
+								<td>
+									<?php //echo $row["casno1"]?>
+								</td-->
+								<td>
+									<?php echo $row["compound"]?>
+								</td>
+								<td>
+									<?php echo $row["compound_grp"]?>
+								</td>
+								<?php								
+									if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
+										//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+										//print_r($last3YrsConcList);
+										//$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+										//echo "Percentile: ".$percentile;
+										//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+										
+										if($_SESSION['utp'] == 0){
+											if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+												or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
+								?>
+												<td bgcolor= "#f5ad9b">
+													<?php echo $row["conc_g_m3"]?>
+												</td>
+								<?php 
+											}else{
+								?>		
+											<td>
+												<?php echo $row["conc_g_m3"]?>
+											</td>	
+								<?php 	
+											}	
+										}else{
+											if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+												or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
+								?>
+											<td>
+												<?php echo " "?>
+											</td>
+								<?php
+										}else{
+								?>				
+											<td>
 												<?php echo $row["conc_g_m3"]?>
 											</td>
-							<?php 
-										}else{
-							?>		
-										<td>
-											<?php echo $row["conc_g_m3"]?>
-										</td>	
-							<?php 	
-										}	
-									}else{
-										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
-											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
-							?>
-										<td>
-											<?php echo " "?>
-										</td>
-							<?php
-									}else{
-							?>				
-										<td>
-											<?php echo $row["conc_g_m3"]?>
-										</td>
-							<?php
+								<?php
+											}
 										}
-									}
-								}else{
-							?>	
-									<td>
-										<?php echo $row["conc_g_m3"]?>
-									</td>
-							<?php
-								}
-							?>								
-
-							<!--td bgcolor= "#f5ad9b"-->
-								<?php 
-								if(strlen($row["sample_id"]) > 12){
-									$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"]);
-									$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
-									
-									if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
-								?>		
-										<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
-								<?php
 									}else{
-								?>
-										<td bgcolor= "#84e084"><?php echo $status = 'Valid'; ?> </td>
+								?>	
+										<td>
+											<?php echo $row["conc_g_m3"]?>
+										</td>
 								<?php
 									}
-								}else{
-								?>
-									<td><?php echo $status = 'N.A.'; ?> </td>
-								<?php
+								?>								
+
+								<!--td bgcolor= "#f5ad9b"-->
+									<?php 
+									if(strlen($row["sample_id"]) > 12){
+										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"]);
+										$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
+										
+										if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
+									?>		
+											<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
+									<?php
+										}else{
+									?>
+											<td bgcolor= "#84e084"><?php echo $status = 'Valid'; ?> </td>
+									<?php
+										}
+									}else{
+									?>
+										<td><?php echo $status = 'N.A.'; ?> </td>
+									<?php
+									}
+									?>
+								<!--/td-->
+								<!--td>
+									<?php //echo $row["samp_mthd"]?>
+								</td>
+								<td>
+									<?php //echo $row["sampler"]?>
+								</td>
+								<td>
+									<?php //echo $row["detector"]?>
+								</td>
+								<td>
+									<?php //echo $row["sample_by"]?>
+								</td>
+								<td>
+									<?php //echo $row["analyse_by"]?>
+								</td-->                                       
+							</tr>     
+						<?php     
+							};    
+						?>     
+						</tbody>
+					</table>
+					<input type="submit" style="margin-left:10px" name="delete" value="Delete">
+					<hr>
+					<div class="pagination" style="margin-left:10px">    
+						<?php  
+							$query = "SELECT COUNT(*) FROM glab_sample ";					
+							if(!empty($_SESSION['site_id'])){
+								$query .= " where site_id = '".$_SESSION['site_id']."' ";
+								if(!empty($_SESSION['compound_grp'])){
+									$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
 								}
-								?>
-							<!--/td-->
-							<!--td>
-								<?php //echo $row["samp_mthd"]?>
-							</td>
-							<td>
-								<?php //echo $row["sampler"]?>
-							</td>
-							<td>
-								<?php //echo $row["detector"]?>
-							</td>
-							<td>
-								<?php //echo $row["sample_by"]?>
-							</td>
-							<td>
-								<?php //echo $row["analyse_by"]?>
-							</td-->                                       
-						</tr>     
-					<?php     
-						};    
-					?>     
-					</tbody>
-				</table>
-				<hr>
-				<div class="pagination" style="margin-left:10px">    
-					<?php  
-						$query = "SELECT COUNT(*) FROM glab_sample ";					
-						if(!empty($_SESSION['site_id'])){
-							$query .= " where site_id = '".$_SESSION['site_id']."' ";
-							if(!empty($_SESSION['compound_grp'])){
-								$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
-							}
-				
-							if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-								$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
-							}	
-						}else{
-							if(!empty($_SESSION['compound_grp'])){
-								$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
-			
+					
 								if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
 									$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 								}	
 							}else{
-								if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-									$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
-								}	
-							}
-						}
-
-						$rs_result = mysqli_query($conn, $query);     
-						$row = mysqli_fetch_row($rs_result);     
-						$total_records = $row[0];     
-						  
-						// Number of pages required.   
-						$total_pages = ceil($total_records / $per_page_record);     
-						//$_SESSION['ttl_page'] = $total_pages;
-						$pagLink = "";       
-					
-						if($page>=2){   
-							echo "<a href='showGlabSample.php?page=".($page-1)."'>  Prev </a>";   
-						}       
-								
-						for ($i=1; $i<=$total_pages; $i++) {   
-							if ($i == $page) {   
-								$pagLink .= "<a class = 'active' href='showGlabSample.php?page=".$i."'>".$i." </a>";   
-							}               
-							else  {   
-								$pagLink .= "<a href='showGlabSample.php?page=".$i."'>".$i." </a>";     
-							}   
-						};     
-						echo $pagLink;   
+								if(!empty($_SESSION['compound_grp'])){
+									$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
 				
-						if($page<$total_pages){   
-							echo "<a href='showGlabSample.php?page=".($page+1)."'>  Next </a>";   
-						}
-					?>    
-				</div> 
-				<div class="inline" style="margin-right:10px">   
-					<input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
-					placeholder="<?php echo $page."/".$total_pages; ?>" required>   
-					<button onClick="go2Page();">Go</button>   
-				</div>    
-			</div>
+									if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+										$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+									}	
+								}else{
+									if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
+										$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+									}	
+								}
+							}
+
+							$rs_result = mysqli_query($conn, $query);     
+							$row = mysqli_fetch_row($rs_result);     
+							$total_records = $row[0];     
+							
+							// Number of pages required.   
+							$total_pages = ceil($total_records / $per_page_record);     
+							//$_SESSION['ttl_page'] = $total_pages;
+							$pagLink = "";       
+						
+							if($page>=2){   
+								echo "<a href='showGlabSample.php?page=".($page-1)."'>  Prev </a>";   
+							}       
+									
+							for ($i=1; $i<=$total_pages; $i++) {   
+								if ($i == $page) {   
+									$pagLink .= "<a class = 'active' href='showGlabSample.php?page=".$i."'>".$i." </a>";   
+								}               
+								else  {   
+									$pagLink .= "<a href='showGlabSample.php?page=".$i."'>".$i." </a>";     
+								}   
+							};     
+							echo $pagLink;   
+					
+							if($page<$total_pages){   
+								echo "<a href='showGlabSample.php?page=".($page+1)."'>  Next </a>";   
+							}
+						?>    
+					</div> 
+					<div class="inline" style="margin-right:10px">   
+						<input id="page" type="number" min="1" max="<?php echo $total_pages?>"   
+						placeholder="<?php echo $page."/".$total_pages; ?>">   
+						<button onClick="go2Page();">Go</button>   
+					</div>    
+				</div>
+			</form>
 		</div>
 
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
