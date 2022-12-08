@@ -178,7 +178,6 @@
 			<hr>
 			<form class="post-form" action="showGlabSample.php" method="post">
 				<div>
-				
 					<table style="margin-left:10px">
 						<tr>
 							<td>
@@ -236,9 +235,8 @@
 							</td>
 						</tr>
 					</table>
-				
 				</div>
-
+				<br>
 				<div style="overflow-x:auto;">
 					<!--input type="text" id="myInput" onkeyup="search()" placeholder="Search for id.." title="Type in a name" placeholder="Search.."-->
 					<table class="table table-striped table-condensed table-bordered"> 
@@ -273,12 +271,15 @@
 								$countPercDiff = 0;
 								$countTotalColocSample = 0;
 
+								//Get the QC criteria parameters for calculation
+								$qcCriteria = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
+
 								if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
-									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"], $qcCriteria[0]["year_avg"]);
 									//print_r($last3YrsConcList);
-									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
+									$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, $qcCriteria[0]["percentile"]);
 									//echo "Percentile: ".$percentile;
-									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
+									$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"], $qcCriteria[0]["year_avg"]);
 									if($_SESSION['utp'] == 1){
 										if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
 											or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
@@ -331,20 +332,34 @@
 										//$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
 										
 										if($_SESSION['utp'] == 0){
-											if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
-												or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
+											if(empty($row["status"])){
+												if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
+													or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
 								?>
+													<td bgcolor= "#f5ad9b">
+														<?php echo $row["conc_g_m3"]?>
+													</td>
+								<?php 
+												}else{
+								?>		
+													<td>
+														<?php echo $row["conc_g_m3"]?>
+													</td>	
+								<?php 	
+												}	
+											}else if($row["status"] == "N"){
+								?>				
 												<td bgcolor= "#f5ad9b">
 													<?php echo $row["conc_g_m3"]?>
 												</td>
-								<?php 
-											}else{
-								?>		
-											<td>
-												<?php echo $row["conc_g_m3"]?>
-											</td>	
-								<?php 	
-											}	
+								<?php
+											}else if($row["status"] == "Y"){
+								?>
+												<td>
+													<?php echo $row["conc_g_m3"]?>
+												</td>	
+								<?php	
+											}
 										}else{
 											if($row["conc_g_m3"] > number_format((float)$percentile, 2, '.', '')
 												or $row["conc_g_m3"] > number_format((float)$avgFrmThreeYrs[0]["avg_conc_g_m3"], 2, '.', '') ){
@@ -373,7 +388,7 @@
 								<!--td bgcolor= "#f5ad9b"-->
 									<?php 
 									if(strlen($row["sample_id"]) > 12){
-										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"]);
+										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"], $qcCriteria[0]["ptg_diff_colocate"]);
 										$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
 										$deviation = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
 										//if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){

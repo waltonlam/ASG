@@ -127,11 +127,8 @@ class CompoundModel {
         return $result;
     }
 
-    //Retrieve conc g/m3 from last 3 years
-    public function getConcFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate) {
-        //$sql = "SELECT CAST(SUBSTRING_INDEX(SUBSTRING_INDEX( GROUP_CONCAT(conc_g_m3 ORDER BY conc_g_m3 SEPARATOR ','), ',', 99/100 * COUNT(*) + 1), ',', -1) AS DECIMAL) AS 99th_Per FROM glab_sample 
-        //WHERE site_id = ? and compound = ? and compound_grp = ? and YEAR(strt_date) >= YEAR(?) - 3 ";
-		
+    //Retrieve conc g/m3 from last ? years
+    public function getConcFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate, $yearAvg) {
         $sql = "SELECT conc_g_m3 FROM glab_sample 
                     WHERE sample_id not like '%A2' and 
                     conc_g_m3 is not null and 
@@ -139,21 +136,22 @@ class CompoundModel {
                     site_id = ? and 
                     compound = ? and 
                     compound_grp = ? and 
-                    YEAR(strt_date) >= YEAR(?) - 3 ";
+                    YEAR(strt_date) >= YEAR(?) - ? ";
 
-		$paramType = 'ssss';
+		$paramType = 'sssss';
         $paramValue = array(
             $siteId,
             $compound,
 			$compoundGrp,
-			$strtDate
+			$strtDate,
+            $yearAvg
         );
         $result = $this->conn->select($sql, $paramType, $paramValue);
         return $result;
     }
 	
-    //Calculate average from last 3 years
-    public function calAvgFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate) {
+    //Calculate average from last ? years
+    public function calAvgFrmLast3Yrs($siteId, $compound, $compoundGrp, $strtDate, $yearAvg) {
         $sql = "SELECT avg(conc_g_m3) as avg_conc_g_m3 FROM glab_sample 
                     WHERE sample_id not like '%A2' and  
                     conc_g_m3 is not null and 
@@ -161,14 +159,15 @@ class CompoundModel {
                     compound = ? and 
                     compound_grp = ? and 
                     field_blank = 'N' and 
-                    YEAR(strt_date) >= YEAR(?) - 3 ";
+                    YEAR(strt_date) >= YEAR(?) - ? ";
 		
-		$paramType = 'ssss';
+		$paramType = 'sssss';
         $paramValue = array(
             $siteId,
             $compound,
 			$compoundGrp,
-			$strtDate
+			$strtDate,
+            $yearAvg
         );
         $result = $this->conn->select($sql, $paramType, $paramValue);
         return $result;
@@ -202,19 +201,20 @@ class CompoundModel {
     }
 
     //get count of diff for each colocated sample > 30%
-    public function getCountOfPercentageDiff($locA1, $locA2) {
+    public function getCountOfPercentageDiff($locA1, $locA2, $ptgDiffColocate) {
         $sql = "SELECT  COUNT(diff.difference) AS 'count_diff' FROM 
                     (SELECT ABS((g1.conc_g_m3 - g2.conc_g_m3) / ((g1.conc_g_m3 + g2.conc_g_m3) / 2)) * 100 AS difference
                     FROM glab_sample g1, glab_sample g2 
                     WHERE g1.id <> g2.id AND g1.sample_id = ?
                     AND g2.sample_id = ? 
                     AND g1.compound = g2.compound) AS diff 
-                    WHERE diff.difference > 30";
+                    WHERE diff.difference > ?";
 		
-		$paramType = 'ss';
+		$paramType = 'sss';
         $paramValue = array(
             substr($locA1,0,-1)."1",
-            substr($locA2,0,-1)."2"
+            substr($locA2,0,-1)."2",
+            $ptgDiffColocate
         );
         $result = $this->conn->select($sql, $paramType, $paramValue);
         return $result;
@@ -248,12 +248,13 @@ class CompoundModel {
         return $result;
     }
 
-    public function updateSiteIdSampleId($id, $sample_id, $site_id) {
-        $query = "UPDATE glab_sample SET sample_id = ?, site_id = ? WHERE id=?";
-        $paramType = 'sss';
+    public function updateSiteIdSampleId($id, $sample_id, $site_id, $status) {
+        $query = "UPDATE glab_sample SET sample_id = ?, site_id = ?, status = ? WHERE id=?";
+        $paramType = 'ssss';
         $paramValue = array(
             $sample_id,
             $site_id,
+            $status, 
             $id
         );
         $id = $this->conn->execute($query, $paramType, $paramValue);

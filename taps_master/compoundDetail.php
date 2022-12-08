@@ -17,15 +17,18 @@
 	$percentageDiff = 0;
 	$totalTEF = 0;
 
+	//Get the QC criteria parameters for calculation
+	$qcCriteria = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
+
 	if(substr($result[0]["sample_id"],5,1) == 'F'){
 		$yearFieldBlankAvg = $compoundModel->calAvgFieldBlank($result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
 		$yearFieldBlankAvgSameLoc = $compoundModel->calAvgFieldBlankSameLoc($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
 		
 	}else if(substr($result[0]["sample_id"],5,1) == 'S'){
 		if(substr($result[0]["sample_id"],-2) != 'A2'){
-			$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"]);
-			$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, 99);
-			$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"]);
+			$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"], $qcCriteria[0]["year_avg"]);
+			$percentile = $compoundModel->calPercentile((array)$last3YrsConcList, $qcCriteria[0]["percentile"]);
+			$avgFrmThreeYrs = $compoundModel->calAvgFrmLast3Yrs($result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"], $result[0]["strt_date"], $qcCriteria[0]["year_avg"]);
 		}
 
 		if(strlen($result[0]["sample_id"]) > 12){
@@ -44,7 +47,7 @@
 	}
 
 	if (isset($_POST["submit"])) {
-		$id = $compoundModel->updateSiteIdSampleId($recordId, $_POST['sampleId'], $_POST['site_id']);
+		$id = $compoundModel->updateSiteIdSampleId($recordId, $_POST['sampleId'], $_POST['site_id'], $_POST['status']);
 		echo "<meta http-equiv='refresh' content='0'>";
 	}
 ?>
@@ -173,6 +176,14 @@
 						</td>
 					</tr>
 					<?php } ?>
+					<tr>
+						<td style="vertical-align: top;">Status: </td>
+						<td>
+							<input type="radio" name="status" <?php if ($result[0]["status"]=="Y") echo "checked";?> value="Y">Valid
+							&nbsp;&nbsp;
+							<input type="radio" name="status" <?php if ($result[0]["status"]=="N") echo "checked";?> value="N">Invalid
+						</td>
+					</tr>
 				</table>
 				<hr>
 				<?php if($result[0]["compound_grp"] == 'DF' or $result[0]["compound_grp"] == 'DI_PB'){ ?>
