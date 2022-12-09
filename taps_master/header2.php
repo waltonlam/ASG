@@ -21,6 +21,7 @@
 		if(!isset($_SESSION)){
 			session_start();
 		}
+
 		if (empty($_SESSION['vuserid'])) {
 	?>
 			<p class="text--error">Please make sure you login to the system before using any functions<br>Go back and try again.</p><br><br><a href="login.php">Go Login</a>	
@@ -137,6 +138,7 @@
 								<ul class="dropdown-menu">
 									<li><a href="incidentReportList.php">Show All</a></li>
 									<li><a href="addIncidentReport.php">Add Incident Report</a></li>
+									<li><a href="exportToExc.php">Export Incident Report</a></li>
 								</ul>
 								</li>
 								<li>

@@ -131,5 +131,30 @@ class ImageModel{
         $result = $this->conn->select($query);
         return $result;
     }
+
+    //Excel generation start
+    public function getIncidentReport() {
+        $query = "SELECT i.id, i.site_id, i.compound_grp, i.compound, i.remark, i.create_date, s.file_name, s.path, s.incident_id FROM incident_report i left join site_photo s on i.id = s.incident_id order by i.id ASC;";
+        $result = $this->conn->select($query);
+        return $result;
+    }
+    
+    public function exportIncidentReport($incidReportResult) {
+        $filename = 'Export_excel.xls';
+        
+        header("Content-Type: application/vnd.ms-excel");
+		header("Content-Disposition: attachment; filename=\"$filename\"");
+
+        $isPrintHeader = false;
+        foreach ($incidReportResult as $row) {
+            if (! $isPrintHeader) {
+                echo implode("\t", array_keys($row)) . "\n";
+                $isPrintHeader = true;
+            }
+            echo implode("\t", array_values($row)) . "\n";
+        }
+        exit;
+    }
+    //Excel generation end
 }
 ?>

@@ -1,4 +1,14 @@
-<html>
+<?php
+	namespace Phppot;
+	use Phppot\DataSource;
+
+	require_once "connection.php";  
+	require_once "iconn.php";
+	require_once "header2.php";
+	require_once __DIR__ . '/lib/ImageModel.php';
+	$imageModel = new ImageModel();
+?>
+	<html>
 	<head>
 		<link href="assets/style.css" rel="stylesheet" type="text/css" />
 		<style> 
@@ -41,10 +51,6 @@
 
 	<body>
 		<?php
-			require_once "connection.php";  
-			require_once "iconn.php";
-			require_once "header2.php";
-			
 			$_SESSION['prev_incid'] = basename($_SERVER['PHP_SELF']);
 
 			if (isset($_SESSION['previous'])) {
@@ -94,6 +100,42 @@
 				
 				$query .= " order by id LIMIT $start_from, $per_page_record";     
 				$rs_result = mysqli_query ($conn, $query);  
+				
+				
+				$incidentResult = $imageModel->getIncidentReport();
+				if(isset($_POST["export"])){
+					// Submission from
+					$filename = "test.xls";		 
+					header("Content-Type: application/vnd.ms-excel; charset=utf-8"); 
+					header("Content-type: application/x-msexcel; charset=utf-8");
+					header("Pragma: public"); 
+					header("Expires: 0"); 
+					header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+					header("Content-Type: application/force-download"); 
+					header("Content-Type: application/octet-stream"); 
+					header("Content-Type: application/download"); 
+					//header("Content-Disposition: attachment;filename=11.xls "); 
+					header("Content-Disposition: attachment; filename=\"$filename\"");
+					header("Content-Transfer-Encoding: binary "); 
+					
+					ExportFile($incidentResult);
+					exit();
+				}
+
+				function ExportFile($records) {
+					echo ($records);
+					$heading = false;
+						if(!empty($records))
+						foreach($records as $row) {
+							if(!$heading) {
+							// display field/column names as a first row
+							echo implode("\t", array_keys($row)) . "\n";
+							$heading = true;
+							}
+							echo implode("\t", array_values($row)) . "\n";
+						}
+						exit;
+				}
 			//}
 		?>
 
@@ -135,6 +177,7 @@
 							<td></td>
 							<td>    
 								<input type="submit" name="search" value="Search"/>
+								<!--input type="submit" name="export" value="Export"/-->
 							</td>
 						</tr>
 					</table>
