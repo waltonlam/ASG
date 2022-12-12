@@ -138,7 +138,7 @@
 								<ul class="dropdown-menu">
 									<li><a href="incidentReportList.php">Show All</a></li>
 									<li><a href="addIncidentReport.php">Add Incident Report</a></li>
-									<li><a href="exportToExc.php">Export Incident Report</a></li>
+									<li><a href="exportIncidentReport.php">Export Incident Report</a></li>
 								</ul>
 								</li>
 								<li>
