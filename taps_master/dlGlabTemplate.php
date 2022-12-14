@@ -40,25 +40,98 @@
 		?>
 
 		<div>
-			<h2 style="margin-left:10px">Download Glab Data Template</h2>
+			<h2 style="margin-left:10px">Download Data Conversion Template</h2>
 			<hr> 
 			<div>
 				<table class="table table-striped table-condensed table-bordered"> 
 					<thead>  
 						<tr>
-							<th width="50%">Data Template</th>
-							<th width="50%">Download Link</th>
+							<th width="50%">Data Conversion Template</th>
+							<th width="50%">Action</th>
 						</tr>
 					</thead> 
 					<tbody>   				    
 						<tr> 
 							<td>
-								CSV Format Conversion
+								Carbonyl
 							</td>    
 							<td>
-								<a href="../taps/macro/RestructureCell.xlsm" class="btn-action" target="_blank">Download</a>
+								<a href="../taps/macro/RestructureCell_CL.xlsm" class="btn-action" target="_blank">Download</a>
 							</td>							                                      
-						</tr>			
+						</tr>
+						<tr> 
+							<td>
+								Chlordecone
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_CD.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>		
+						<tr> 
+							<td>
+								Dl-PCB
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_DLPB.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>	
+						<tr> 
+							<td>
+								Dioxin
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_DF.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>	
+						<tr> 
+							<td>
+								HBCD
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_HB.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>
+						<tr> 
+							<td>
+								OC Pesticides
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_OC.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>
+						<tr> 
+							<td>
+								PAH
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_PH.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>
+						<tr> 
+							<td>
+								PBDE
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_PBDE.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>	
+						<tr> 
+							<td>
+								Toxaphene
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_TP.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>
+						<tr> 
+							<td>
+								VOCs
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_VC.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>	
+										
 					</tbody>
 				</table>
 				<hr>

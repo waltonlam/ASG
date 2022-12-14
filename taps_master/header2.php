@@ -115,7 +115,7 @@
 										<a href="#">Glab Template <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
-											<li><a href="dlGlabTemplate.php">Download Glab Template</a></li>
+											<li><a href="dlGlabTemplate.php">Download Data Conversion Template</a></li>
 											<li><a href="impGlabCsv.php">Import VOC Csv</a></li>
 											<li><a href="impPahCsv.php">Import PAH Csv</a></li>
 											<li><a href="exportReport.php">Export Report</a></li>
