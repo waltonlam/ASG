@@ -54,9 +54,11 @@ if (isset($_POST["import"])) {
 		$strtDate = "";
 		$siteId = "";
 		$compound = "";
-		$compound_grp = "PH";
+		$compound_grp = "OC";
 		$conc_ppbv= "";
 		$conc_ppbv_str= "";
+		$conc_g_m3= "";
+		$conc_g_m3_str= "";
 		$fieldBlank = "N";
 		$testCount = 0;
 
@@ -73,11 +75,11 @@ if (isset($_POST["import"])) {
 					$strtDate = "20".substr($sampleId,6, 2)."/".substr($sampleId,10, 2)."/".substr($sampleId,8,2);
 				}
 				
-				if (strpos ($key,'Compounds') !== false){
-					$compound = $value;
+				if (strpos ($key,'Name of Analyte') !== false){
+					$compound = str_replace("'","\'", $value); 
 				}
 				
-				if (strpos ($key,'ng/sample') !== false){
+				if (strpos ($key,'  ng/sample') !== false){
 					if(empty($value)){
 						$conc_ppbv = '0.00';
 					}else{
@@ -87,6 +89,21 @@ if (isset($_POST["import"])) {
 							$conc_ppbv = $conc_ppbv/2;
 						}else{
 							$conc_ppbv = $value;
+						}
+					}
+				}
+
+				if (strpos ($key,'pg/m3') !== false){
+					if(empty($value)){
+						$conc_g_m3 = '0.00';
+						$conc_g_m3_str = '0.00';
+					}else{
+						$conc_g_m3_str = $value;
+						if(substr($value,0,1) == "<"){
+							$conc_g_m3 = str_replace('<', '', $value);
+							$conc_g_m3 = $conc_g_m3/2;
+						}else{
+							$conc_g_m3 = $value;
 						}
 					}
 				}
@@ -100,8 +117,8 @@ if (isset($_POST["import"])) {
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
-					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `conc_ppbv_str`, `field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
-					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$conc_ppbv_str."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
+					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `conc_ppbv_str`, `conc_g_m3`,`field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
+					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$conc_ppbv_str."','".$conc_g_m3."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
 					//echo $in1;
 
 					$res=mysqli_query($dbc, $in1); 
@@ -110,7 +127,7 @@ if (isset($_POST["import"])) {
 					if (!empty($res)) {
 						$r_in++;
 						$type = "success";
-						$message = "*No. of PH records have been imported : ".$r_in;
+						$message = "*No. of OC records have been imported : ".$r_in;
 					} else {
 						$type = "error";
 						print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
@@ -126,7 +143,7 @@ if (isset($_POST["import"])) {
 			}else{
 				$count_duplicate++;
 				$type = "error";
-				$message = "*No. of PH records are duplicated : ".$count_duplicate;
+				$message = "*No. of OC records are duplicated : ".$count_duplicate;
 			}
 		}
 		mysqli_autocommit($dbc, TRUE);
@@ -219,7 +236,7 @@ if (isset($_POST["import"])) {
 	</head>
 
 	<body>
-		<h2 style="margin-left:10px">Import PH CSV File</h2><hr>
+		<h2 style="margin-left:10px">Import OC CSV File</h2><hr>
 		<div id="response"
 			class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
 			<?php if(!empty($message)) { echo $message; } ?>

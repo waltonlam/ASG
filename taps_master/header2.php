@@ -116,9 +116,14 @@
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
 											<li><a href="dlGlabTemplate.php">Download Data Conversion Template</a></li>
-											<li><a href="impGlabCsv.php">Import VOC Csv</a></li>
-											<li><a href="impPahCsv.php">Import PAH Csv</a></li>
-											<li><a href="exportReport.php">Export Report</a></li>
+											<li><a href="impGlabCsv.php">Import VC Csv</a></li>
+											<li><a href="impPahCsv.php">Import PH Csv</a></li>
+											<li><a href="impOcCsv.php">Import OC Csv</a></li>
+											<li><a href="impTpCsv.php">Import TP Csv</a></li>
+											<li><a href="impPbCsv.php">Import PD Csv</a></li>
+											<li><a href="impHbCsv.php">Import HB Csv</a></li>
+											<li><a href="impCdCsv.php">Import CD Csv</a></li>
+											<!--li><a href="exportReport.php">Export Report</a></li-->
 										</ul>
 									</li>
 									<li>
@@ -141,13 +146,13 @@
 									<li><a href="exportIncidentReport.php">Export Incident Report</a></li>
 								</ul>
 								</li>
-								<li>
+								<!--li>
 								<a href="#">Statistical Graph<span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="genSummaryPlot.php">Summary Plot</a></li>
 									<li><a href="genSummaryPlot.php">Scatter Plot</a></li>
 								</ul>
-								</li>
+								</li-->
 								<li><a href="logout.php">Logout</a></li>
 								
 							</ul>
