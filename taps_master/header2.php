@@ -109,10 +109,10 @@
 								</ul>
 								</li>
 								<li>
-								<a href="#">CSV Template <span class="caret"></span></a>
+								<a href="#">Sample <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#">Glab Template <span class="caret"></span></a>
+										<a href="#">Glab Sample<span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
 											<li><a href="dlGlabTemplate.php">Download Data Conversion Template</a></li>
@@ -123,11 +123,13 @@
 											<li><a href="impPbCsv.php">Import PD Csv</a></li>
 											<li><a href="impHbCsv.php">Import HB Csv</a></li>
 											<li><a href="impCdCsv.php">Import CD Csv</a></li>
+											<li><a href="impClCsv.php">Import CL Csv</a></li>
+											<li><a href="impDfCsv.php">Import DF Csv</a></li>
 											<!--li><a href="exportReport.php">Export Report</a></li-->
 										</ul>
 									</li>
 									<li>
-										<a href="#">Contractor Template <span class="caret"></span></a>
+										<a href="#">Contractor Sample<span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showContractor.php">Show All</a></li>
 											<!--li><a href="impContractor.php">Import Template</a></li>
