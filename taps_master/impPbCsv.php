@@ -236,7 +236,7 @@ if (isset($_POST["import"])) {
 	</head>
 
 	<body>
-		<h2 style="margin-left:10px">Import PD CSV File</h2><hr>
+		<h2 style="margin-left:10px">Import PBDE & HBB153 CSV File</h2><hr>
 		<div id="response"
 			class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
 			<?php if(!empty($message)) { echo $message; } ?>

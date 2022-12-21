@@ -59,12 +59,12 @@
 								<a href="#">System Maintanance <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#">Maintain Site <span class="caret"></span></a>
+										<a href="#">Maintain Category <span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="showSite.php">Show All</a></li>
-											<li><a href="updateSite.php">Update Site</a></li>
-											<li><a href="delSite.php">Delete Site</a></li>
-											<li><a href="addSite.php">Add Site</a></li>
+											<li><a href="showCategory.php">Show All</a></li>
+											<li><a href="updateCategory.php">Update Category</a></li>
+											<li><a href="delCategory.php">Delete Category</a></li>
+											<li><a href="addCategory.php">Add Category</a></li>
 										</ul>
 									</li>
 									<li>
@@ -74,15 +74,6 @@
 											<li><a href="updateCompound.php">Update Compound</a></li>
 											<li><a href="delCompound.php">Delete Compound</a></li>
 											<li><a href="addCompound.php">Add Compound</a></li>
-										</ul>
-									</li>
-									<li>
-										<a href="#">Maintain Category <span class="caret"></span></a>
-										<ul class="dropdown-menu">
-											<li><a href="showCategory.php">Show All</a></li>
-											<li><a href="updateCategory.php">Update Category</a></li>
-											<li><a href="delCategory.php">Delete Category</a></li>
-											<li><a href="addCategory.php">Add Category</a></li>
 										</ul>
 									</li>
 									<li>
@@ -96,6 +87,15 @@
 									</li>
 									<li>
 										<a href="showQCriteria.php">Maintain QC Criteria</a>
+									</li>
+									<li>
+										<a href="#">Maintain Site <span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="showSite.php">Show All</a></li>
+											<li><a href="updateSite.php">Update Site</a></li>
+											<li><a href="delSite.php">Delete Site</a></li>
+											<li><a href="addSite.php">Add Site</a></li>
+										</ul>
 									</li>
 									<li>
 										<a href="#">Maintain User Account <span class="caret"></span></a>
@@ -116,15 +116,16 @@
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
 											<li><a href="dlGlabTemplate.php">Download Data Conversion Template</a></li>
-											<li><a href="impGlabCsv.php">Import VC Csv</a></li>
-											<li><a href="impPahCsv.php">Import PH Csv</a></li>
-											<li><a href="impOcCsv.php">Import OC Csv</a></li>
-											<li><a href="impTpCsv.php">Import TP Csv</a></li>
-											<li><a href="impPbCsv.php">Import PD Csv</a></li>
-											<li><a href="impHbCsv.php">Import HB Csv</a></li>
-											<li><a href="impCdCsv.php">Import CD Csv</a></li>
-											<li><a href="impClCsv.php">Import CL Csv</a></li>
-											<li><a href="impDfCsv.php">Import DF Csv</a></li>
+											<li><a href="impCdCsv.php">Import Chlordecone</a></li>
+											<li><a href="impClCsv.php">Import Carbonyls</a></li>
+											<li><a href="impDfCsv.php">Import Dioxin</a></li>
+											<li><a href="impDlpbCsv.php">Import Dioxin-like PCBs</a></li>
+											<li><a href="impHbCsv.php">Import HBCD</a></li>
+											<li><a href="impOcCsv.php">Import Organochlorine Pesticides</a></li>
+											<li><a href="impPahCsv.php">Import PAH</a></li>
+											<li><a href="impPbCsv.php">Import PBDE & HBB153</a></li>
+											<li><a href="impTpCsv.php">Import Toxaphene</a></li>
+											<li><a href="impVcCsv.php">Import VOCs</a></li>
 											<!--li><a href="exportReport.php">Export Report</a></li-->
 										</ul>
 									</li>
@@ -132,6 +133,7 @@
 										<a href="#">Contractor Sample<span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showContractor.php">Show All</a></li>
+											<li><a href="impContractorCsv.php">Import Contractor Sample</a></li>
 											<!--li><a href="impContractor.php">Import Template</a></li>
 											<li><a href="updateContractorTemp.php">Update Template</a></li>
 											<li><a href="delContractor.php">Delete all record</a></li>
@@ -186,12 +188,12 @@
 								<a href="#">System Maintanance <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#">Maintain Site <span class="caret"></span></a>
+										<a href="#">Maintain Category <span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="showSite.php">Show All</a></li>
-											<!--li><a href="updateSite.php">Update Site</a></li>
-											<li><a href="delSite.php">Delete Site</a></li>
-											<li><a href="addSite.php">Add Site</a></li-->
+											<li><a href="showCategory.php">Show All</a></li>
+											<!--li><a href="updateCategory.php">Update Category</a></li>
+											<li><a href="delCategory.php">Delete Category</a></li>
+											<li><a href="addCategory.php">Add Category</a></li-->
 										</ul>
 									</li>
 									<li>
@@ -202,16 +204,7 @@
 											<li><a href="delCompound.php">Delete Compound</a></li>
 											<li><a href="addCompound.php">Add Compound</a></li-->
 										</ul>
-									</li>
-									<li>
-										<a href="#">Maintain Category <span class="caret"></span></a>
-										<ul class="dropdown-menu">
-											<li><a href="showCategory.php">Show All</a></li>
-											<!--li><a href="updateCategory.php">Update Category</a></li>
-											<li><a href="delCategory.php">Delete Category</a></li>
-											<li><a href="addCategory.php">Add Category</a></li-->
-										</ul>
-									</li>
+									</li>								
 									<li>
 										<a href="#">Maintain Factor <span class="caret"></span></a>
 										<ul class="dropdown-menu">
@@ -219,6 +212,18 @@
 											<!--li><a href="updateFactor.php">Update Factor</a></li>
 											<li><a href="delFactor.php">Delete Factor</a></li>
 											<li><a href="addFactor.php">Add Factor</a></li-->
+										</ul>
+									</li>
+									<li>
+										<a href="showQCriteria.php">Maintain QC Criteria</a>
+									</li>
+									<li>
+										<a href="#">Maintain Site <span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="showSite.php">Show All</a></li>
+											<!--li><a href="updateSite.php">Update Site</a></li>
+											<li><a href="delSite.php">Delete Site</a></li>
+											<li><a href="addSite.php">Add Site</a></li-->
 										</ul>
 									</li>
 									<li>
@@ -233,10 +238,10 @@
 								</ul>
 								</li>
 								<li>
-								<a href="#">CSV Template <span class="caret"></span></a>
+								<a href="#">Sample <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href="#">Glab Template <span class="caret"></span></a>
+										<a href="#">Glab Sample <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
 											<!--li><a href="dlGlabTemplate.php">Download Glab Template</a></li>
@@ -246,7 +251,7 @@
 										</ul>
 									</li>
 									<li>
-										<a href="#">Contractor Template <span class="caret"></span></a>
+										<a href="#">Contractor Sample <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showContractor.php">Show All</a></li>
 											<!--li><a href="impContractor.php">Import Template</a></li>

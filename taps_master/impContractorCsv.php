@@ -51,57 +51,68 @@ if (isset($_POST["import"])) {
 		fclose($file);
 
 		$sampleId = "";
-		$strtDate = "";
+		$samplingDate = "";
 		$siteId = "";
 		$compound = "";
-		$compound_grp = "PH";
-		$conc_ppbv= "";
-		$conc_ppbv_str= "";
-		$fieldBlank = "N";
+		$compoundGrp = "DF";
+		$concSample= "";
+		$samplingTime= "";
+		$flowRate= "";
+		$volume= "";
 		$testCount = 0;
 
 		foreach($data as $key => $result) {		
 			$testCount++;
 			foreach($result  as $key => $value){
-				if (strpos ($key,'Sample I.D.') !== false){
+				if (strpos ($key,'sample_id') !== false){
 					$sampleId = $value;
-					if(substr($sampleId,5,1) == 'F'){
-						$fieldBlank = "Y";
-					}
-					$siteId = substr($sampleId, 0, 3);						
-					//$strtDate = "20".substr($sampleId,6, -4)."/".substr($sampleId,8, -2)."/".substr($sampleId,10);
-					$strtDate = "20".substr($sampleId,6, 2)."/".substr($sampleId,10, 2)."/".substr($sampleId,8,2);
 				}
 				
-				if (strpos ($key,'Compounds') !== false){
+				if (strpos ($key,'sampling_date') !== false){
+					$samplingDate = $value; 
+				}
+				
+				if (strpos ($key,'site_id') !== false){
+					$siteId = $value;
+				}
+
+				if (strpos ($key,'compound') !== false){
 					$compound = $value;
+					//echo "Compound: ".$compound;
 				}
-				
-				if (strpos ($key,'ng/sample') !== false){
-					if(empty($value)){
-						$conc_ppbv = '0.00';
-					}else{
-						$conc_ppbv_str = $value;
-						if(substr($value,0,1) == "<"){
-							$conc_ppbv = str_replace('<', '', $value);
-							$conc_ppbv = $conc_ppbv/2;
-						}else{
-							$conc_ppbv = $value;
-						}
-					}
+
+				if (strpos ($key,'compound_grp') !== false){
+					$compoundGrp = $value;
+				}
+
+				if (strpos ($key,'conc_sample') !== false){
+					$concSample = $value;
+				}
+
+				if (strpos ($key,'sampling_time') !== false){
+					$samplingTime = $value;
+				}
+
+				if (strpos ($key,'flow_rate') !== false){
+					$flowRate = $value;
+				}
+
+				if (strpos ($key,'volume') !== false){
+					$volume = $value;
 				}
 			}
 
-			$select_qry = "SELECT * FROM glab_sample WHERE sample_id = '".$sampleId."'
+			$select_qry = "SELECT * FROM contractor_sample WHERE sample_id = '".$sampleId."'
 							AND compound = '".$compound."'
+							AND compound_grp = '".$compound_grp."'
 							AND CURRENT_TIMESTAMP > create_date";
 
 			$checkDupRes=mysqli_query($dbc, $select_qry);
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
-					$in1 = "INSERT INTO `glab_sample` (`sample_id`, `strt_date`, `site_id`, `compound`, `compound_grp`, `conc_ppbv`, `conc_ppbv_str`, `field_blank`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
-					VALUES ('".$sampleId."',"."STR_TO_DATE('".$strtDate."','%Y/%m/%d'),'".$siteId."','".$compound."','".$compound_grp."','".$conc_ppbv."','".$conc_ppbv_str."','".$fieldBlank."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
+					$in1 = "INSERT INTO `contractor_sample` (`sample_id`, `sampling_date`, `site_id`, `compound`, `compound_grp`, `conc_sample`, `sampling_time`,`flow_rate`, `volume`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
+					VALUES ('".$sampleId."','".$samplingDate."','".$siteId."','".$compound."','".$compoundGrp."','".$concSample."','".$samplingTime."','".$flowRate."','".$volume."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
 					//echo $in1;
 
 					$res=mysqli_query($dbc, $in1); 
@@ -110,7 +121,7 @@ if (isset($_POST["import"])) {
 					if (!empty($res)) {
 						$r_in++;
 						$type = "success";
-						$message = "*No. of PH records have been imported : ".$r_in;
+						$message = "*No. of contractor records have been imported : ".$r_in;
 					} else {
 						$type = "error";
 						print "Problem in loading CSV Data. Please Correct and Reload Whole Batch-> ".$in1."</p>";
@@ -126,7 +137,7 @@ if (isset($_POST["import"])) {
 			}else{
 				$count_duplicate++;
 				$type = "error";
-				$message = "*No. of PH records are duplicated : ".$count_duplicate;
+				$message = "*No. of contractor records are duplicated : ".$count_duplicate;
 			}
 		}
 		mysqli_autocommit($dbc, TRUE);
@@ -219,7 +230,7 @@ if (isset($_POST["import"])) {
 	</head>
 
 	<body>
-		<h2 style="margin-left:10px">Import PAH CSV File</h2><hr>
+		<h2 style="margin-left:10px">Import Contractor CSV File</h2><hr>
 		<div id="response"
 			class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
 			<?php if(!empty($message)) { echo $message; } ?>
