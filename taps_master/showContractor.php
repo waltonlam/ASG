@@ -41,7 +41,7 @@
 						<th>Compound Group</th>
 						<th>Conc Sample</th>
 						<th>Sampling Time</th>
-						<th>Flow rate</th>
+						<th>Flow Rate</th>
 						<th>Volume</th>
 					</tr>';
 					

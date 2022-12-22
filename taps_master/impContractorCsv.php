@@ -54,7 +54,7 @@ if (isset($_POST["import"])) {
 		$samplingDate = "";
 		$siteId = "";
 		$compound = "";
-		$compoundGrp = "DF";
+		$compoundGrp = "";
 		$concSample= "";
 		$samplingTime= "";
 		$flowRate= "";
@@ -64,14 +64,20 @@ if (isset($_POST["import"])) {
 		foreach($data as $key => $result) {		
 			$testCount++;
 			foreach($result  as $key => $value){
+				//echo $key;
 				if (strpos ($key,'sample_id') !== false){
 					$sampleId = $value;
+					//$compoundGrp = substr($sampleId,3,2);
 				}
 				
 				if (strpos ($key,'sampling_date') !== false){
 					$samplingDate = $value; 
 				}
 				
+				if (strpos ($key,'compound_grp') !== false){
+					$compoundGrp = $value;
+				}
+
 				if (strpos ($key,'site_id') !== false){
 					$siteId = $value;
 				}
@@ -80,11 +86,7 @@ if (isset($_POST["import"])) {
 					$compound = $value;
 					//echo "Compound: ".$compound;
 				}
-
-				if (strpos ($key,'compound_grp') !== false){
-					$compoundGrp = $value;
-				}
-
+				
 				if (strpos ($key,'conc_sample') !== false){
 					$concSample = $value;
 				}
@@ -104,7 +106,7 @@ if (isset($_POST["import"])) {
 
 			$select_qry = "SELECT * FROM contractor_sample WHERE sample_id = '".$sampleId."'
 							AND compound = '".$compound."'
-							AND compound_grp = '".$compound_grp."'
+							AND compound_grp = '".$compoundGrp."'
 							AND CURRENT_TIMESTAMP > create_date";
 
 			$checkDupRes=mysqli_query($dbc, $select_qry);

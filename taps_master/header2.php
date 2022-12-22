@@ -132,7 +132,7 @@
 									<li>
 										<a href="#">Contractor Sample<span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="showContractor.php">Show All</a></li>
+											<li><a href="showContractorSample.php">Show All</a></li>
 											<li><a href="impContractorCsv.php">Import Contractor Sample</a></li>
 											<!--li><a href="impContractor.php">Import Template</a></li>
 											<li><a href="updateContractorTemp.php">Update Template</a></li>
@@ -253,7 +253,7 @@
 									<li>
 										<a href="#">Contractor Sample <span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="showContractor.php">Show All</a></li>
+											<li><a href="showContractorSample.php">Show All</a></li>
 											<!--li><a href="impContractor.php">Import Template</a></li>
 											<li><a href="updateContractorTemp.php">Update Template</a></li>
 											<li><a href="delContractor.php">Delete all record</a></li>
