@@ -42,13 +42,29 @@
 			$selected = $_POST['tef_ratio'];
 			$totalTEF = $compoundModel->calTEF($selected, $result[0]["sample_id"], $result[0]["site_id"]);
 		}else{
-			$err_msg = "Please select a TEF ratio.";
+			//$err_msg = "Please select a TEF ratio.";
+			$type = "error";
+			$message = "Please select a TEF ratio.";
 		}
 	}
 
 	if (isset($_POST["submit"])) {
-		$id = $compoundModel->updateSiteIdSampleId($recordId, $_POST['sampleId'], $_POST['site_id'], $_POST['status']);
-		echo "<meta http-equiv='refresh' content='0'>";
+		if(strlen($_POST['sampleId']) > 14){
+			$type = "error";
+			$message = "Sample ID should not exceed 14 characters.";
+		}else if(preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST['sampleId'])){
+			$type = "error";
+			$message = "Sample ID should not contains special characters.";
+		}else if(strlen($_POST['site_id']) > 3){
+			$type = "error";
+			$message = "Site should not exceed 3 characters.";
+		}else if(preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST['site_id'])){
+			$type = "error";
+			$message = "Site should not contains special characters.";
+		}else{
+			$id = $compoundModel->updateSiteIdSampleId($recordId, $_POST['sampleId'], $_POST['site_id'], $_POST['status']);
+			echo "<meta http-equiv='refresh' content='0'>";
+		}
 	}
 ?>
 <html>
@@ -64,6 +80,27 @@
 				cursor: pointer;
 				width:100
 			}
+
+			#response {
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				display: none;
+			}
+
+			.success {
+				background: #c7efd9;
+				border: #bbe2cd 1px solid;
+			}
+
+			.error {
+				background: #fbcfcf;
+				border: #f3c6c7 1px solid;
+			}
+
+			div#response.display-block {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
@@ -72,7 +109,10 @@
 			<hr>
 			<!--form action="?id=<?php //echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data"	onsubmit="return imageValidation()"-->
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
-				<span style="color:red"><?php echo $err_msg ?></span>
+				<div id="response"
+					class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
+					<?php if(!empty($message)) { echo $message; } ?>
+				</div>
 				<table style="margin-left:10px">
 					<tr>	
 						<td style="width: 330px; vertical-align: top;">Sample ID: </td>
@@ -189,7 +229,7 @@
 				<?php if($result[0]["compound_grp"] == 'DF' or $result[0]["compound_grp"] == 'DI_PB'){ ?>
 					<input type="submit" style="margin-left:10px" name="calTef" value="Cal. TEF"/>
 				<?php } ?>
-				<input type="submit" style="margin-left:10px" name="submit" value="Submit"> 
+				<input type="submit" style="margin-left:10px" name="submit" value="Save"> 
 				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>	
 			</form>
 		</div>
