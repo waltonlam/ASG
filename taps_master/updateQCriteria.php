@@ -17,42 +17,104 @@
 			cursor: pointer;
 			width:100
 		}
+
+		#response {
+			padding: 10px;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			display: none;
+		}
+
+		.success {
+			background: #c7efd9;
+			border: #bbe2cd 1px solid;
+		}
+
+		.error {
+			background: #fbcfcf;
+			border: #f3c6c7 1px solid;
+		}
+
+		div#response.display-block {
+			display: block;
+		}
 	</style>
 
 	<?php
+		$errorFlag = false;
 		if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			if (!empty($_POST['compound_grp'])){				
 				$u= "update qc_criteria set "
 				."compound_grp='".$_POST['compound_grp']."'";
 				if(!empty ($_POST['comp_grp_name'])){
-					$u .= ",comp_grp_name='".$_POST['comp_grp_name']."'";
+					if(strlen($_POST['comp_grp_name']) > 255){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Compound Group Name should not exceed 255 characters.";
+					}else if(preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $_POST['comp_grp_name'])){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Compound Group Name should not contains special characters.";
+					}else{
+						$u .= ",comp_grp_name='".$_POST['comp_grp_name']."'";
+					}
 				}
 				if(!empty ($_POST['ptg_diff_colocate'])){
-					$u .= ",ptg_diff_colocate='".$_POST['ptg_diff_colocate']."'";
+					if(strlen($_POST['ptg_diff_colocate']) > 3){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Percentage difference of co-locate should not exceed 3 digits.";
+					}else{
+						$u .= ",ptg_diff_colocate='".$_POST['ptg_diff_colocate']."'";
+					}
 				}		
 				
 				if(!empty ($_POST['ptg_pollutant'])){
-					$u .= ",ptg_pollutant='".$_POST['ptg_pollutant']."'";
+					if(strlen($_POST['ptg_pollutant']) > 2){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Percentage Pollutant should not exceed 2 digits.";
+					}else{
+						$u .= ",ptg_pollutant='".$_POST['ptg_pollutant']."'";
+					}
 				}
 	
 				if(!empty ($_POST['percentile'])){
-					$u .= ",percentile='".$_POST['percentile']."'";
+					if(strlen($_POST['percentile']) > 3){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Percentile should not exceed 3 digits.";
+					}else{
+						$u .= ",percentile='".$_POST['percentile']."'";
+					}
 				}
 	
 				if(!empty ($_POST['year_avg'])){
-					$u .= ",year_avg='".$_POST['year_avg']."'";
+					if(strlen($_POST['year_avg']) > 2){
+						$errorFlag = true;
+						$type = "error";
+						$message = "Year average should not exceed 2 digits.";
+					}else{
+						$u .= ",year_avg='".$_POST['year_avg']."'";
+					}
 				}
 	
 				$u .=" where compound_grp='".$_POST['compound_grp']."';";
 				
-				$updateQuery = $dbc->query($u);
-				if ($updateQuery) {
-					$msg = "QC Criteria is updated. ";
-				}else{
-					$msg = "QC Criteria cannot be updated. ";
+				if(!$errorFlag){
+					$updateQuery = $dbc->query($u);
+					
+					if ($updateQuery) {
+						$type = "success";
+						$message = "QC Criteria is updated. ";
+					}else{
+						$type = "error";
+						$message = "QC Criteria cannot be updated. ";
+					}
 				}
 			}else{
-				$msg = "There is no information for updating";	
+				$type = "error";
+				$message = "There is no information for updating";	
 			}			
 		} 
 	?>
@@ -67,10 +129,13 @@
 			}
 		?>
 		<h2 style="margin-left:10px">Update QC Criteria</h2>
-		<span id="message" style="margin-left:10px; color:red;"><?php echo $msg ?></span>
 		<hr>
 		<div>
-			<form class="post-form" action="updateQCriteria.php" method="post">     
+			<form class="post-form" action="updateQCriteria.php" method="post">    
+				<div id="response"
+					class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
+					<?php if(!empty($message)) { echo $message; } ?>
+				</div>  
 				<table style="margin-left:10px">
 					<tr>
 						<td>	

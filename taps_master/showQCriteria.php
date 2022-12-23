@@ -14,12 +14,15 @@
 			$query = "DELETE FROM qc_criteria WHERE id IN($extract_id) ";
 			$deleteQeury = $dbc->query($query);
 			if($deleteQeury){
-				$msg = "QC Criteria deleted successfully.";
+				$type = "success";
+				$message = "QC Criteria deleted successfully.";
 			}else{
-				$msg = "QC Criteria not deleted.";
+				$type = "error";
+				$message = "QC Criteria not deleted.";
 			}
 		}else{
-			$msg = "Please select at least one compound group to delete.";
+			$type = "error";
+			$message = "Please select at least one compound group to delete.";
 		}
 	}
 ?>
@@ -37,14 +40,38 @@
 				cursor: pointer;
 				width:100
 			}
+
+			#response {
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				display: none;
+			}
+
+			.success {
+				background: #c7efd9;
+				border: #bbe2cd 1px solid;
+			}
+
+			.error {
+				background: #fbcfcf;
+				border: #f3c6c7 1px solid;
+			}
+
+			div#response.display-block {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
 		<div>
 			<h2 style="margin-left:10px">All QC Criteria</h2>
-			<span id="message" style="margin-left:10px; color:red;"><?php echo $msg ?></span>
 			<hr>				
 			<form method="post" name="frm-list" >
+				<div id="response"
+					class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
+					<?php if(!empty($message)) { echo $message; } ?>
+				</div>  
 				<div style="overflow-x: auto;">
 					<table id="mediaTb" class="table table-striped table-condensed table-bordered"> 
 						<thead> 
