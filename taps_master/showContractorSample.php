@@ -74,6 +74,14 @@
 				}
 			}
 
+			if (isset($_SESSION['type'])) {
+				unset($_SESSION['type']);	
+			}
+
+			if (isset($_SESSION['message'])) {
+				unset($_SESSION['message']);	
+	   		}
+			
 			$l = "select code from site order by code ASC;";
 			$result_loc=$dbc->query($l);
 			if (!$result_loc->num_rows){

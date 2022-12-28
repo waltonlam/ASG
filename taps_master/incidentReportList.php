@@ -64,6 +64,14 @@
 				}
 			}
 
+			if (isset($_SESSION['type'])) {
+				unset($_SESSION['type']);	
+			}
+
+			if (isset($_SESSION['message'])) {
+				unset($_SESSION['message']);	
+	   		}
+
 			$l = "select code from site order by code ASC;";
 			$result_loc=$dbc->query($l);
 			if (!$result_loc->num_rows){
@@ -102,7 +110,7 @@
 				$rs_result = mysqli_query ($conn, $query);  
 				
 				
-				$incidentResult = $imageModel->getIncidentReport();
+				/*$incidentResult = $imageModel->getIncidentReport();
 				if(isset($_POST["export"])){
 					// Submission from
 					$filename = "test.xls";		 
@@ -135,7 +143,7 @@
 							echo implode("\t", array_values($row)) . "\n";
 						}
 						exit;
-				}
+				}*/
 			//}
 		?>
 
@@ -147,10 +155,11 @@
 				<form class="post-form" action="incidentReportList.php" method="post">
 					<table style="margin-left:10px">
 						<td style="width:25%">
-							<label>Site Code:</label>
+							<label>Site:</label>
 						</td>
 						<td>
-							<select name=site_code id="site_code">
+							<select style="width:100%; margin-left:10px;" name=site_code id="site_code">
+							<option value="">Please Select</option>
 								<?php
 									while ($r_l=$result_loc->fetch_object()){
 										if ($r_l->code==$t[0]){
@@ -164,19 +173,19 @@
 						</td>
 						</tr>
 						<tr>
-							<td style="width:25%">
+							<td>
 								<label>Date from: </label>
 							</td>
 							<td>							
-								<input type="date" name="dateFrom"/>							 
+								<input style="margin-left:10px;" type="date" name="dateFrom"/>							 
 								<label> to </label>							
-								<input type="date" name="dateTo"/>
+								<input style="margin-left:10px;" type="date" name="dateTo"/>
 							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td>    
-								<input type="submit" name="search" value="Search"/>
+								<input style="margin-left:10px;" type="submit" name="search" value="Search"/>
 								<!--input type="submit" name="export" value="Export"/-->
 							</td>
 						</tr>
