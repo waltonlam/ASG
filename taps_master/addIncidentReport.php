@@ -13,26 +13,45 @@
 		$targetDir = "/opt/lampp/htdocs/taps/uploads/"; 
 		$allowTypes = array('jpg','png','jpeg','gif'); 
 		 
-		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
+		$message = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ''; 
 		$fileNames = array_filter($_FILES['files']['name']); 
 
 		$compoundGroup = "";
 		$compound = "";
-		if (!empty($_POST['compoundGrp'])) {
-			foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
-				$compoundGroup = $selectedCompoundGrp;
-			}
-		}
+		$remark = "";
 
-		if (!empty($_POST['compound'])) {
-			foreach ($_POST['compound'] as $selected) {
-				$compound .= $selected.',';
+		if (empty($_POST['site_code'])) {
+			$type = "error";
+			$message = 'Please select a site.'; 
+		}else{
+			if (!empty($_POST['compoundGrp'])) {
+				foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
+					$compoundGroup = $selectedCompoundGrp;
+				}
+			}else{
+				$compoundGroup = "";
 			}
+
+			if (!empty($_POST['compound'])) {
+				foreach ($_POST['compound'] as $selected) {
+					$compound .= $selected.',';
+				}
+			}else{
+				$compound = "";
+			}
+
+			if (empty($_POST['remark'])) {
+				$remark = "";
+			}else{
+				$remark = $_POST['remark'];
+			}
+
+			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $remark, $compoundGroup, $compound);
+			$type = "success";
+			$message = 'Incident report is created.'; 
 		}
 
 		if(!empty($fileNames)){ 
-			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark'], $compoundGroup, $compound);
-
 			foreach($_FILES['files']['name'] as $key=>$val){ 
 				// File upload path 
 				$fileName = basename($_FILES['files']['name'][$key]); 
@@ -62,16 +81,21 @@
 				// Insert image file name into database 
 				$insert = $dbc->query("INSERT INTO site_photo (file_name, path, site_code, incident_id, create_date, last_upd_date, create_by, last_upd_by) VALUES $insertValuesSQL"); 
 				if($insert){ 
-					$statusMsg = "Files are uploaded successfully.".$errorMsg; 
+					$type = "success";
+					$message = "Files are uploaded successfully.".$errorMsg; 
 				}else{ 
-					$statusMsg = "There was an error uploading your file."; 
+					$type = "error";
+					$message = "There was an error uploading your file."; 
 				} 
 			}else{ 
-				$statusMsg = "Upload failed! ".$errorMsg; 
+				$type = "error";
+				$message = "Upload failed! ".$errorMsg; 
 			} 
-		}else{ 
-			$statusMsg = 'Please select a file to upload.'; 
-		} 
+		}
+		/*else{ 
+			$type = "error";
+			$message = 'Please select a file to upload.'; 
+		} */
 	} 
 ?>
 
@@ -86,6 +110,27 @@
 				border-radius: 4px;
 				cursor: pointer;
 				width:100
+			}
+
+			#response {
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				display: none;
+			}
+
+			.success {
+				background: #c7efd9;
+				border: #bbe2cd 1px solid;
+			}
+
+			.error {
+				background: #fbcfcf;
+				border: #f3c6c7 1px solid;
+			}
+
+			div#response.display-block {
+				display: block;
 			}
 		</style>
 
@@ -127,14 +172,18 @@
 		?>
 		<div class="form-container">
 			<h2 style="margin-left:10px">Add Incident Report</h2>
-			<span id="message" style="margin-left:10px; color:red"><?php echo $statusMsg ?></span>
 			<hr>				
 			<form action="" method="post" name="frm-add" enctype="multipart/form-data">
+				<div id="response"
+					class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
+					<?php if(!empty($message)) { echo $message; } ?>
+				</div>  	
 				<table style="margin-left:10px">
 					<tr>	
-						<td style="width: 160px; vertical-align: top;">Site: </td>
+						<td style="width: 160px; vertical-align: top;">Site<span style="color:red">*</span>:</td>
 						<td>
 							<select name=site_code id="site_code">
+							<option value="">Please Select</option>
 								<?php
 									while ($r_l=$result_loc->fetch_object()){
 										if ($r_l->code==$t[0]){

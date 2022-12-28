@@ -288,9 +288,7 @@
 									<input type="checkbox" name="glab_delete_id[]" value="<?php echo $row["id"] ?>">
 								</td>
 								<td>
-									<a href="compoundDetail.php?id=<?php echo $row['id']; ?>" class="btn-action">
-										<?php echo $row["sample_id"]?>
-									</a> 								
+									<?php echo $row["sample_id"]?>								
 								</td>    
 								<td>
 									<?php echo $row["sampling_date"]?>

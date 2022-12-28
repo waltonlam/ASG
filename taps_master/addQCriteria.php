@@ -70,7 +70,9 @@
 					}else{
 						$sql = "INSERT INTO qc_criteria(compound_grp,comp_grp_name,ptg_diff_colocate,ptg_pollutant,percentile,year_avg) VALUES ('".$_POST['compound_grp']."','".$_POST['comp_grp_name']."','".$_POST['ptg_diff_colocate']."','".$_POST['ptg_pollutant']."','".$_POST['percentile']."','".$_POST['year_avg']."')";
 						if ($dbc->query($sql) === FALSE) {
-							echo "Error: " . $dbc->error;
+							//echo "Error: " . $dbc->error;
+							$type = "error";				
+							$message = "System Error. Please contact system administrator.";
 							exit();
 						}else{	
 							$type = "success";				

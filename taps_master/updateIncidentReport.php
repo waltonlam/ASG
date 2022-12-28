@@ -8,7 +8,7 @@
 
 	if (isset($_POST["submit"])) {
 		//$result = $imageModel->uploadImage();
-		$statusMsg = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ""; 
+		$message = $errorMsg = $insertValuesSQL = $errorUpload = $errorUploadType = ""; 
 		$compoundGroup = "";
 		$compound = "";
 		if (!empty($_POST['compoundGrp'])) {
@@ -25,9 +25,11 @@
 
 		$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['remark'], $compoundGroup, $compound);
 		if(empty($id)){
-			$statusMsg = "Incident report is updated successfully.";
+			$type = "success";
+			$message = "Incident report is updated successfully.";
 		}else{
-			$statusMsg = "Incident report is failed to update.";
+			$type = "error";
+			$message = "Incident report is failed to update.";
 		}
 
 		$create_by = $_SESSION['vuserid'];
@@ -69,12 +71,15 @@
 				// Insert image file name into database 
 				$insert = $dbc->query("INSERT INTO site_photo (file_name, path, site_code, incident_id, create_date, last_upd_date, create_by, last_upd_by) VALUES $insertValuesSQL"); 
 				if($insert){ 
-					$statusMsg = "Files are uploaded successfully.".$errorMsg; 
+					$type = "error";
+					$message = "Files are uploaded successfully.".$errorMsg; 
 				}else{ 
-					$statusMsg = "There was an error uploading your file."; 
+					$type = "error";
+					$message = "There was an error uploading your file."; 
 				} 
 			}else{ 
-				$statusMsg = "Upload failed! ".$errorMsg; 
+				$type = "error";
+				$message = "Upload failed! ".$errorMsg; 
 			} 
 		}
 	}
@@ -98,9 +103,11 @@
 		$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
 		$deleteQuery = $dbc->query($query);
 		if($deleteQuery){
-			$msg = "Site photos deleted successfully.";
+			$type = "success";
+			$message = "Site photos deleted successfully.";
 		}else{
-			$msg = "Site photos not deleted.";
+			$type = "error";
+			$message = "Site photos not deleted.";
 		}
 	}
 
@@ -119,6 +126,27 @@
 				border-radius: 4px;
 				cursor: pointer;
 				width:100
+			}
+
+			#response {
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				display: none;
+			}
+
+			.success {
+				background: #c7efd9;
+				border: #bbe2cd 1px solid;
+			}
+
+			.error {
+				background: #fbcfcf;
+				border: #f3c6c7 1px solid;
+			}
+
+			div#response.display-block {
+				display: block;
 			}
 		</style>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -167,9 +195,12 @@
 		?>
 		<div>
 			<h2 style="margin-left:10px">View Incident Report</h2>
-			<span id="message" style="color:red"><?php echo $statusMsg ?></span>
 			<hr>
 			<form action="?id=<?php echo $result[0]['id']; ?>" method="post" name="frm-edit" enctype="multipart/form-data">
+				<div id="response"
+					class="<?php if(!empty($type)) { echo $type . " display-block"; } ?>">
+					<?php if(!empty($message)) { echo $message; } ?>
+				</div>  
 				<div style="overflow-x: auto;">
 					<table style="margin-left:10px">
 						<tr>	
