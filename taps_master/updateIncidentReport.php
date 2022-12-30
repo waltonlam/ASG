@@ -86,28 +86,33 @@
 
 	if(isset($_POST['delete'])){
 		$all_id = $_POST['site_photo_delete_id'];
-		$extract_id = implode(',' , $all_id);
-
-		//Delete files in SFTP
-		$tobeDeleteItemList = $imageModel->getTobeDeleteItemsById($extract_id);
-		for($x = 0; $x < count($tobeDeleteItemList); $x++) {
-			if(isset($tobeDeleteItemList[$x])) {
-				$path= $tobeDeleteItemList[$x]["path"];
-				unlink("/opt/lampp/htdocs".$path);
-			} else {
-				echo "No Delete Items Found";
-			}
-		}	
-
-		//Delete files in db
-		$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
-		$deleteQuery = $dbc->query($query);
-		if($deleteQuery){
-			$type = "success";
-			$message = "Site photos deleted successfully.";
-		}else{
+		if(empty($all_id)){
 			$type = "error";
-			$message = "Site photos not deleted.";
+			$message = "Please select at least one site photo to delete.";
+		}else{
+			$extract_id = implode(',' , $all_id);
+
+			//Delete files in SFTP
+			$tobeDeleteItemList = $imageModel->getTobeDeleteItemsById($extract_id);
+			for($x = 0; $x < count($tobeDeleteItemList); $x++) {
+				if(isset($tobeDeleteItemList[$x])) {
+					$path= $tobeDeleteItemList[$x]["path"];
+					unlink("/opt/lampp/htdocs".$path);
+				} else {
+					echo "No Delete Items Found";
+				}
+			}	
+	
+			//Delete files in db
+			$query = "DELETE FROM site_photo WHERE id IN($extract_id) ";
+			$deleteQuery = $dbc->query($query);
+			if($deleteQuery){
+				$type = "success";
+				$message = "Site photos deleted successfully.";
+			}else{
+				$type = "error";
+				$message = "Site photos not deleted.";
+			}
 		}
 	}
 
