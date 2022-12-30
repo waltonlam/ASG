@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 				//print $_SESSION['utp'];
 				//$_SESSION['dbc'] = $dbc;
 				//echo "This is a valid user: ".$_SESSION['vusername'];
-				header("location:exportReport.php");
+				header("location:exportGlabReport.php");
 				//exit();
 			}	else{
 				$invuser="true";

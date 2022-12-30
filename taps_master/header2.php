@@ -29,7 +29,7 @@
 		exit();
 		} else{
 	?>
-		<h1 style="margin-left:10px"><a href="exportReport.php"> TAPS </a></h1>
+		<h1 style="margin-left:10px"><a href="exportGlabReport.php"> TAPS </a></h1>
 		<p style="margin-right:10px" align="right">Signed in as <?php echo $_SESSION['vuserid'].', Last login time: '.$_SESSION['lastLoginTime'] ?> </p>
 
 	<?php		
