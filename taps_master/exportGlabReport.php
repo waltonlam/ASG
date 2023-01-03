@@ -71,7 +71,7 @@
 				var str=str.slice(0,str.length -1);
 				$.ajax({          
 					type: "GET",
-					url: "getCompound.php",
+					url: "getCompoundName.php",
 					data:'compoundGrp_id='+str,
 					success: function(data){
 						$("#compoundList").html(data);
@@ -82,7 +82,7 @@
 	</head>
 	<body>
 		<div>
-			<h2>Export Glab Report</h2>
+			<h2>Export Glab Sample</h2>
 			<hr>
 		</div>
 		<div>

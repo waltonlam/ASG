@@ -76,7 +76,9 @@
 					<table id="mediaTb" class="table table-striped table-condensed table-bordered"> 
 						<thead> 
 							<tr>
-								<th></th>
+								<?php if($_SESSION['utp']==0){ ?>
+									<th></th>
+								<?php } ?>
 								<th>Compound Group</th>
 								<th>Compound Group Name</th>
 								<th>Percentage Difference of co-locate Sample</th>
@@ -93,7 +95,9 @@
 								while ($row = mysqli_fetch_array($rs_result)){ 
 							?>		
 								<tr>
-									<td><input style="vertical-align: top;" type="checkbox" name="qc_delete_id[]" value="<?php echo $row["id"] ?>"></td>
+									<?php if($_SESSION['utp']==0){ ?>
+										<td><input style="vertical-align: top;" type="checkbox" name="qc_delete_id[]" value="<?php echo $row["id"] ?>"></td>
+									<?php } ?>
 									<td><?php echo $row["compound_grp"] ?></td>
 									<td><?php echo $row["comp_grp_name"] ?></td>
 									<td><?php echo $row["ptg_diff_colocate"]."%" ?></td>
@@ -106,9 +110,11 @@
 					</table>	
 				</div>			
 				<hr>
-				<input type="submit" style="margin-left:10px" name="delete" value="Delete">
-				<input type="button" style="margin-left:10px" name="add" value="Add" onClick="document.location.href='addQCriteria.php'">
-				<input type="button" style="margin-left:10px" name="update" value="Update" onClick="document.location.href='updateQCriteria.php'">
+				<?php if($_SESSION['utp']==0){ ?>
+					<input type="submit" style="margin-left:10px" name="delete" value="Delete">
+					<input type="button" style="margin-left:10px" name="add" value="Add" onClick="document.location.href='addQCriteria.php'">
+					<input type="button" style="margin-left:10px" name="update" value="Update" onClick="document.location.href='updateQCriteria.php'">
+				<?php } ?>
 			</form>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

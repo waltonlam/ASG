@@ -29,7 +29,7 @@
 		exit();
 		} else{
 	?>
-		<h1 style="margin-left:10px"><a href="exportGlabReport.php"> TAPS </a></h1>
+		<h1 style="margin-left:10px"><a href="showGlabSample.php"> TAPS </a></h1>
 		<p style="margin-right:10px" align="right">Signed in as <?php echo $_SESSION['vuserid'].', Last login time: '.$_SESSION['lastLoginTime'] ?> </p>
 
 	<?php		
@@ -53,7 +53,6 @@
 							</button>          
 						</div>
 						<div class="navbar-collapse collapse">
-							<!-- Left nav -->
 							<ul class="nav navbar-nav">
 								<li>
 								<a href="#">System Maintanance <span class="caret"></span></a>
@@ -126,7 +125,7 @@
 											<li><a href="impPbCsv.php">Import PBDE & HBB153</a></li>
 											<li><a href="impTpCsv.php">Import Toxaphene</a></li>
 											<li><a href="impVcCsv.php">Import VOCs</a></li>
-											<!--li><a href="exportReport.php">Export Report</a></li-->
+											<li><a href="exportGlabReport.php">Export Glab Sample</a></li>
 										</ul>
 									</li>
 									<li>
@@ -191,27 +190,18 @@
 										<a href="#">Maintain Category <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showCategory.php">Show All</a></li>
-											<!--li><a href="updateCategory.php">Update Category</a></li>
-											<li><a href="delCategory.php">Delete Category</a></li>
-											<li><a href="addCategory.php">Add Category</a></li-->
 										</ul>
 									</li>
 									<li>
 										<a href="#">Maintain Compound <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showCompound.php">Show All</a></li>
-											<!--li><a href="updateCompound.php">Update Compound</a></li>
-											<li><a href="delCompound.php">Delete Compound</a></li>
-											<li><a href="addCompound.php">Add Compound</a></li-->
 										</ul>
 									</li>								
 									<li>
 										<a href="#">Maintain Factor <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showFactor.php">Show All</a></li>
-											<!--li><a href="updateFactor.php">Update Factor</a></li>
-											<li><a href="delFactor.php">Delete Factor</a></li>
-											<li><a href="addFactor.php">Add Factor</a></li-->
 										</ul>
 									</li>
 									<li>
@@ -221,18 +211,12 @@
 										<a href="#">Maintain Site <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showSite.php">Show All</a></li>
-											<!--li><a href="updateSite.php">Update Site</a></li>
-											<li><a href="delSite.php">Delete Site</a></li>
-											<li><a href="addSite.php">Add Site</a></li-->
 										</ul>
 									</li>
 									<li>
 										<a href="#">Maintain User Account <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showAccount.php">Show All</a></li>
-											<!--li><a href="updateAccount.php">Update User Account</a></li>
-											<li><a href="delAccount.php">Delete User Account</a></li>
-											<li><a href="addAccount.php">Add User Account</a></li-->
 										</ul>
 									</li>  
 								</ul>
@@ -244,20 +228,14 @@
 										<a href="#">Glab Sample <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showGlabSample.php">Show All</a></li>
-											<!--li><a href="dlGlabTemplate.php">Download Glab Template</a></li>
-											<li><a href="impGlabCsv.php">Import VOC Csv</a></li>
-											<li><a href="impPahCsv.php">Import PAH Csv</a></li>
-											<li><a href="exportReport.php">Export Report</a></li-->
+											<li><a href="dlGlabTemplate.php">Download Data Conversion Template</a></li>
+											<li><a href="exportGlabReport.php">Export Glab Sample</a></li>
 										</ul>
 									</li>
 									<li>
 										<a href="#">Contractor Sample <span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="showContractorSample.php">Show All</a></li>
-											<!--li><a href="impContractor.php">Import Template</a></li>
-											<li><a href="updateContractorTemp.php">Update Template</a></li>
-											<li><a href="delContractor.php">Delete all record</a></li>
-											<li><a href="delSingleContractor.php">Delete single record</a></li-->
 										</ul>
 									</li>
 									</ul>
@@ -266,7 +244,6 @@
 								<a href="#">Incident Report <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="incidentReportList.php">Show All</a></li>
-									<!--li><a href="addIncidentReport.php">Add Incident Report</a></li-->
 								</ul>
 								</li>
 								<!--li>
@@ -275,8 +252,7 @@
 									<li><a href="genSummaryPlot.php">Generate Summary Plot</a></li>
 								</ul>
 								</li-->
-								<li><a href="logout.php">Logout</a></li>
-								
+								<li><a href="logout.php">Logout</a></li>						
 							</ul>
 						</div>
 					</div>
@@ -286,7 +262,6 @@
 		<?php
 			}
 		?>
-
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="js/bootstrap.js"></script>  
 		<script type="text/javascript" src="js/jquery.smartmenus.js"></script>
@@ -296,8 +271,6 @@
 		
 				location.replace("logout.php")
 			}
-
-
 		</script>
 	</body>
 </html>

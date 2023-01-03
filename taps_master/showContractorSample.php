@@ -250,7 +250,9 @@
 					<table class="table table-striped table-condensed table-bordered"> 
 						<thead>  
 							<tr>
-								<th width="1%"></th>
+								<?php if($_SESSION['utp']==0){ ?>
+									<th width="1%"></th>
+								<?php } ?>
 								<th width="10%">Sample ID</th>
 								<th width="10%">Sampling Date</th>
 								<th width="5%">Site</th>
@@ -292,9 +294,11 @@
 								// Display each field of the records.    
 						?>     
 							<tr <?php echo $hide;?>> 
-								<td>
+								<?php if($_SESSION['utp']==0){ ?>
+									<td>
 									<input type="checkbox" name="glab_delete_id[]" value="<?php echo $row["id"] ?>">
-								</td>
+									</td>
+								<?php } ?>
 								<td>
 									<?php echo $row["sample_id"]?>								
 								</td>    
@@ -328,7 +332,9 @@
 						?>     
 						</tbody>
 					</table>
-					<input type="submit" style="margin-left:10px" name="delete" value="Delete">
+					<?php if($_SESSION['utp']==0){ ?>
+						<input type="submit" style="margin-left:10px" name="delete" value="Delete">
+					<?php } ?>
 					<hr>
 					<div class="pagination" style="margin-left:10px">    
 						<?php  

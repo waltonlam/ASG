@@ -83,8 +83,8 @@ class CompoundModel {
                     compound_grp = ? and 
                     field_blank = 'N' and
                     sample_id like ? and
-                    sample_id <> ? and 
-                    conc_g_m3 is not null ";
+                    sample_id <> ? ";
+                    // conc_g_m3 is not null ";
 		
 		$paramType = 'sssss';
         $paramValue = array(

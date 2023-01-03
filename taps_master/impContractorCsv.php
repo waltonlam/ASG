@@ -113,6 +113,10 @@ if (isset($_POST["import"])) {
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
+					$updateQuery = "UPDATE `glab_sample` SET conc_g_m3='".$volume."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
+					//echo $updateQuery;
+					$resUpd=mysqli_query($dbc, $updateQuery);
+
 					$in1 = "INSERT INTO `contractor_sample` (`sample_id`, `sampling_date`, `site_id`, `compound`, `compound_grp`, `conc_sample`, `sampling_time`,`flow_rate`, `volume`, `create_date`, `create_by`, `last_upd_date`, `last_upd_by`) 
 					VALUES ('".$sampleId."','".$samplingDate."','".$siteId."','".$compound."','".$compoundGrp."','".$concSample."','".$samplingTime."','".$flowRate."','".$volume."', current_timestamp, '".$_SESSION['vuserid']."', current_timestamp, '".$_SESSION['vuserid']."');";
 					//echo $in1;

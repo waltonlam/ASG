@@ -18,7 +18,7 @@
 	$totalTEF = 0;
 
 	//Get the QC criteria parameters for calculation
-	$qcCriteria = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
+	$qcCriteria = $compoundModel->getDeviationByCompoundGrp($result[0]["compound_grp"]);
 
 	if(substr($result[0]["sample_id"],5,1) == 'F'){
 		$yearFieldBlankAvg = $compoundModel->calAvgFieldBlank($result[0]["compound"], $result[0]["compound_grp"], substr($result[0]["sample_id"],6,2));
@@ -33,7 +33,14 @@
 
 		if(strlen($result[0]["sample_id"]) > 12){
 			$coLocateSample = $compoundModel->getCoLocatedSample($result[0]["sample_id"], $result[0]["site_id"], $result[0]["compound"], $result[0]["compound_grp"]);
-			$percentageDiff = $compoundModel->calPercentageDiff($result[0]["conc_g_m3"], $coLocateSample[0]["conc_g_m3"]);
+			/*if(empty($coLocateSample[0]["conc_g_m3"])){
+				echo "1234";
+				$type = "error";
+				$message = "The conc g/m3 for co-located sample is not ready.";
+			}*/
+			if(!empty($coLocateSample[0]["conc_g_m3"])){
+				$percentageDiff = $compoundModel->calPercentageDiff($result[0]["conc_g_m3"], $coLocateSample[0]["conc_g_m3"]);
+			}
 		}
 	}
 
@@ -140,9 +147,15 @@
 					</tr>
 					<tr>	
 						<td style="vertical-align: top;">CONC (µg/m3): </td>
-						<td>
-							<label><?php echo $result[0]["conc_g_m3"]?></label>
-						</td>
+						<?php if(!empty ($result[0]["conc_g_m3"])){?>
+							<td>
+								<label><?php echo $result[0]["conc_g_m3"]?></label>
+							</td>
+						<?php } else { ?>
+							<td>
+								<label><span style="color:red">The CONC (µg/m3) is not ready.</span></label>
+							</td>
+						<?php } ?>
 					</tr>	
 
 					<?php if(substr($result[0]["sample_id"],5,1) == 'S' and substr($result[0]["sample_id"],-2) != 'A2'){ ?>
@@ -167,13 +180,21 @@
 							<label><?php echo $coLocateSample[0]["sample_id"]?></label>
 						</td>
 					</tr>
-					<tr>	
-						<td style="vertical-align: top;">CONC (µg/m3)  of Co-located Sample: </td>
-						<td>
-							<label><?php echo number_format((float)$coLocateSample[0]["conc_g_m3"], 2, '.', '')?></label>
-						</td>
-					</tr>
-
+						<?php if(!empty($coLocateSample[0]["conc_g_m3"])){ ?>
+							<tr>	
+								<td style="vertical-align: top;">CONC (µg/m3)  of Co-located Sample: </td>
+								<td>
+									<label><?php echo number_format((float)$coLocateSample[0]["conc_g_m3"], 2, '.', '')?></label>
+								</td>
+							</tr>
+						<?php } else { ?>
+							<tr>	
+								<td style="vertical-align: top;">CONC (µg/m3)  of Co-located Sample: </td>
+								<td>
+									<label><span style="color:red">The CONC (µg/m3) of Co-located Sample is not ready.</span></label>
+								</td>
+							</tr>
+						<?php } ?>
 					<tr>	
 						<td style="vertical-align: top;"> Percentage Difference of Co-located Sample: </td>
 						<td>
@@ -212,7 +233,7 @@
 					<tr>	
 						<td style="vertical-align: top;">Total Toxicity Equivalence: </td>
 						<td>
-							<label><?php echo number_format((float)$totalTEF[0]["total_tef"], 2, '.', '')?></label>
+							<label><?php echo number_format((float)$totalTEF[0]["total_tef"], 1, '.', '')?></label>
 						</td>
 					</tr>
 					<?php } ?>
@@ -229,7 +250,9 @@
 				<?php if($result[0]["compound_grp"] == 'DF' or $result[0]["compound_grp"] == 'DI_PB'){ ?>
 					<input type="submit" style="margin-left:10px" name="calTef" value="Cal. TEF"/>
 				<?php } ?>
-				<input type="submit" style="margin-left:10px" name="submit" value="Save"> 
+				<?php if($_SESSION['utp']==0){ ?>
+					<input type="submit" style="margin-left:10px" name="submit" value="Save"> 
+				<?php } ?>
 				<input type="button" style="margin-left:10px" name="cancel" value="Cancel" onClick="document.location.href='showGlabSample.php'"/>	
 			</form>
 		</div>
