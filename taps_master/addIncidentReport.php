@@ -19,10 +19,14 @@
 		$compoundGroup = "";
 		$compound = "";
 		$remark = "";
+		$incidentDate = "";
 
 		if (empty($_POST['site_code'])) {
 			$type = "error";
 			$message = 'Please select a site.'; 
+		}else if(empty($_POST['incidentDate'])){
+			$type = "error";
+			$message = 'Please input incident date.'; 
 		}else{
 			if (!empty($_POST['compoundGrp'])) {
 				foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
@@ -45,8 +49,9 @@
 			}else{
 				$remark = $_POST['remark'];
 			}
+			$incidentDate = $_POST['incidentDate'];
 
-			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $remark, $compoundGroup, $compound);
+			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $remark, $compoundGroup, $compound, $incidentDate);
 			$type = "success";
 			$message = 'Incident report is created.'; 
 		}
@@ -194,6 +199,15 @@
 									};
 								?>
 							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="width: 160px; vertical-align: top;">Incident Date<span style="color:red">*</span>:</td>
+						<td>							
+							<input type="date" name="incidentDate" />
 						</td>
 					</tr>
 					<tr>

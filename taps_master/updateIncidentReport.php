@@ -23,64 +23,69 @@
 			}
 		}
 
-		$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['remark'], $compoundGroup, $compound);
-		if(empty($id)){
-			$type = "success";
-			$message = "Incident report is updated successfully.";
-		}else{
+		if(empty($_POST['incidentDate'])){
 			$type = "error";
-			$message = "Incident report is failed to update.";
-		}
+			$message = 'Please input incident date.'; 
+		}else{
+			$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['incidentDate'],$_POST['remark'], $compoundGroup, $compound);
+			if(empty($id)){
+				$type = "success";
+				$message = "Incident report is updated successfully.";
+			}else{
+				$type = "error";
+				$message = "Incident report is failed to update.";
+			}
 
-		$create_by = $_SESSION['vuserid'];
+			$create_by = $_SESSION['vuserid'];
 
-		// File upload configuration 
-		$targetDir = "/opt/lampp/htdocs/taps/uploads/"; 
-		$allowTypes = array('jpg','png','jpeg','gif'); 
-		$fileNames = array_filter($_FILES['files']['name']); 
+			// File upload configuration 
+			$targetDir = "/opt/lampp/htdocs/taps/uploads/"; 
+			$allowTypes = array('jpg','png','jpeg','gif'); 
+			$fileNames = array_filter($_FILES['files']['name']); 
 
-		if(!empty($fileNames)){ 
-			//$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark']);
+			if(!empty($fileNames)){ 
+				//$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $_POST['remark']);
 
-			foreach($_FILES['files']['name'] as $key=>$val){ 
-				// File upload path 
-				$fileName = basename($_FILES['files']['name'][$key]); 
-				$targetFilePath = $targetDir . $fileName; 
-				
-				// Check whether file type is valid 
-				$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION); 
-				if(in_array($fileType, $allowTypes)){ 
-					// Upload file to server 
-					if(move_uploaded_file($_FILES["files"]["tmp_name"][$key], $targetFilePath)){ 
-						// Image db insert sql 
-						$insertValuesSQL .= "('".$fileName."', '/taps/uploads/".$fileName."', '".$_POST['site_code']."', '".$_GET["id"]."', NOW(), NOW(), '".$create_by."', '".$create_by."'),"; 
+				foreach($_FILES['files']['name'] as $key=>$val){ 
+					// File upload path 
+					$fileName = basename($_FILES['files']['name'][$key]); 
+					$targetFilePath = $targetDir . $fileName; 
+					
+					// Check whether file type is valid 
+					$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION); 
+					if(in_array($fileType, $allowTypes)){ 
+						// Upload file to server 
+						if(move_uploaded_file($_FILES["files"]["tmp_name"][$key], $targetFilePath)){ 
+							// Image db insert sql 
+							$insertValuesSQL .= "('".$fileName."', '/taps/uploads/".$fileName."', '".$_POST['site_code']."', '".$_GET["id"]."', NOW(), NOW(), '".$create_by."', '".$create_by."'),"; 
+						}else{ 
+							$errorUpload .= $_FILES['files']['name'][$key].' | '; 
+						} 
 					}else{ 
-						$errorUpload .= $_FILES['files']['name'][$key].' | '; 
+						$errorUploadType .= $_FILES['files']['name'][$key].' | '; 
+					} 
+				} 
+				// Error message 
+				$errorUpload = !empty($errorUpload)?'Upload Error: '.trim($errorUpload, ' | '):''; 
+				$errorUploadType = !empty($errorUploadType)?'File Type Error: '.trim($errorUploadType, ' | '):''; 
+				$errorMsg = !empty($errorUpload)?'<br/>'.$errorUpload.'<br/>'.$errorUploadType:'<br/>'.$errorUploadType; 
+				
+				if(!empty($insertValuesSQL)){ 
+					$insertValuesSQL = trim($insertValuesSQL, ','); 
+					// Insert image file name into database 
+					$insert = $dbc->query("INSERT INTO site_photo (file_name, path, site_code, incident_id, create_date, last_upd_date, create_by, last_upd_by) VALUES $insertValuesSQL"); 
+					if($insert){ 
+						$type = "error";
+						$message = "Files are uploaded successfully.".$errorMsg; 
+					}else{ 
+						$type = "error";
+						$message = "There was an error uploading your file."; 
 					} 
 				}else{ 
-					$errorUploadType .= $_FILES['files']['name'][$key].' | '; 
-				} 
-			} 
-			// Error message 
-			$errorUpload = !empty($errorUpload)?'Upload Error: '.trim($errorUpload, ' | '):''; 
-			$errorUploadType = !empty($errorUploadType)?'File Type Error: '.trim($errorUploadType, ' | '):''; 
-			$errorMsg = !empty($errorUpload)?'<br/>'.$errorUpload.'<br/>'.$errorUploadType:'<br/>'.$errorUploadType; 
-			
-			if(!empty($insertValuesSQL)){ 
-				$insertValuesSQL = trim($insertValuesSQL, ','); 
-				// Insert image file name into database 
-				$insert = $dbc->query("INSERT INTO site_photo (file_name, path, site_code, incident_id, create_date, last_upd_date, create_by, last_upd_by) VALUES $insertValuesSQL"); 
-				if($insert){ 
 					$type = "error";
-					$message = "Files are uploaded successfully.".$errorMsg; 
-				}else{ 
-					$type = "error";
-					$message = "There was an error uploading your file."; 
+					$message = "Upload failed! ".$errorMsg; 
 				} 
-			}else{ 
-				$type = "error";
-				$message = "Upload failed! ".$errorMsg; 
-			} 
+			}
 		}
 	}
 
@@ -222,6 +227,15 @@
 										};
 									?>
 								</select>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Incident Date:</td>
+							<td>							
+								<input type="date" name="incidentDate" value="<?php echo $result[0]["incident_date"]?>"/>
 							</td>
 						</tr>
 						<tr>

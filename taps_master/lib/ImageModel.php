@@ -27,16 +27,17 @@ class ImageModel{
         return $output;
     }
 
-    public function insertIncidentReport($site_id, $remark, $compoundGroup, $compound) {
+    public function insertIncidentReport($site_id, $remark, $compoundGroup, $compound, $incidentDate) {
         //$create_date = date('Y-m-d'); 
         $create_by = $_SESSION['vuserid'];
         //echo $create_date;
 
-        $query = "INSERT INTO incident_report(site_id,compound_grp,compound,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,CURDATE(),CURDATE(),?,?)";
-        $paramType = 'ssssss';
+        $query = "INSERT INTO incident_report(site_id,incident_date,compound_grp,compound,remark,create_date,last_upd_date,create_by,last_upd_by) VALUES(?,?,?,?,?,CURDATE(),CURDATE(),?,?)";
+        $paramType = 'sssssss';
 
         $paramValue = array(
             $site_id,
+            $incidentDate,
             $compoundGroup,
             $compound,
             $remark,
@@ -101,11 +102,12 @@ class ImageModel{
     }
 
 
-    public function updateIncidentReport($incidentReportId, $site_code, $remark, $compoundGroup, $compound) {
-        $query = "UPDATE incident_report SET site_id=?, compound_grp = ?, compound = ?, remark=? WHERE id=?";
-        $paramType = 'ssssi';
+    public function updateIncidentReport($incidentReportId, $site_code, $incidentDate, $remark, $compoundGroup, $compound) {
+        $query = "UPDATE incident_report SET site_id=?, incident_date = ?, compound_grp = ?, compound = ?, remark=? WHERE id=?";
+        $paramType = 'sssssi';
         $paramValue = array(
             $site_code, 
+            $incidentDate,
             $compoundGroup, 
             $compound,
             $remark,

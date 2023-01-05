@@ -202,7 +202,8 @@
 							<!--th width="40%">Site Photo</th-->
 							<th width="30%">Remark</th>
 							<th width="30%">Detail</th>
-							<th width="30%">Creation Date</th>
+							<th width="15%">Incident Date</th>
+							<th width="15%">Creation Date</th>
 						</tr>
 					</thead> 
 					<tbody>   
@@ -227,6 +228,9 @@
 								<a href="updateIncidentReport.php?id=<?php echo $row['id']; ?>" class="btn-action">View Details</a> 
 								<!--a onclick="confirmDelete(<?php //echo $row['id']; ?>)" class="btn-action">Delete</a-->
 								<!--a href="<?php //echo $row['image']; ?>" class="btn-action" target="_blank">Download</a--> 
+							</td>  
+							<td>
+								<?php echo $row["incident_date"]?>
 							</td>    
 							<td>
 								<?php echo $row["create_date"]?>
