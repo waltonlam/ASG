@@ -56,6 +56,7 @@ if (isset($_POST["import"])) {
 		$compound = "";
 		$compoundGrp = "";
 		$concSample= "";
+		$concGM3= "";
 		$samplingTime= "";
 		$flowRate= "";
 		$volume= "";
@@ -102,6 +103,8 @@ if (isset($_POST["import"])) {
 				if (strpos ($key,'volume') !== false){
 					$volume = $value;
 				}
+
+				$concGM3 = ($flowRate * $samplingTime) / 1000;
 			}
 
 			$select_qry = "SELECT * FROM contractor_sample WHERE sample_id = '".$sampleId."'
@@ -113,7 +116,7 @@ if (isset($_POST["import"])) {
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
-					$updateQuery = "UPDATE `glab_sample` SET conc_g_m3='".$volume."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
+					$updateQuery = "UPDATE `glab_sample` SET conc_g_m3='".$concGM3."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
 					//echo $updateQuery;
 					$resUpd=mysqli_query($dbc, $updateQuery);
 

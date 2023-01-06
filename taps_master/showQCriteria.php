@@ -62,6 +62,14 @@
 				display: block;
 			}
 		</style>
+		<script>
+			function toggle(source) {
+				checkboxes = document.getElementsByName('qc_delete_id[]');
+				for(var i=0, n=checkboxes.length;i<n;i++) {
+					checkboxes[i].checked = source.checked;
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div>
@@ -77,7 +85,7 @@
 						<thead> 
 							<tr>
 								<?php if($_SESSION['utp']==0){ ?>
-									<th></th>
+									<th><input type="checkbox" onClick="toggle(this)" />All<br/></th>
 								<?php } ?>
 								<th>Compound Group</th>
 								<th>Compound Group Name</th>

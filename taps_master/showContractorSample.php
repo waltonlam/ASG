@@ -44,8 +44,11 @@
 		</style>  
 
 		<script type="text/javascript">
-			function hideTr() {
-				console.log('testing123');
+			function toggle(source) {
+				checkboxes = document.getElementsByName('glab_delete_id[]');
+				for(var i=0, n=checkboxes.length;i<n;i++) {
+					checkboxes[i].checked = source.checked;
+				}
 			}
 		</script>
 	</head>
@@ -251,7 +254,7 @@
 						<thead>  
 							<tr>
 								<?php if($_SESSION['utp']==0){ ?>
-									<th width="1%"></th>
+									<th width="1%"><input type="checkbox" onClick="toggle(this)" />All<br/></th>
 								<?php } ?>
 								<th width="10%">Sample ID</th>
 								<th width="10%">Sampling Date</th>

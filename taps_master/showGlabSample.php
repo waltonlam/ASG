@@ -45,7 +45,6 @@
 
 		<script type="text/javascript">
 			function toggle(source) {
-				console.log('1231231231');
 				checkboxes = document.getElementsByName('glab_delete_id[]');
 				for(var i=0, n=checkboxes.length;i<n;i++) {
 					checkboxes[i].checked = source.checked;
@@ -255,7 +254,7 @@
 						<thead>  
 							<tr>
 								<?php if($_SESSION['utp']==0){ ?>
-									<th width="1%"><input type="checkbox" onClick="toggle(this)" />All<br/></th>
+									<th width="2%"><input type="checkbox" onClick="toggle(this)" />All<br/></th>
 								<?php } ?>
 								<th width="10%">Sample ID</th>
 								<th width="10%">Start Date</th>
