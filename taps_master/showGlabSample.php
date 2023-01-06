@@ -44,8 +44,12 @@
 		</style>  
 
 		<script type="text/javascript">
-			function hideTr() {
-				console.log('testing123');
+			function toggle(source) {
+				console.log('1231231231');
+				checkboxes = document.getElementsByName('glab_delete_id[]');
+				for(var i=0, n=checkboxes.length;i<n;i++) {
+					checkboxes[i].checked = source.checked;
+				}
 			}
 		</script>
 	</head>
@@ -123,32 +127,32 @@
 				$_SESSION['dateTo'] = $_POST['dateTo'];
 			}
 
-			$query = "SELECT * FROM glab_sample "; 
+			$query = "SELECT g.id, g.sample_id, g.strt_date, g.site_id, g.compound, g.compound_grp, g.conc_g_m3, c.flow_rate, c.sampling_time FROM glab_sample g left join contractor_sample c on c.sample_id = g.sample_id and c.compound = g.compound "; 
 
 			if(!empty($_SESSION['site_id'])){
-				$query .= " where site_id = '".$_SESSION['site_id']."' ";
+				$query .= " where g.site_id = '".$_SESSION['site_id']."' ";
 				if(!empty($_SESSION['compound_grp'])){
-					$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
+					$query .= " and g.compound_grp = '".$_SESSION['compound_grp']."' ";
 				}
 	
 				if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-					$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+					$query .= " and g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 				}	
 			}else{
 				if(!empty($_SESSION['compound_grp'])){
-					$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
+					$query .= " where g.compound_grp = '".$_SESSION['compound_grp']."' ";
 
 					if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-						$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+						$query .= " and g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 					}	
 				}else{
 					if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-						$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+						$query .= " where g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 					}	
 				}
 			}
 
-			$query .= " order by sample_id LIMIT $start_from, $per_page_record";     
+			$query .= " order by g.id LIMIT $start_from, $per_page_record";     
 			$rs_result = mysqli_query ($conn, $query);  
 			//}
 
@@ -251,24 +255,20 @@
 						<thead>  
 							<tr>
 								<?php if($_SESSION['utp']==0){ ?>
-									<th width="1%"></th>
+									<th width="1%"><input type="checkbox" onClick="toggle(this)" />All<br/></th>
 								<?php } ?>
 								<th width="10%">Sample ID</th>
 								<th width="10%">Start Date</th>
-								<!--th width="5%">Duration</th-->
 								<th width="5%">Site</th>
-								<!--th width="5%">Cpd Cat</th>
-								<th width="5%">Sample Type</th>
-								<th width="10%">Case No. 1</th-->
 								<th width="10%">Compound</th>
 								<th width="5%">Compound Group</th>
-								<th width="5%">CONC (µg/m3)</th>
 								<th width="5%">Co-Located Sample Status</th>
-								<!--th width="5%">Sampling Method</th>
-								<th width="5%">Sampler</th>
-								<th width="5%">Detector</th>
-								<th width="5%">Sample By</th>
-								<th width="5%">Analyse By</th-->
+								<th width="5%">CONC (µg/m3)</th>
+								<th width="5%">Flow Rate</th>
+								<th width="5%">Sampling Time</th>
+								<th width="5%">I-TEF</th>
+								<th width="5%">WHO-TEF-2005</th>
+								<th width="5%">WHO_TEF-1998</th>
 							</tr>
 						</thead> 
 						<tbody>   
@@ -335,6 +335,28 @@
 								<td>
 									<?php echo $row["compound_grp"]?>
 								</td>
+								<?php 
+									if(strlen($row["sample_id"]) > 12){
+										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"], $qcCriteria[0]["ptg_diff_colocate"]);
+										$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
+										$deviation = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
+										//if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
+										if($countPercDiff[0]["count_diff"] > $deviation[0]["ptg_pollutant"]){
+									?>		
+											<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
+									<?php
+										}else{
+									?>
+											<td bgcolor= "#84e084"><?php echo $status = 'Valid'; ?> </td>
+									<?php
+										}
+									}else{
+									?>
+										<td><?php echo $status = 'N.A.'; ?> </td>
+								<?php
+									}
+								?>
+
 								<?php								
 									if(substr($row["sample_id"],5,1) == 'S' and !empty($row["conc_g_m3"])){
 										//$last3YrsConcList = $compoundModel->getConcFrmLast3Yrs($row["site_id"], $row["compound"], $row["compound_grp"], $row["strt_date"]);
@@ -398,43 +420,23 @@
 								?>								
 
 								<!--td bgcolor= "#f5ad9b"-->
-									<?php 
-									if(strlen($row["sample_id"]) > 12){
-										$countPercDiff = $compoundModel->getCountOfPercentageDiff($row["sample_id"], $row["sample_id"], $qcCriteria[0]["ptg_diff_colocate"]);
-										$countTotalColocSample = $compoundModel->getCountOfTotalColocatedSample($row["sample_id"], $row["sample_id"]);
-										$deviation = $compoundModel->getDeviationByCompoundGrp($row["compound_grp"]);
-										//if($countPercDiff[0]["count_diff"] > round($countTotalColocSample[0]["total_sample"]/5)){
-										if($countPercDiff[0]["count_diff"] > $deviation[0]["ptg_pollutant"]){
-									?>		
-											<td bgcolor= "#f5ad9b"><?php echo $status = 'Invalid'; ?> </td>
-									<?php
-										}else{
-									?>
-											<td bgcolor= "#84e084"><?php echo $status = 'Valid'; ?> </td>
-									<?php
-										}
-									}else{
-									?>
-										<td><?php echo $status = 'N.A.'; ?> </td>
-									<?php
-									}
-									?>
+									
 								<!--/td-->
-								<!--td>
-									<?php //echo $row["samp_mthd"]?>
+								<td>
+									<?php echo $row["flow_rate"]?>
 								</td>
 								<td>
-									<?php //echo $row["sampler"]?>
+									<?php echo $row["sampling_time"]?>
 								</td>
 								<td>
-									<?php //echo $row["detector"]?>
+									<?php echo $row["i_tef"]?>
 								</td>
 								<td>
-									<?php //echo $row["sample_by"]?>
+									<?php echo $row["who_tef_2005"]?>
 								</td>
 								<td>
-									<?php //echo $row["analyse_by"]?>
-								</td-->                                       
+									<?php echo $row["who_ref_1998"]?>
+								</td>                                       
 							</tr>     
 						<?php     
 							};    
@@ -447,26 +449,26 @@
 					<hr>
 					<div class="pagination" style="margin-left:10px">    
 						<?php  
-							$query = "SELECT COUNT(*) FROM glab_sample ";					
+							$query = "SELECT COUNT(*) FROM glab_sample g left join contractor_sample c on c.sample_id = g.sample_id and c.compound = g.compound ";					
 							if(!empty($_SESSION['site_id'])){
-								$query .= " where site_id = '".$_SESSION['site_id']."' ";
+								$query .= " where g.site_id = '".$_SESSION['site_id']."' ";
 								if(!empty($_SESSION['compound_grp'])){
-									$query .= " and compound_grp = '".$_SESSION['compound_grp']."' ";
+									$query .= " and g.compound_grp = '".$_SESSION['compound_grp']."' ";
 								}
 					
 								if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-									$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+									$query .= " and g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 								}	
 							}else{
 								if(!empty($_SESSION['compound_grp'])){
-									$query .= " where compound_grp = '".$_SESSION['compound_grp']."' ";
+									$query .= " where g.compound_grp = '".$_SESSION['compound_grp']."' ";
 				
 									if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-										$query .= " and strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+										$query .= " and g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 									}	
 								}else{
 									if(!empty($_SESSION['dateFrom']) and !empty($_SESSION['dateTo'])){
-										$query .= " where strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
+										$query .= " where g.strt_date between '".$_SESSION['dateFrom']."' and '".$_SESSION['dateTo']."' ";
 									}	
 								}
 							}
