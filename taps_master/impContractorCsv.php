@@ -1,9 +1,13 @@
 <?php
+namespace Phppot;
+use Phppot\DataSource;
+
 ini_set('max_execution_time', 0);
 set_time_limit(1800);
 ini_set('memory_limit', '-1');
 require_once 'sqlHelper.php';
 session_start();
+require_once "connection.php"; 
 include('header2.php');
 include('iconn.php');
 include('fn.php');
@@ -102,10 +106,24 @@ if (isset($_POST["import"])) {
 
 				if (strpos ($key,'volume') !== false){
 					$volume = $value;
-				}
-
-				$concGM3 = ($flowRate * $samplingTime) / 1000;
+				}	
 			}
+
+			$concGM3 = ($flowRate * $samplingTime) / 1000;
+			//echo '$conc='.$concGM3;
+			//echo 'group = '.$compoundGrp;
+			if($compoundGrp == 'DF' or $compoundGrp == 'Dl-PB'){
+				$select_factor_qry = "SELECT * FROM factor WHERE compound = '".$compound."';";
+				$factorRst=mysqli_query($dbc, $select_factor_qry);
+				$factorRow = mysqli_fetch_row($factorRst);  
+				$iTef = $concGM3 * $factorRow[4];
+				$whoTef2005 = $concGM3 * $factorRow[3];
+				$whoTef1998 = $concGM3 * $factorRow[2];
+			}
+
+			echo '$iTef'.$iTef;
+			echo '$whoTef2005'.$whoTef2005;
+			echo '$whoTef1998'.$whoTef1998;
 
 			$select_qry = "SELECT * FROM contractor_sample WHERE sample_id = '".$sampleId."'
 							AND compound = '".$compound."'
@@ -116,7 +134,12 @@ if (isset($_POST["import"])) {
 			$rowcount=mysqli_num_rows($checkDupRes); 
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
-					$updateQuery = "UPDATE `glab_sample` SET conc_g_m3='".$concGM3."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
+					if($compoundGrp == 'DF' or $compoundGrp == 'Dl-PB'){
+						echo 'update ITEF';
+						$updateQuery = "UPDATE glab_sample SET conc_g_m3='".$concGM3."', i_tef='".$iTef."', who_tef_2005='".$whoTef2005."', who_tef_1998 ='".$whoTef1998."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
+					}else{
+						$updateQuery = "UPDATE glab_sample SET conc_g_m3='".$concGM3."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
+					}
 					//echo $updateQuery;
 					$resUpd=mysqli_query($dbc, $updateQuery);
 

@@ -126,7 +126,7 @@
 				$_SESSION['dateTo'] = $_POST['dateTo'];
 			}
 
-			$query = "SELECT g.id, g.sample_id, g.strt_date, g.site_id, g.compound, g.compound_grp, g.conc_g_m3, c.flow_rate, c.sampling_time FROM glab_sample g left join contractor_sample c on c.sample_id = g.sample_id and c.compound = g.compound "; 
+			$query = "SELECT g.id, g.sample_id, g.strt_date, g.site_id, g.compound, g.compound_grp, g.conc_g_m3, c.flow_rate, c.sampling_time, g.i_tef, g.who_tef_2005, g.who_tef_1998 FROM glab_sample g left join contractor_sample c on c.sample_id = g.sample_id and c.compound = g.compound "; 
 
 			if(!empty($_SESSION['site_id'])){
 				$query .= " where g.site_id = '".$_SESSION['site_id']."' ";
@@ -428,13 +428,31 @@
 									<?php echo $row["sampling_time"]?>
 								</td>
 								<td>
-									<?php echo $row["i_tef"]?>
+									<?php 
+										if($row["compound_grp"] == "DF" or $row["compound_grp"] == "Dl-PB"){
+											echo $row["i_tef"];
+										}else{
+											echo "";
+										}
+									?>
 								</td>
 								<td>
-									<?php echo $row["who_tef_2005"]?>
+									<?php 
+										if($row["compound_grp"] == "DF" or $row["compound_grp"] == "Dl-PB"){
+											echo $row["who_tef_2005"];
+										}else{
+											echo "";
+										}
+									?>
 								</td>
 								<td>
-									<?php echo $row["who_ref_1998"]?>
+								<?php 
+										if($row["compound_grp"] == "DF" or $row["compound_grp"] == "Dl-PB"){
+											echo $row["who_tef_1998"];
+										}else{
+											echo "";
+										}
+									?>
 								</td>                                       
 							</tr>     
 						<?php     
