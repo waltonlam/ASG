@@ -66,6 +66,9 @@ if (isset($_POST["import"])) {
 		$volume= "";
 		$testCount = 0;
 
+		$DioxinCollection = array();
+		//$DioxinCollection = array((object)['sample_id' => 'CWSDFS220709', 'compound_grp' =>'DF']);
+
 		foreach($data as $key => $result) {		
 			$testCount++;
 			foreach($result  as $key => $value){
@@ -121,9 +124,9 @@ if (isset($_POST["import"])) {
 				$whoTef1998 = $concGM3 * $factorRow[2];
 			}
 
-			echo '$iTef'.$iTef;
-			echo '$whoTef2005'.$whoTef2005;
-			echo '$whoTef1998'.$whoTef1998;
+			//echo '$iTef'.$iTef;
+			//echo '$whoTef2005'.$whoTef2005;
+			//echo '$whoTef1998'.$whoTef1998;
 
 			$select_qry = "SELECT * FROM contractor_sample WHERE sample_id = '".$sampleId."'
 							AND compound = '".$compound."'
@@ -135,7 +138,12 @@ if (isset($_POST["import"])) {
 			if ($rowcount == 0) {
 				if (!empty($sampleId)){
 					if($compoundGrp == 'DF' or $compoundGrp == 'Dl-PB'){
-						echo 'update ITEF';
+						//Check if sample id is not existed in dixon array
+						if(!in_array((object)['sample_id' => $sampleId,'compound_grp' => $compoundGrp], $DioxinCollection)) {
+							//echo "The key is not existed in the array";
+							array_push($DioxinCollection, (object)['sample_id' => $sampleId,'compound_grp' => $compoundGrp]);
+						}
+
 						$updateQuery = "UPDATE glab_sample SET conc_g_m3='".$concGM3."', i_tef='".$iTef."', who_tef_2005='".$whoTef2005."', who_tef_1998 ='".$whoTef1998."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
 					}else{
 						$updateQuery = "UPDATE glab_sample SET conc_g_m3='".$concGM3."', last_upd_date = CURRENT_DATE, last_upd_by ='".$_SESSION['vuserid']."' WHERE sample_id = '".$sampleId."' and compound = '".$compound."' and compound_grp = '".$compoundGrp."';";
@@ -171,6 +179,22 @@ if (isset($_POST["import"])) {
 				$type = "error";
 				$message = "*No. of contractor records are duplicated : ".$count_duplicate;
 			}
+		}
+		mysqli_autocommit($dbc, TRUE);
+
+		foreach($DioxinCollection as $key=>$value){
+			//echo $value->sample_id;
+			//echo ' ';
+			//echo $value->compound_grp;
+			//echo '<br>';
+
+			$updQueryTtl = "UPDATE glab_sample 
+						set i_tef = (SELECT SUM(g.i_tef) AS total_tef FROM glab_sample g WHERE g.sample_id = '".$value->sample_id."' AND g.compound NOT LIKE 'Total%' AND g.compound_grp = '".$value->compound_grp."'), 
+						who_tef_1998 = (SELECT SUM(g.who_tef_1998) AS total_who_tef_1998 FROM glab_sample g WHERE g.sample_id = '".$value->sample_id."' AND g.compound NOT LIKE 'Total%' AND g.compound_grp = '".$value->compound_grp."'),
+						who_tef_2005 = (SELECT SUM(g.who_tef_2005) AS total_who_tef_2005 FROM glab_sample g WHERE g.sample_id = '".$value->sample_id."' AND g.compound NOT LIKE 'Total%' AND g.compound_grp = '".$value->compound_grp."') 
+						WHERE sample_id = '".$value->sample_id."' AND compound LIKE 'Total%' AND compound_grp = '".$value->compound_grp."';";
+
+			$resUpdTtl=mysqli_query($dbc, $updQueryTtl);
 		}
 		mysqli_autocommit($dbc, TRUE);
     }

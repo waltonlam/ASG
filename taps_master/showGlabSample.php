@@ -257,7 +257,7 @@
 									<th width="2%"><input type="checkbox" onClick="toggle(this)" />All<br/></th>
 								<?php } ?>
 								<th width="10%">Sample ID</th>
-								<th width="10%">Start Date</th>
+								<th width="5%">Start Date</th>
 								<th width="5%">Site</th>
 								<th width="10%">Compound</th>
 								<th width="5%">Compound Group</th>
