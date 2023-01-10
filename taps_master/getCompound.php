@@ -6,7 +6,7 @@ require_once "header2.php";
 
 if(!empty($_GET['compoundGrp_id'])) {
 	$compoundGrpId = $_GET["compoundGrp_id"];    
-	$query ="SELECT * FROM compound WHERE code IN ('".$compoundGrpId."')";
+	$query ="SELECT * FROM compound WHERE code IN (".$compoundGrpId.")";
 	$results = $dbc->query($query);
 ?>
 	<option value="">Select Compound</option>

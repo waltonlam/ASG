@@ -13,7 +13,7 @@
 		$compound = "";
 		if (!empty($_POST['compoundGrp'])) {
 			foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
-				$compoundGroup = $selectedCompoundGrp;
+				$compoundGroup .= $selectedCompoundGrp.',';
 			}
 		}
 
@@ -168,10 +168,11 @@
 				var val=document.getElementById('compoundGrpList');
 				for (i=0;i< val.length;i++) { 
 					if(val[i].selected){
-						str += val[i].value + ','; 
+						str += "'" + val[i].value + "'" + ','; 
 					}
 				}         
 				var str=str.slice(0,str.length -1);
+				console.log('str= '+str);
 				$.ajax({          
 					type: "GET",
 					url: "getCompound.php",
@@ -195,11 +196,18 @@
 			$selectCompoundGroup = "select * from category order by id ASC;";
 			$compoundGrpResult = $dbc->query($selectCompoundGroup);
 
+			$compoundGrpStr = substr($result[0]["compound_grp"], 0, -1);
+			$compoundGrp_arr = explode (",", $compoundGrpStr); 
+
+			$compoundGrpStr="'".implode("','",array_unique($compoundGrp_arr))."'";
+			//echo $compoundGrpStr ;
+
 			$compoundStr = substr($result[0]["compound"], 0, -1);
 			$compoundStr_arr = explode (",", $compoundStr); 
 			//print_r($compoundStr_arr);
 
-			$selectCompound = "select * from compound where code = '".$result[0]["compound_grp"]."';";
+			$selectCompound = "select * from compound where code in (".$compoundGrpStr.");";
+			//echo $selectCompound ;
 			$compoundResult = $dbc->query($selectCompound);
 			//print_r($compoundResult);
 		?>
@@ -244,10 +252,10 @@
 						<tr>
 							<td style="width: 160px; vertical-align: top;">Compound Group:</td>
 							<td>
-								<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" size=10>
+								<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" multiple size=10>
 									<option value="">Select Compound Group</option>
 									<?php foreach ($compoundGrpResult as $compoundGrp) { ?>
-										<option value="<?php echo $compoundGrp["id"]; ?>" <?php echo ($compoundGrp["id"] == $result[0]["compound_grp"]) ? 'selected="selected"' : "" ?>><?php echo $compoundGrp["item"]; ?></option>
+										<option value="<?php echo $compoundGrp["id"]; ?>" <?php echo (in_array($compoundGrp["id"], $compoundGrp_arr)) ? 'selected="selected"' : "" ?>><?php echo $compoundGrp["item"]; ?></option>
 									<?php } ?>
 								</select>
 							</td>
