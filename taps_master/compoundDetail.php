@@ -16,6 +16,7 @@
 	$coLocateSample;
 	$percentageDiff = 0;
 	$totalTEF = 0;
+	$ttlTefUnit = "";
 
 	//Get the QC criteria parameters for calculation
 	$qcCriteria = $compoundModel->getDeviationByCompoundGrp($result[0]["compound_grp"]);
@@ -47,6 +48,11 @@
 	if(isset($_POST['calTef'])){
 		if($_POST['tef_ratio'] != "Please select") {
 			$selected = $_POST['tef_ratio'];
+			if($selected == "I-TEF"){
+				$ttlTefUnit = " pg i-TEQ/m3";
+			}else{
+				$ttlTefUnit = " pg WHO-TEQ/m3";
+			}
 			$totalTEF = $compoundModel->calTEF($selected, $result[0]["sample_id"], $result[0]["site_id"]);
 		}else{
 			//$err_msg = "Please select a TEF ratio.";
@@ -233,7 +239,7 @@
 					<tr>	
 						<td style="vertical-align: top;">Total Toxicity Equivalence: </td>
 						<td>
-							<label><?php echo number_format((float)$totalTEF[0]["total_tef"], 1, '.', '')?></label>
+							<label><?php echo number_format((float)$totalTEF[0]["total_tef"], 1, '.', '').$ttlTefUnit?></label>
 						</td>
 					</tr>
 					<?php } ?>

@@ -26,8 +26,11 @@
 		if(empty($_POST['incidentDate'])){
 			$type = "error";
 			$message = 'Please input incident date.'; 
+		}else if(empty($_POST['makeUpSampleDate'])){
+			$type = "error";
+			$message = 'Please input date of make-up sample.'; 
 		}else{
-			$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['incidentDate'],$_POST['remark'], $compoundGroup, $compound);
+			$id = $imageModel->updateIncidentReport($_GET["id"], $_POST['site_code'], $_POST['incidentDate'], $_POST['makeUpSampleDate'],$_POST['remark'], $compoundGroup, $compound);
 			if(empty($id)){
 				$type = "success";
 				$message = "Incident report is updated successfully.";
@@ -244,6 +247,15 @@
 							<td style="width: 160px; vertical-align: top;">Incident Date:</td>
 							<td>							
 								<input type="date" name="incidentDate" value="<?php echo $result[0]["incident_date"]?>"/>
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						</tr>
+						<tr>
+							<td style="width: 160px; vertical-align: top;">Date of Make-up Sample:</td>
+							<td>							
+								<input type="date" name="makeUpSampleDate" value="<?php echo $result[0]["makeup_sample_date"]?>"/>
 							</td>
 						</tr>
 						<tr>

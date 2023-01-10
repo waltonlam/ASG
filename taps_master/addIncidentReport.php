@@ -20,6 +20,7 @@
 		$compound = "";
 		$remark = "";
 		$incidentDate = "";
+		$makeUpSampleDate = "";
 
 		if (empty($_POST['site_code'])) {
 			$type = "error";
@@ -27,10 +28,13 @@
 		}else if(empty($_POST['incidentDate'])){
 			$type = "error";
 			$message = 'Please input incident date.'; 
+		}else if(empty($_POST['makeUpSampleDate'])){
+			$type = "error";
+			$message = 'Please input date of make-up sample.'; 
 		}else{
 			if (!empty($_POST['compoundGrp'])) {
 				foreach ($_POST['compoundGrp'] as $selectedCompoundGrp) {
-					$compoundGroup = $selectedCompoundGrp;
+					$compoundGroup .= $selectedCompoundGrp.',';
 				}
 			}else{
 				$compoundGroup = "";
@@ -50,8 +54,9 @@
 				$remark = $_POST['remark'];
 			}
 			$incidentDate = $_POST['incidentDate'];
-
-			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $remark, $compoundGroup, $compound, $incidentDate);
+			$makeUpSampleDate = $_POST['makeUpSampleDate'];
+			
+			$incidentId = $imageModel->insertIncidentReport($_POST['site_code'], $remark, $compoundGroup, $compound, $incidentDate, $makeUpSampleDate);
 			$type = "success";
 			$message = 'Incident report is created.'; 
 		}
@@ -148,7 +153,7 @@
 				var val=document.getElementById('compoundGrpList');
 				for (i=0;i< val.length;i++) { 
 					if(val[i].selected){
-						str += val[i].value + ','; 
+						str += "'" + val[i].value + "'" + ','; 
 					}
 				}         
 				var str=str.slice(0,str.length -1);
@@ -185,7 +190,7 @@
 				</div>  	
 				<table style="margin-left:10px">
 					<tr>	
-						<td style="width: 160px; vertical-align: top;">Site<span style="color:red">*</span>:</td>
+						<td style="width: 220px; vertical-align: top;">Site<span style="color:red">*</span>:</td>
 						<td>
 							<select name=site_code id="site_code">
 							<option value="">Please Select</option>
@@ -200,23 +205,32 @@
 								?>
 							</select>
 						</td>
+					</tr> 
+					<tr>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
-					</tr>
-					<tr>
-						<td style="width: 160px; vertical-align: top;">Incident Date<span style="color:red">*</span>:</td>
+						<td style="width: 220px; vertical-align: top;">Incident Date<span style="color:red">*</span>:</td>
 						<td>							
 							<input type="date" name="incidentDate" />
 						</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">Compound Group:</td>
+						<td style="width: 220px; vertical-align: top;">Date of Make-up Sample<span style="color:red">*</span>:</td>
+						<td>							
+							<input type="date" name="makeUpSampleDate" />
+						</td>
+					</tr>
+					<tr>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
+					</tr>
+					<tr>
+						<td style="width: 220px; vertical-align: top;">Compound Group:</td>
 						<td>
-							<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" size=10>
+							<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" multiple size=10>
 								<option value="">Select Compound Group</option>
 								<?php foreach ($compoundGrpResult as $compoundGrp) { ?>
 									<option value="<?php echo $compoundGrp["id"]; ?>"><?php echo $compoundGrp["item"]; ?></option>
@@ -225,10 +239,10 @@
 						</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">Compound: </td>
+						<td style="width: 220px; vertical-align: top;">Compound: </td>
 						<td>
 							<select name="compound[]" id="compoundList" multiple size=10>
 								<option value="">Select Compound</option>
@@ -236,17 +250,17 @@
 						</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">Remark: </td>
+						<td style="width: 220px; vertical-align: top;">Remark: </td>
 						<td><textarea id="remark" name="remark" rows="7" cols="100"></textarea></td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">&nbsp;</td>
+						<td style="width: 220px; vertical-align: top;">&nbsp;</td>
 					</tr>
 					<tr>
-						<td style="width: 160px; vertical-align: top;">Upload Site Photo: </td>
+						<td style="width: 220px; vertical-align: top;">Upload Site Photo: </td>
 						<td>
 							<div>
 								<input type="file" name="files[]" multiple>
