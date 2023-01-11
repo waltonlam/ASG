@@ -65,9 +65,9 @@
 				var val=document.getElementById('compoundGrpList');
 				for (i=0;i< val.length;i++) { 
 					if(val[i].selected){
-						str += val[i].value + ','; 
+						str += "'" + val[i].value + "'" + ','; 
 					}
-				}         
+				}    
 				var str=str.slice(0,str.length -1);
 				$.ajax({          
 					type: "GET",
@@ -115,7 +115,7 @@
 					<tr>
 						<td style="width: 160px; vertical-align: top;">Compound Group:</td>
 						<td>
-							<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" size=10>
+							<select name="compoundGrp[]" id="compoundGrpList" onChange="getCompound()" multiple size=10>
 								<option value="">Select Compound Group</option>
 								<?php foreach ($compoundGrpResult as $compoundGrp) { ?>
 									<option value="<?php echo $compoundGrp["id"]; ?>"><?php echo $compoundGrp["item"]; ?></option>

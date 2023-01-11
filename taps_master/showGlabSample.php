@@ -267,7 +267,7 @@
 								<th width="5%">Sampling Time</th>
 								<th width="5%">I-TEF (pg i-TEQ/m3)</th>
 								<th width="5%">WHO-TEF-2005 (pg WHO-TEQ/m3)</th>
-								<th width="5%">WHO_TEF-1998 (pg WHO-TEQ/m3)</th>
+								<th width="5%">WHO-TEF-1998 (pg WHO-TEQ/m3)</th>
 							</tr>
 						</thead> 
 						<tbody>   
