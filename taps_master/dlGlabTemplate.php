@@ -117,6 +117,14 @@
 						</tr>	
 						<tr> 
 							<td>
+								PFOS
+							</td>    
+							<td>
+								<a href="../taps/macro/RestructureCell_PFOS.xlsm" class="btn-action" target="_blank">Download</a>
+							</td>							                                      
+						</tr>	
+						<tr> 
+							<td>
 								Toxaphene
 							</td>    
 							<td>
