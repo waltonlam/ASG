@@ -147,8 +147,10 @@
 							</tr>';
 			}
 			$output .= '</tbody></table>';
+			$filename = 'GlabSampleReport_'.date("Y-m-d").'.xls';
+
 			header('Content-Type: application/force-download');
-			header('Content-Disposition: attachment; filename=GlabReport.xls');
+			header('Content-Disposition: attachment; filename='.$filename);
 			header("Content-Transfer-Encoding: BINARY");
 			
 			echo $output;
